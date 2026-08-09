@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CareNode Admin - Dashboard</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface": "#1b1c1c",
+                    "on-tertiary-container": "#fffbff",
+                    "tertiary-fixed-dim": "#ffb77d",
+                    "on-surface-variant": "#3f4849",
+                    "surface-container": "#f0eded",
+                    "secondary": "#5e5f5d",
+                    "surface-variant": "#e4e2e1",
+                    "on-secondary-fixed": "#1a1c1a",
+                    "surface": "#fcf9f8",
+                    "secondary-fixed-dim": "#c7c6c4",
+                    "on-background": "#1b1c1c",
+                    "inverse-primary": "#91d2d4",
+                    "primary-container": "#3d7e80",
+                    "primary-fixed": "#aceef0",
+                    "surface-container-low": "#f6f3f2",
+                    "on-primary-fixed-variant": "#004f51",
+                    "surface-container-highest": "#e4e2e1",
+                    "tertiary-fixed": "#ffdcc3",
+                    "on-tertiary-fixed": "#2f1500",
+                    "on-tertiary-fixed-variant": "#6e3900",
+                    "surface-tint": "#23686a",
+                    "inverse-on-surface": "#f3f0f0",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#303030",
+                    "error-container": "#ffdad6",
+                    "on-secondary-container": "#626361",
+                    "secondary-fixed": "#e3e2e0",
+                    "surface-dim": "#dcd9d9",
+                    "on-secondary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "surface-container-high": "#eae7e7",
+                    "primary-fixed-dim": "#91d2d4",
+                    "outline-variant": "#bfc8c8",
+                    "on-tertiary": "#ffffff",
+                    "background": "#fcf9f8",
+                    "on-primary": "#ffffff",
+                    "secondary-container": "#e0e0dd",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-fixed-variant": "#464745",
+                    "outline": "#6f7979",
+                    "tertiary": "#8d4b00",
+                    "on-primary-fixed": "#002021",
+                    "on-primary-container": "#f2ffff",
+                    "primary": "#1f6567",
+                    "surface-bright": "#fcf9f8",
+                    "tertiary-container": "#b15f00",
+                    
+                    // Specific app status colors defined in prompt
+                    "status-fever": "#EF4444",
+                    "status-attention": "#F59E0B",
+                    "status-ok": "#4A8B8D"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "20px",
+                    "container-max": "1200px",
+                    "lg": "24px",
+                    "xl": "48px",
+                    "xs": "4px",
+                    "sm": "12px",
+                    "md": "16px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "label-sm": ["\"Source Sans 3\""],
+                    "label-md": ["\"Source Sans 3\""],
+                    "body-lg": ["\"Source Sans 3\""],
+                    "body-md": ["\"Source Sans 3\""],
+                    "display": ["\"Source Sans 3\""],
+                    "headline-lg-mobile": ["\"Source Sans 3\""],
+                    "headline-md": ["\"Source Sans 3\""],
+                    "headline-lg": ["\"Source Sans 3\""]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        /* Custom Utilities to match Style Guidance */
+        .record-card {
+            border: 1px solid #E8E6E1;
+            padding: 24px;
+            background-color: transparent; /* Assuming flat on background */
+        }
+        .record-card-white {
+            border: 1px solid #E8E6E1;
+            padding: 24px;
+            background-color: white;
+        }
+        
+        /* Thin structural lines */
+        .structural-border {
+            border-color: #E8E6E1;
+        }
+        .list-separator {
+            border-bottom: 0.5px solid #E8E6E1;
+        }
+        
+        /* Thin line iconography override for specific icons if needed, though relying on symbols */
+        .thin-icon {
+            font-variation-settings: 'wght' 200, 'FILL' 0;
+        }
+        
+        /* Subtle Elevation */
+        .subtle-shadow {
+            box-shadow: 0 4px 20px rgba(45, 45, 45, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex w-full font-body-md overflow-x-hidden">
+<!-- Shared Component: SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-surface dark:bg-inverse-surface border-r border-surface-variant dark:border-outline-variant py-lg px-md z-40">
+<!-- Brand Header -->
+<div class="flex items-center gap-sm mb-xl">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary-container" data-icon="child_care">child_care</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">CareNode Admin</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Oxford Central Nursery</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex flex-col gap-xs flex-1">
+<!-- Active Tab: Dashboard -->
+<a class="flex items-center gap-sm py-sm px-md rounded-lg bg-surface-container dark:bg-on-surface-variant text-primary dark:text-primary-fixed-dim font-bold border-r-2 border-primary dark:border-primary-fixed-dim transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-sm py-sm px-md rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span class="font-label-md text-label-md">Staff Management</span>
+</a>
+<a class="flex items-center gap-sm py-sm px-md rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="child_care">child_care</span>
+<span class="font-label-md text-label-md">Student Registry</span>
+</a>
+<a class="flex items-center gap-sm py-sm px-md rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span class="font-label-md text-label-md">Staff Scheduling</span>
+</a>
+<a class="flex items-center gap-sm py-sm px-md rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Operations</span>
+</a>
+</div>
+<!-- CTA -->
+<button class="w-full bg-[#4A8B8D] text-on-primary font-label-md text-label-md py-sm px-md rounded-[10px] mb-lg flex items-center justify-center gap-sm hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+            New Registration
+        </button>
+<!-- Footer Links -->
+<div class="flex flex-col gap-xs pt-md border-t border-surface-variant">
+<a class="flex items-center gap-sm py-sm px-md rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<a class="flex items-center gap-sm py-sm px-md rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0 md:ml-64 relative bg-surface-container-lowest">
+<!-- Shared Component: TopAppBar -->
+<header class="flex justify-between items-center w-full px-lg h-16 sticky top-0 z-30 bg-surface dark:bg-inverse-surface border-b border-surface-variant dark:border-outline-variant">
+<div class="flex items-center gap-lg">
+<!-- Mobile Menu Button (hidden on md) -->
+<button class="md:hidden text-on-surface-variant p-sm rounded-lg hover:bg-surface-container">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h2 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim hidden sm:block">Administration Suite</h2>
+</div>
+<!-- Centered Navigation Links -->
+<div class="hidden lg:flex gap-md h-full">
+<a class="h-full flex items-center px-sm font-label-md text-label-md text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1 transition-all duration-200" href="#">Overview</a>
+<a class="h-full flex items-center px-sm font-label-md text-label-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-200" href="#">Reports</a>
+<a class="h-full flex items-center px-sm font-label-md text-label-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-200" href="#">Logs</a>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-sm">
+<!-- Search -->
+<div class="hidden sm:flex relative mr-sm">
+<div class="absolute inset-y-0 left-0 pl-sm flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline text-[20px]" data-icon="search">search</span>
+</div>
+<input class="bg-[#F1F0EC] border-0 border-b border-outline-variant text-on-surface text-label-md py-sm pl-10 pr-sm w-48 focus:ring-0 focus:border-primary bg-opacity-50" placeholder="Search records..." type="text"/>
+</div>
+<button class="hidden md:flex text-on-surface-variant hover:bg-surface-container p-sm rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<!-- Secondary Action -->
+<button class="hidden lg:block border border-on-surface-variant border-opacity-20 text-on-surface-variant font-label-md text-label-md py-[6px] px-md rounded-lg hover:bg-surface-container transition-colors">
+                    Export Data
+                </button>
+<!-- Primary Action -->
+<button class="bg-[#4A8B8D] text-on-primary font-label-md text-label-md py-[6px] px-md rounded-[10px] hover:opacity-90 transition-opacity">
+                    Add Entry
+                </button>
+<!-- Profile -->
+<div class="w-8 h-8 rounded-full overflow-hidden ml-xs border border-surface-variant ml-sm cursor-pointer">
+<img alt="Administrator Profile" class="w-full h-full object-cover" data-alt="A close up professional headshot of an older female administrator with glasses and a warm smile, well lit, high resolution, minimalist corporate style, bright lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCV9JVAQ6wMPBOUiVwFcMonIcfCtzY_SvyT8att3t1N7Ofm0BSgCUeoaRT-wyOdWdSunb3xT0wpdrsrHOitDHtC9rcsq2IuCrdibHRWxh18_yGI19zX7lN-L5oGLkuPexv2dw3EwA64R93MBzCBnSpuYypzwUmFHJnvTjmQic8mbcFcfNOFJiUhVdDWafrmLV_hB6SRBkh0ptJW-zk7u6UQngKP3MvLF5OSjPy4Pj3ECdI2Sgh6o4mXLQ"/>
+</div>
+</div>
+</header>
+<!-- Dashboard Content Container -->
+<div class="max-w-[1200px] mx-auto w-full p-md lg:p-lg lg:pt-xl space-y-xl">
+<!-- Header Section -->
+<div class="flex flex-col gap-xs">
+<h2 class="font-display text-display text-on-surface">Today's Overview</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Real-time status across all active nursery groups.</p>
+</div>
+<!-- Bento Grid: 4 Summary Tiles -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Tile 1: Children Present -->
+<div class="record-card-white rounded-lg flex flex-col justify-between relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-[#4A8B8D]"></div>
+<div class="flex justify-between items-start mb-lg">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Children Present</span>
+<div class="w-8 h-8 rounded-full bg-[#4A8B8D] bg-opacity-10 flex items-center justify-center">
+<span class="material-symbols-outlined thin-icon text-[#4A8B8D]" data-icon="group">group</span>
+</div>
+</div>
+<div>
+<span class="font-display text-[40px] leading-tight text-on-surface font-semibold">142</span>
+<span class="font-label-sm text-label-sm text-outline ml-xs">/ 150 Total</span>
+</div>
+</div>
+<!-- Tile 2: Fever Alert -->
+<div class="record-card-white rounded-lg flex flex-col justify-between relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-[#EF4444]"></div>
+<div class="flex justify-between items-start mb-lg">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">With Fever</span>
+<div class="w-8 h-8 rounded-full bg-[#EF4444] bg-opacity-10 flex items-center justify-center">
+<span class="material-symbols-outlined thin-icon text-[#EF4444]" data-icon="thermostat">thermostat</span>
+</div>
+</div>
+<div class="flex items-baseline gap-sm">
+<span class="font-display text-[40px] leading-tight text-on-surface font-semibold">2</span>
+<div class="px-2 py-1 rounded-full bg-[#EF4444] bg-opacity-10 border border-[#EF4444] border-opacity-20">
+<span class="font-label-sm text-label-sm text-[#EF4444]">Requires Action</span>
+</div>
+</div>
+</div>
+<!-- Tile 3: Unacknowledged Incidents -->
+<div class="record-card-white rounded-lg flex flex-col justify-between relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-[#F59E0B]"></div>
+<div class="flex justify-between items-start mb-lg">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">New Incidents</span>
+<div class="w-8 h-8 rounded-full bg-[#F59E0B] bg-opacity-10 flex items-center justify-center">
+<span class="material-symbols-outlined thin-icon text-[#F59E0B]" data-icon="medical_information">medical_information</span>
+</div>
+</div>
+<div class="flex items-baseline gap-sm">
+<span class="font-display text-[40px] leading-tight text-on-surface font-semibold">3</span>
+<div class="px-2 py-1 rounded-full bg-[#F59E0B] bg-opacity-10 border border-[#F59E0B] border-opacity-20">
+<span class="font-label-sm text-label-sm text-[#D97706]">Unacknowledged</span>
+</div>
+</div>
+</div>
+<!-- Tile 4: Logging Status -->
+<div class="record-card-white rounded-lg flex flex-col justify-between relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-[#F59E0B]"></div>
+<div class="flex justify-between items-start mb-lg">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Logging Behind</span>
+<div class="w-8 h-8 rounded-full bg-[#F59E0B] bg-opacity-10 flex items-center justify-center">
+<span class="material-symbols-outlined thin-icon text-[#F59E0B]" data-icon="history">history</span>
+</div>
+</div>
+<div class="flex items-baseline gap-sm">
+<span class="font-display text-[40px] leading-tight text-on-surface font-semibold">1</span>
+<span class="font-label-sm text-label-sm text-outline ml-xs">Class</span>
+</div>
+</div>
+</div>
+<!-- Two Column Layout: Needs Attention & Class Progress -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Left Column: Needs Attention (5 cols) -->
+<div class="lg:col-span-5 flex flex-col gap-md">
+<div class="flex justify-between items-end mb-xs">
+<h3 class="font-headline-md text-headline-md text-on-surface">Needs Attention</h3>
+<a class="font-label-md text-label-md text-primary hover:underline" href="#">View All</a>
+</div>
+<div class="bg-white border border-[#E8E6E1] rounded-lg overflow-hidden subtle-shadow">
+<!-- List Item 1: Fever -->
+<div class="p-md flex items-start gap-md hover:bg-surface-container-low transition-colors list-separator cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-[#EF4444] bg-opacity-10 flex items-center justify-center shrink-0 mt-1">
+<span class="material-symbols-outlined text-[#EF4444]" data-icon="thermostat">thermostat</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-xs">
+<h4 class="font-label-md text-label-md text-on-surface truncate">Sophie M.</h4>
+<span class="font-label-sm text-label-sm text-outline shrink-0">10m ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-sm">Elevated temperature recorded (38.2°C).</p>
+<div class="flex gap-sm">
+<span class="px-2 py-1 rounded-full bg-surface-variant text-on-surface-variant font-label-sm text-[10px] uppercase tracking-wider">Little Explorers</span>
+</div>
+</div>
+</div>
+<!-- List Item 2: Absence Streak -->
+<div class="p-md flex items-start gap-md hover:bg-surface-container-low transition-colors list-separator cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-[#F59E0B] bg-opacity-10 flex items-center justify-center shrink-0 mt-1">
+<span class="material-symbols-outlined text-[#F59E0B]" data-icon="event_busy">event_busy</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-xs">
+<h4 class="font-label-md text-label-md text-on-surface truncate">Liam O.</h4>
+<span class="font-label-sm text-label-sm text-outline shrink-0">3 days</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-sm">Unexplained absence streak.</p>
+<div class="flex gap-sm">
+<span class="px-2 py-1 rounded-full bg-surface-variant text-on-surface-variant font-label-sm text-[10px] uppercase tracking-wider">Toddlers</span>
+</div>
+</div>
+</div>
+<!-- List Item 3: Incident -->
+<div class="p-md flex items-start gap-md hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-[#EF4444] bg-opacity-10 flex items-center justify-center shrink-0 mt-1">
+<span class="material-symbols-outlined text-[#EF4444]" data-icon="healing">healing</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-xs">
+<h4 class="font-label-md text-label-md text-on-surface truncate">Emma W.</h4>
+<span class="font-label-sm text-label-sm text-outline shrink-0">2h ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-sm">Minor scrape on playground. Parent not yet notified.</p>
+<div class="flex gap-sm">
+<span class="px-2 py-1 rounded-full bg-surface-variant text-on-surface-variant font-label-sm text-[10px] uppercase tracking-wider">Pre-School</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Class Progress (7 cols) -->
+<div class="lg:col-span-7 flex flex-col gap-md">
+<div class="flex justify-between items-end mb-xs">
+<h3 class="font-headline-md text-headline-md text-on-surface">Class Progress</h3>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</div>
+<div class="bg-white border border-[#E8E6E1] rounded-lg overflow-hidden subtle-shadow w-full">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-lowest border-b border-[#E8E6E1]">
+<th class="py-md px-lg font-label-md text-label-md text-on-surface-variant font-semibold">Class Group</th>
+<th class="py-md px-lg font-label-md text-label-md text-on-surface-variant font-semibold">Lead Staff</th>
+<th class="py-md px-lg font-label-md text-label-md text-on-surface-variant font-semibold">Attendance</th>
+<th class="py-md px-lg font-label-md text-label-md text-on-surface-variant font-semibold text-right">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#E8E6E1]">
+<!-- Table Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-md px-lg">
+<div class="flex items-center gap-sm">
+<div class="w-2 h-2 rounded-full bg-[#4A8B8D]"></div>
+<span class="font-label-md text-label-md text-on-surface">Little Explorers</span>
+</div>
+</td>
+<td class="py-md px-lg">
+<div class="flex items-center gap-sm">
+<div class="w-6 h-6 rounded-full bg-surface-variant overflow-hidden">
+<img alt="Sarah J" class="w-full h-full object-cover" data-alt="A small circular avatar showing a young female nursery teacher smiling softly, minimalist clean corporate style photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuABJnG4lsjQYI0PVTXukAQCM7EAiX1kQFaXFsmH5hv8MuZimTnzNNJcBI4mNKW6ZZ2x5x8xqt57AO3SB0MOXp0EDQedlfw6pwfcsbydUw_I_dS15SqfpgIFufQsVlE0-IxFstvaxjqA8HfSNctwJTb_DOXyl98KWLqm10A6gV6FvUlPWFq91UxuLmh7r10mZ5ocaTUpIl_EFPYzkY4Z7WMWuOJao0p2XPlwufo6ZHXB_2pPbeJAiTzODw"/>
+</div>
+<span class="font-body-md text-body-md text-on-surface-variant">Sarah J.</span>
+</div>
+</td>
+<td class="py-md px-lg font-body-md text-body-md text-on-surface-variant">
+                                        18<span class="text-outline text-sm">/20</span>
+</td>
+<td class="py-md px-lg text-right">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-[#4A8B8D] bg-opacity-10 text-[#23686a] font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span>
+                                            Logged
+                                        </span>
+</td>
+</tr>
+<!-- Table Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-md px-lg">
+<div class="flex items-center gap-sm">
+<div class="w-2 h-2 rounded-full bg-[#F59E0B]"></div>
+<span class="font-label-md text-label-md text-on-surface">Toddlers</span>
+</div>
+</td>
+<td class="py-md px-lg">
+<div class="flex items-center gap-sm">
+<div class="w-6 h-6 rounded-full bg-surface-variant overflow-hidden">
+<span class="material-symbols-outlined text-outline text-[16px] m-1" data-icon="person">person</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface-variant">Emily R.</span>
+</div>
+</td>
+<td class="py-md px-lg font-body-md text-body-md text-on-surface-variant">
+                                        12<span class="text-outline text-sm">/12</span>
+</td>
+<td class="py-md px-lg text-right">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-[#F59E0B] bg-opacity-10 text-[#B45309] font-label-sm text-label-sm border border-[#F59E0B] border-opacity-20">
+<span class="material-symbols-outlined text-[14px]" data-icon="pending">pending</span>
+                                            2 Pending
+                                        </span>
+</td>
+</tr>
+<!-- Table Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-md px-lg">
+<div class="flex items-center gap-sm">
+<div class="w-2 h-2 rounded-full bg-[#4A8B8D]"></div>
+<span class="font-label-md text-label-md text-on-surface">Pre-School</span>
+</div>
+</td>
+<td class="py-md px-lg">
+<div class="flex items-center gap-sm">
+<div class="w-6 h-6 rounded-full bg-surface-variant overflow-hidden">
+<span class="material-symbols-outlined text-outline text-[16px] m-1" data-icon="person">person</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface-variant">David K.</span>
+</div>
+</td>
+<td class="py-md px-lg font-body-md text-body-md text-on-surface-variant">
+                                        24<span class="text-outline text-sm">/25</span>
+</td>
+<td class="py-md px-lg text-right">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-[#4A8B8D] bg-opacity-10 text-[#23686a] font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span>
+                                            Logged
+                                        </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

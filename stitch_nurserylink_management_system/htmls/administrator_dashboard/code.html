@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NurseryLink - Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-primary": "#91d2d4",
+                      "secondary-container": "#e0e0dd",
+                      "background": "#fcf9f8",
+                      "outline-variant": "#bfc8c8",
+                      "outline": "#6f7979",
+                      "inverse-surface": "#303030",
+                      "on-tertiary-container": "#fffbff",
+                      "on-surface-variant": "#3f4849",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary": "#5e5f5d",
+                      "error-container": "#ffdad6",
+                      "on-tertiary-fixed-variant": "#6e3900",
+                      "surface-container-high": "#eae7e7",
+                      "on-secondary": "#ffffff",
+                      "surface-container": "#f0eded",
+                      "surface": "#fcf9f8",
+                      "tertiary": "#8d4b00",
+                      "on-secondary-fixed": "#1a1c1a",
+                      "on-tertiary": "#ffffff",
+                      "on-tertiary-fixed": "#2f1500",
+                      "on-surface": "#1b1c1c",
+                      "surface-variant": "#e4e2e1",
+                      "surface-dim": "#dcd9d9",
+                      "inverse-on-surface": "#f3f0f0",
+                      "surface-bright": "#fcf9f8",
+                      "on-primary-fixed-variant": "#004f51",
+                      "on-error-container": "#93000a",
+                      "on-primary-fixed": "#002021",
+                      "primary-fixed-dim": "#91d2d4",
+                      "primary-container": "#3d7e80",
+                      "on-primary": "#ffffff",
+                      "surface-container-low": "#f6f3f2",
+                      "primary-fixed": "#aceef0",
+                      "tertiary-container": "#b15f00",
+                      "tertiary-fixed-dim": "#ffb77d",
+                      "secondary-fixed-dim": "#c7c6c4",
+                      "tertiary-fixed": "#ffdcc3",
+                      "surface-container-highest": "#e4e2e1",
+                      "error": "#ba1a1a",
+                      "on-secondary-container": "#626361",
+                      "on-primary-container": "#f2ffff",
+                      "surface-tint": "#23686a",
+                      "on-secondary-fixed-variant": "#464745",
+                      "primary": "#1f6567",
+                      "on-error": "#ffffff",
+                      "on-background": "#1b1c1c",
+                      "secondary-fixed": "#e3e2e0"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "20px",
+                      "md": "16px",
+                      "xl": "48px",
+                      "sm": "12px",
+                      "base": "8px",
+                      "xs": "4px",
+                      "lg": "24px",
+                      "container-max": "1200px"
+              },
+              "fontFamily": {
+                      "display": [
+                              "\"Source Sans 3\""
+                      ],
+                      "headline-md": [
+                              "\"Source Sans 3\""
+                      ],
+                      "label-md": [
+                              "\"Source Sans 3\""
+                      ],
+                      "body-lg": [
+                              "\"Source Sans 3\""
+                      ],
+                      "body-md": [
+                              "\"Source Sans 3\""
+                      ],
+                      "headline-lg-mobile": [
+                              "\"Source Sans 3\""
+                      ],
+                      "headline-lg": [
+                              "\"Source Sans 3\""
+                      ],
+                      "label-sm": [
+                              "\"Source Sans 3\""
+                      ]
+              },
+              "fontSize": {
+                      "display": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        body {
+            background-color: #fcf9f8;
+            color: #1b1c1c;
+        }
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md flex min-h-screen">
+<!-- SideNavBar -->
+<nav class="hidden md:flex bg-surface dark:bg-surface-dim h-screen w-64 border-r border-outline-variant fixed left-0 top-0 flex-col z-40">
+<div class="p-lg border-b border-outline-variant dark:border-outline">
+<div class="flex items-center gap-sm mb-lg">
+<img class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="A small, professional circular avatar profile picture of a nursery administrator, isolated on a light background. Soft studio lighting. Modern corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwXZJva5eumgFivPhOxkZFCq-TiRLgaZXYOx1JBZKLCq3lfzw2XjmPXajwfaMRPZYnL5Q9naubQ0YrjQQW_67PUc2xBXXVZNBAdNxGuX_P295LkpAphrSBBx_dT9pVALAcLtJib_WKBDkqwoSJ2uSSM367Udaobg_ygyuiATONIT51eWVsB27Pj07DEk_hXWrAEyykkdEhrAFxxsBZnPcPzeX2IJTFFzy7MVfKJKHTKZwZM6_FE3HdCg"/>
+<div>
+<h1 class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed">NurseryLink Admin</h1>
+<p class="text-label-sm font-label-sm text-secondary">Central Oversight</p>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary rounded-lg py-sm px-md text-label-md font-label-md hover:bg-surface-tint transition-colors flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">assessment</span>
+                Generate Report
+            </button>
+</div>
+<ul class="flex flex-col flex-grow py-md">
+<li class="px-md mb-xs">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-primary font-bold border-r-2 border-primary bg-surface-container-low opacity-80 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard" data-weight="fill">dashboard</span>
+<span class="text-label-md font-label-md">Dashboard</span>
+</a>
+</li>
+<li class="px-md mb-xs">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="text-label-md font-label-md">Classrooms</span>
+</a>
+</li>
+<li class="px-md mb-xs">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span class="text-label-md font-label-md">Staff Registry</span>
+</a>
+</li>
+<li class="px-md mb-xs">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings_suggest">settings_suggest</span>
+<span class="text-label-md font-label-md">Operations</span>
+</a>
+</li>
+<li class="px-md mb-xs">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="text-label-md font-label-md">Financials</span>
+</a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 bg-background min-h-screen">
+<!-- Top App Bar (Mobile Only for navigation, but keeping header structural logic for desktop) -->
+<header class="md:hidden flex justify-between items-center w-full px-lg py-sm bg-surface border-b border-outline-variant">
+<h1 class="text-headline-lg-mobile font-headline-lg-mobile font-bold text-primary">NurseryLink</h1>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface">notifications</span>
+</div>
+</header>
+<div class="p-lg md:p-xl max-w-container-max mx-auto">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between mb-xl gap-md">
+<div>
+<h2 class="text-headline-lg font-headline-lg text-on-surface mb-xs">Dashboard Overview</h2>
+<p class="text-body-lg font-body-lg text-secondary">Real-time status across all nursery facilities.</p>
+</div>
+<div class="flex gap-sm">
+<div class="bg-surface-container-low px-md py-sm rounded-lg border border-outline-variant flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary">calendar_today</span>
+<span class="text-label-md font-label-md text-on-surface-variant">Today, Oct 24</span>
+</div>
+</div>
+</div>
+<!-- Key Metrics Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-xl">
+<!-- Metric 1 -->
+<div class="bg-surface rounded-xl border border-outline-variant p-lg flex flex-col justify-between h-full relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex justify-between items-start mb-md">
+<div>
+<p class="text-label-md font-label-md text-secondary mb-xs">Total Attendance</p>
+<h3 class="text-display font-display text-on-surface">142</h3>
+</div>
+<div class="bg-primary-container p-sm rounded-full">
+<span class="material-symbols-outlined text-on-primary-container">child_care</span>
+</div>
+</div>
+<p class="text-label-sm font-label-sm text-primary flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+                        95% of capacity
+                    </p>
+</div>
+<!-- Metric 2 -->
+<div class="bg-surface rounded-xl border border-outline-variant p-lg flex flex-col justify-between h-full relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-[#F59E0B]"></div>
+<div class="flex justify-between items-start mb-md">
+<div>
+<p class="text-label-md font-label-md text-secondary mb-xs">Health &amp; Incidents</p>
+<h3 class="text-display font-display text-on-surface">3</h3>
+</div>
+<div class="bg-[#FEF3C7] p-sm rounded-full">
+<span class="material-symbols-outlined text-[#D97706]">healing</span>
+</div>
+</div>
+<p class="text-label-sm font-label-sm text-[#D97706] flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+                        Requires attention
+                    </p>
+</div>
+<!-- Metric 3 -->
+<div class="bg-surface rounded-xl border border-outline-variant p-lg flex flex-col justify-between h-full relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-tertiary"></div>
+<div class="flex justify-between items-start mb-md">
+<div>
+<p class="text-label-md font-label-md text-secondary mb-xs">Active Staff</p>
+<h3 class="text-display font-display text-on-surface">24</h3>
+</div>
+<div class="bg-tertiary-container/20 p-sm rounded-full">
+<span class="material-symbols-outlined text-tertiary">supervisor_account</span>
+</div>
+</div>
+<p class="text-label-sm font-label-sm text-secondary flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+                        All ratios compliant
+                    </p>
+</div>
+</div>
+<!-- Classrooms Section Header -->
+<div class="flex items-center justify-between mb-md">
+<h3 class="text-headline-md font-headline-md text-on-surface">Active Classrooms</h3>
+<button class="text-primary text-label-md font-label-md flex items-center gap-xs hover:underline">
+                    View Registry <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<!-- Classrooms Grid (Bento style) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-gutter">
+<!-- Classroom Card 1 -->
+<div class="bg-surface rounded-xl border border-outline-variant flex flex-col overflow-hidden hover:shadow-[0_4px_20px_rgba(45,45,45,0.05)] transition-shadow">
+<div class="p-lg border-b border-outline-variant flex justify-between items-start">
+<div>
+<h4 class="text-headline-md font-headline-md text-on-surface">Little Explorers</h4>
+<p class="text-label-sm font-label-sm text-secondary">Ages 2-3 Years</p>
+</div>
+<span class="bg-primary/10 text-primary px-sm py-xs rounded-full text-label-sm font-label-sm border border-primary/20">Optimal Ratio</span>
+</div>
+<div class="p-lg flex-1">
+<div class="flex justify-between mb-md">
+<div class="text-center">
+<p class="text-display font-display text-on-surface">18</p>
+<p class="text-label-sm font-label-sm text-secondary">Children</p>
+</div>
+<div class="w-px bg-outline-variant mx-md"></div>
+<div class="text-center">
+<p class="text-display font-display text-on-surface">3</p>
+<p class="text-label-sm font-label-sm text-secondary">Staff</p>
+</div>
+</div>
+<div class="space-y-sm">
+<div class="flex items-center justify-between border-t border-outline-variant pt-sm">
+<span class="text-label-md font-label-md text-secondary flex items-center gap-xs"><span class="material-symbols-outlined text-[18px]">bed</span> Nap Time</span>
+<span class="text-label-md font-label-md text-on-surface">12:30 PM</span>
+</div>
+<div class="flex items-center justify-between border-t border-outline-variant pt-sm">
+<span class="text-label-md font-label-md text-secondary flex items-center gap-xs"><span class="material-symbols-outlined text-[18px]">restaurant</span> Next Meal</span>
+<span class="text-label-md font-label-md text-on-surface">Snack (3:00 PM)</span>
+</div>
+</div>
+</div>
+<div class="p-sm bg-surface-container-low border-t border-outline-variant flex justify-end">
+<button class="text-primary text-label-md font-label-md px-md py-sm hover:bg-surface-variant rounded-lg transition-colors">Manage Room</button>
+</div>
+</div>
+<!-- Classroom Card 2 -->
+<div class="bg-surface rounded-xl border border-outline-variant flex flex-col overflow-hidden hover:shadow-[0_4px_20px_rgba(45,45,45,0.05)] transition-shadow">
+<div class="p-lg border-b border-outline-variant flex justify-between items-start">
+<div>
+<h4 class="text-headline-md font-headline-md text-on-surface">Toddler Room</h4>
+<p class="text-label-sm font-label-sm text-secondary">Ages 1-2 Years</p>
+</div>
+<span class="bg-[#FEF3C7] text-[#D97706] px-sm py-xs rounded-full text-label-sm font-label-sm border border-[#F59E0B]/20">Alert: Incident</span>
+</div>
+<div class="p-lg flex-1">
+<div class="flex justify-between mb-md">
+<div class="text-center">
+<p class="text-display font-display text-on-surface">12</p>
+<p class="text-label-sm font-label-sm text-secondary">Children</p>
+</div>
+<div class="w-px bg-outline-variant mx-md"></div>
+<div class="text-center">
+<p class="text-display font-display text-on-surface">4</p>
+<p class="text-label-sm font-label-sm text-secondary">Staff</p>
+</div>
+</div>
+<div class="space-y-sm">
+<div class="flex items-center justify-between border-t border-outline-variant pt-sm">
+<span class="text-label-md font-label-md text-secondary flex items-center gap-xs"><span class="material-symbols-outlined text-[18px]">healing</span> Pending Incidents</span>
+<span class="text-label-md font-label-md text-[#D97706] font-bold">1 (Minor)</span>
+</div>
+<div class="flex items-center justify-between border-t border-outline-variant pt-sm">
+<span class="text-label-md font-label-md text-secondary flex items-center gap-xs"><span class="material-symbols-outlined text-[18px]">restaurant</span> Next Meal</span>
+<span class="text-label-md font-label-md text-on-surface">Lunch (11:30 AM)</span>
+</div>
+</div>
+</div>
+<div class="p-sm bg-surface-container-low border-t border-outline-variant flex justify-end">
+<button class="text-primary text-label-md font-label-md px-md py-sm hover:bg-surface-variant rounded-lg transition-colors">Manage Room</button>
+</div>
+</div>
+<!-- Classroom Card 3 -->
+<div class="bg-surface rounded-xl border border-outline-variant flex flex-col overflow-hidden hover:shadow-[0_4px_20px_rgba(45,45,45,0.05)] transition-shadow">
+<div class="p-lg border-b border-outline-variant flex justify-between items-start">
+<div>
+<h4 class="text-headline-md font-headline-md text-on-surface">Pre-School Prep</h4>
+<p class="text-label-sm font-label-sm text-secondary">Ages 3-5 Years</p>
+</div>
+<span class="bg-primary/10 text-primary px-sm py-xs rounded-full text-label-sm font-label-sm border border-primary/20">Optimal Ratio</span>
+</div>
+<div class="p-lg flex-1">
+<div class="flex justify-between mb-md">
+<div class="text-center">
+<p class="text-display font-display text-on-surface">24</p>
+<p class="text-label-sm font-label-sm text-secondary">Children</p>
+</div>
+<div class="w-px bg-outline-variant mx-md"></div>
+<div class="text-center">
+<p class="text-display font-display text-on-surface">3</p>
+<p class="text-label-sm font-label-sm text-secondary">Staff</p>
+</div>
+</div>
+<div class="space-y-sm">
+<div class="flex items-center justify-between border-t border-outline-variant pt-sm">
+<span class="text-label-md font-label-md text-secondary flex items-center gap-xs"><span class="material-symbols-outlined text-[18px]">palette</span> Current Activity</span>
+<span class="text-label-md font-label-md text-on-surface">Arts &amp; Crafts</span>
+</div>
+<div class="flex items-center justify-between border-t border-outline-variant pt-sm">
+<span class="text-label-md font-label-md text-secondary flex items-center gap-xs"><span class="material-symbols-outlined text-[18px]">park</span> Next Transition</span>
+<span class="text-label-md font-label-md text-on-surface">Outdoor (2:00 PM)</span>
+</div>
+</div>
+</div>
+<div class="p-sm bg-surface-container-low border-t border-outline-variant flex justify-end">
+<button class="text-primary text-label-md font-label-md px-md py-sm hover:bg-surface-variant rounded-lg transition-colors">Manage Room</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden bg-surface dark:bg-inverse-surface docked full-width bottom-0 rounded-t-xl border-t border-outline-variant dark:border-outline shadow-sm fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1 scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard" data-weight="fill">dashboard</span>
+<span class="text-label-sm font-label-sm mt-1">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container-low dark:hover:bg-surface-container-highest rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="text-label-sm font-label-sm mt-1">Classrooms</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container-low dark:hover:bg-surface-container-highest rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span class="text-label-sm font-label-sm mt-1">Staff</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container-low dark:hover:bg-surface-container-highest rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="child_care">child_care</span>
+<span class="text-label-sm font-label-sm mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

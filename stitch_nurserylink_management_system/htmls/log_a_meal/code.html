@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NurseryLink - Meal Log</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary": "#8d4b00",
+                      "surface": "#fcf9f8",
+                      "primary-fixed-dim": "#91d2d4",
+                      "on-secondary-fixed": "#1a1c1a",
+                      "on-surface-variant": "#3f4849",
+                      "on-primary-fixed-variant": "#004f51",
+                      "secondary-fixed": "#e3e2e0",
+                      "primary-container": "#3d7e80",
+                      "tertiary-fixed-dim": "#ffb77d",
+                      "inverse-primary": "#91d2d4",
+                      "on-primary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "outline": "#6f7979",
+                      "tertiary-container": "#b15f00",
+                      "on-secondary-fixed-variant": "#464745",
+                      "surface-bright": "#fcf9f8",
+                      "on-surface": "#1b1c1c",
+                      "error-container": "#ffdad6",
+                      "primary": "#1f6567",
+                      "inverse-surface": "#303030",
+                      "on-secondary-container": "#626361",
+                      "primary-fixed": "#aceef0",
+                      "background": "#fcf9f8",
+                      "on-error-container": "#93000a",
+                      "on-secondary": "#ffffff",
+                      "tertiary-fixed": "#ffdcc3",
+                      "inverse-on-surface": "#f3f0f0",
+                      "secondary-fixed-dim": "#c7c6c4",
+                      "surface-container-high": "#eae7e7",
+                      "on-tertiary-container": "#fffbff",
+                      "on-tertiary-fixed": "#2f1500",
+                      "on-primary-fixed": "#002021",
+                      "error": "#ba1a1a",
+                      "surface-container": "#f0eded",
+                      "outline-variant": "#bfc8c8",
+                      "secondary": "#5e5f5d",
+                      "surface-container-low": "#f6f3f2",
+                      "surface-variant": "#e4e2e1",
+                      "surface-dim": "#dcd9d9",
+                      "on-tertiary": "#ffffff",
+                      "secondary-container": "#e0e0dd",
+                      "on-tertiary-fixed-variant": "#6e3900",
+                      "on-background": "#1b1c1c",
+                      "on-primary-container": "#f2ffff",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-tint": "#23686a",
+                      "surface-container-highest": "#e4e2e1"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sm": "12px",
+                      "md": "16px",
+                      "xl": "48px",
+                      "gutter": "20px",
+                      "xs": "4px",
+                      "container-max": "1200px",
+                      "lg": "24px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": [
+                              "\"Source Sans 3\""
+                      ],
+                      "headline-md": [
+                              "\"Source Sans 3\""
+                      ],
+                      "headline-lg": [
+                              "\"Source Sans 3\""
+                      ],
+                      "body-md": [
+                              "\"Source Sans 3\""
+                      ],
+                      "label-sm": [
+                              "\"Source Sans 3\""
+                      ],
+                      "display": [
+                              "\"Source Sans 3\""
+                      ],
+                      "label-md": [
+                              "\"Source Sans 3\""
+                      ],
+                      "body-lg": [
+                              "\"Source Sans 3\""
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.surface');
+            color: theme('colors.on-surface');
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-md md:p-lg">
+<!-- Top Navigation suppressed due to task-focused linear flow (Logging a meal) -->
+<main class="w-full max-w-[800px] flex flex-col flex-1 gap-xl mt-lg">
+<!-- Header: Child Info -->
+<header class="flex items-center gap-md pb-md border-b border-outline-variant">
+<div class="w-[72px] h-[72px] rounded-full overflow-hidden border border-outline-variant shrink-0">
+<img alt="Oliver T." class="w-full h-full object-cover" data-alt="A close-up portrait of a cheerful toddler in a brightly lit, modern nursery setting. The lighting is soft and high-key, emphasizing a clean, clinical yet warm environment. The color palette features light whites, soft creams, and muted teal accents. The child is looking towards the camera with a gentle expression." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCptR78mMnNVbPjQBtE_SZzpuqorN5FTnaht__jdd1TX2C3ZxoqFqE8JYvdAJVZvDDB44pJyY2PQgbps5xIc-4fQmKUZqvyB0AslKTxBE4uTELs3Z0yOCVpPq1Qey6w8XZn61MbUVjOUj5bFDa9aulhqDBIpy7dMJxNxpvdrayRiHB6_erhFUaQ_xjb1y-Yw0XY40_sDYILTxXzogsNVZ2xJC6M8qNfeR48ScyQ6oMMRmBmeWWAU2AQbA"/>
+</div>
+<div>
+<h1 class="text-headline-lg font-headline-lg text-on-surface m-0">Oliver T.</h1>
+<p class="text-body-lg font-body-lg text-secondary m-0">Log Meal</p>
+</div>
+<div class="ml-auto">
+<button aria-label="Cancel" class="w-12 h-12 flex items-center justify-center rounded-full text-secondary hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[28px]">close</span>
+</button>
+</div>
+</header>
+<!-- Segmented Control: Meal Type -->
+<section class="flex flex-col gap-sm">
+<h2 class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Meal Type</h2>
+<div class="flex p-1 bg-surface-container-low rounded-xl border border-outline-variant">
+<button class="flex-1 py-3 text-body-md font-body-md text-secondary opacity-50 cursor-not-allowed flex items-center justify-center gap-xs" disabled="">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+                    Breakfast
+                </button>
+<button class="flex-1 py-3 text-body-md font-body-md text-on-primary bg-primary rounded-lg shadow-sm font-medium">
+                    Lunch
+                </button>
+<button class="flex-1 py-3 text-body-md font-body-md text-secondary hover:text-on-surface transition-colors">
+                    Snack
+                </button>
+</div>
+</section>
+<!-- Intake Amount Cards -->
+<section class="flex flex-col gap-sm flex-1">
+<h2 class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Amount Eaten</h2>
+<div class="grid grid-rows-3 gap-md flex-1">
+<!-- Ate Everything -->
+<button class="w-full flex items-center p-lg rounded-xl border border-outline-variant bg-surface hover:bg-surface-container-low transition-colors text-left group">
+<div class="w-16 h-16 rounded-full bg-primary-container/20 flex items-center justify-center mr-lg border border-primary-container/30">
+<span class="material-symbols-outlined text-[32px] text-primary" data-icon="circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">circle</span>
+</div>
+<div class="flex-1">
+<h3 class="text-headline-md font-headline-md text-on-surface group-hover:text-primary transition-colors">Ate everything</h3>
+<p class="text-body-md font-body-md text-secondary">Finished the entire portion</p>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant group-focus:border-primary group-focus:bg-primary flex items-center justify-center">
+</div>
+</button>
+<!-- Ate Some -->
+<button class="w-full flex items-center p-lg rounded-xl border border-outline-variant bg-surface hover:bg-surface-container-low transition-colors text-left group">
+<div class="w-16 h-16 rounded-full bg-tertiary-container/10 flex items-center justify-center mr-lg border border-tertiary-container/20">
+<span class="material-symbols-outlined text-[32px] text-tertiary" data-icon="change_history" data-weight="fill" style="font-variation-settings: 'FILL' 1;">change_history</span>
+</div>
+<div class="flex-1">
+<h3 class="text-headline-md font-headline-md text-on-surface group-hover:text-tertiary transition-colors">Ate some</h3>
+<p class="text-body-md font-body-md text-secondary">Left more than half</p>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant group-focus:border-tertiary group-focus:bg-tertiary flex items-center justify-center">
+</div>
+</button>
+<!-- Refused -->
+<button class="w-full flex items-center p-lg rounded-xl border border-outline-variant bg-surface hover:bg-surface-container-low transition-colors text-left group focus:border-error focus:ring-1 focus:ring-error">
+<div class="w-16 h-16 rounded-full bg-error-container/30 flex items-center justify-center mr-lg border border-error-container/50">
+<span class="material-symbols-outlined text-[32px] text-error" data-icon="square" data-weight="fill" style="font-variation-settings: 'FILL' 1;">square</span>
+</div>
+<div class="flex-1">
+<h3 class="text-headline-md font-headline-md text-on-surface group-hover:text-error transition-colors">Refused</h3>
+<p class="text-body-md font-body-md text-secondary">Did not eat</p>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant group-focus:border-error group-focus:bg-error flex items-center justify-center">
+</div>
+</button>
+</div>
+</section>
+<!-- Actions -->
+<footer class="mt-auto pt-lg flex flex-col items-center gap-md">
+<button class="w-full py-4 bg-primary hover:bg-surface-tint text-on-primary text-body-lg font-body-lg font-medium rounded-xl transition-colors shadow-sm">
+                Confirm Meal Log
+            </button>
+<p class="text-label-sm font-label-sm text-secondary text-center">
+                Entry will be timestamped and attributed automatically.
+            </p>
+</footer>
+</main>
+</body></html>

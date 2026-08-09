@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Child Daily Summary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#f2ffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-container": "#626361",
+                        "on-surface": "#1b1c1c",
+                        "outline-variant": "#bfc8c8",
+                        "on-surface-variant": "#3f4849",
+                        "on-background": "#1b1c1c",
+                        "primary-fixed": "#aceef0",
+                        "surface-container-low": "#f6f3f2",
+                        "tertiary": "#8d4b00",
+                        "surface-dim": "#dcd9d9",
+                        "on-primary": "#ffffff",
+                        "primary": "#1f6567",
+                        "tertiary-fixed": "#ffdcc3",
+                        "surface-container-highest": "#e4e2e1",
+                        "background": "#fcf9f8",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "on-primary-fixed-variant": "#004f51",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#c7c6c4",
+                        "surface-container-high": "#eae7e7",
+                        "surface": "#fcf9f8",
+                        "surface-bright": "#fcf9f8",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#e3e2e0",
+                        "on-tertiary-fixed": "#2f1500",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#464745",
+                        "on-primary-fixed": "#002021",
+                        "primary-container": "#3d7e80",
+                        "secondary-container": "#e0e0dd",
+                        "tertiary-container": "#b15f00",
+                        "outline": "#6f7979",
+                        "on-secondary-fixed": "#1a1c1a",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#e4e2e1",
+                        "inverse-primary": "#91d2d4",
+                        "inverse-on-surface": "#f3f0f0",
+                        "on-tertiary-container": "#fffbff",
+                        "tertiary-fixed-dim": "#ffb77d",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#91d2d4",
+                        "secondary": "#5e5f5d",
+                        "surface-tint": "#23686a",
+                        "on-error": "#ffffff",
+                        "surface-container": "#f0eded",
+                        "inverse-surface": "#303030"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "20px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "container-max": "1200px",
+                        "sm": "12px",
+                        "xl": "48px",
+                        "lg": "24px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["\"Source Sans 3\""],
+                        "body-md": ["\"Source Sans 3\""],
+                        "headline-lg-mobile": ["\"Source Sans 3\""],
+                        "headline-md": ["\"Source Sans 3\""],
+                        "label-md": ["\"Source Sans 3\""],
+                        "body-lg": ["\"Source Sans 3\""],
+                        "display": ["\"Source Sans 3\""],
+                        "headline-lg": ["\"Source Sans 3\""]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Custom timeline styles */
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 19px;
+            top: 24px;
+            bottom: -24px;
+            width: 1px;
+            background-color: #E8E6E1;
+            z-index: 0;
+        }
+        .timeline-item:last-child .timeline-line::before {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen pb-[80px]"> <!-- Added pb for bottom nav -->
+<!-- TopAppBar -->
+<header class="w-full top-0 bg-surface text-primary border-b border-outline-variant flex justify-between items-center px-md py-xs sticky z-40">
+<div class="flex items-center gap-sm">
+<div class="relative group cursor-pointer active:scale-95 transition-transform duration-150">
+<img class="w-10 h-10 rounded-full object-cover border-2 border-primary-container p-[2px]" data-alt="A small, soft-focus portrait photo of a toddler girl with blonde hair in a professional, light-mode modern UI setting, used as an avatar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbc4CfItU8O-xXqq9qOQmg762Jb4FucBsCUzBhsxq_0XvqQdvpJCTFuP5wZJhLpHQO_7j2xhLqALwR6gF3RGP7rjqdlKhZ2vPcJ8NTBWKfWojR_KW1r4LKI3k30bPPHWlU5E_upuzLZ-Ovp0P4Qs_WYmdYcrAzMg72gTAC7Rk0ux_C8f9sss65KZdgq-9lf4q3iZrKw-l5TWdQPrTIXFE3L85yEEBFCZL8IzCc-PDvS3vFrFrcXP5Vqw"/>
+<div class="absolute -bottom-1 -right-1 bg-surface rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant p-0.5">expand_more</span>
+</div>
+</div>
+<div>
+<h1 class="text-headline-md font-headline-md text-primary m-0 p-0 leading-none">NurseryLink</h1>
+<p class="text-label-sm font-label-sm text-on-surface-variant m-0 mt-1">Viewing: Sophie</p>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-primary hover:bg-surface-container-low transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="w-full max-w-container-max mx-auto md:hidden pt-sm px-md pb-xl">
+<!-- Summary Header -->
+<div class="mb-lg">
+<h2 class="text-headline-lg-mobile font-headline-lg-mobile text-on-surface">Sophie's Day</h2>
+<p class="text-body-md font-body-md text-on-surface-variant mt-1">Today was a great day! Here's a quick overview.</p>
+</div>
+<!-- Timeline Container -->
+<div class="space-y-0 relative">
+<!-- Timeline Item: Breakfast -->
+<div class="timeline-item relative pl-xl py-md">
+<div class="timeline-line absolute left-0 top-0 h-full w-xl">
+<div class="absolute left-[12px] top-6 w-4 h-4 rounded-full bg-surface border-2 border-primary-container z-10"></div>
+</div>
+<div class="bg-surface border border-[#E8E6E1] rounded-lg p-md shadow-sm relative overflow-hidden">
+<!-- Status Stripe -->
+<div class="absolute left-0 top-0 bottom-0 w-[4px] bg-primary-container"></div>
+<div class="flex justify-between items-start mb-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-[20px]" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+<h3 class="text-label-md font-label-md text-on-surface">Breakfast</h3>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">08:30</span>
+</div>
+<p class="text-body-md font-body-md text-on-surface mt-sm">Ate everything</p>
+<div class="flex items-center gap-xs mt-sm text-label-sm font-label-sm text-on-surface-variant border-t border-[#E8E6E1] pt-xs">
+<span class="material-symbols-outlined text-[14px]">face</span>
+<span>Logged by Sarah J.</span>
+</div>
+</div>
+</div>
+<!-- Timeline Item: Toilet -->
+<div class="timeline-item relative pl-xl py-md">
+<div class="timeline-line absolute left-0 top-0 h-full w-xl">
+<div class="absolute left-[12px] top-6 w-4 h-4 rounded-full bg-surface border-2 border-primary-container z-10"></div>
+</div>
+<div class="bg-surface border border-[#E8E6E1] rounded-lg p-md shadow-sm relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-[4px] bg-primary-container"></div>
+<div class="flex justify-between items-start mb-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-[20px]" style="font-variation-settings: 'FILL' 1;">water_drop</span>
+<h3 class="text-label-md font-label-md text-on-surface">Toilet</h3>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">10:15</span>
+</div>
+<div class="bg-surface-container-low p-sm rounded border border-[#E8E6E1] mt-sm">
+<p class="text-body-md font-body-md text-on-surface italic">"Doing great with potty training today!"</p>
+</div>
+<div class="flex items-center gap-xs mt-sm text-label-sm font-label-sm text-on-surface-variant border-t border-[#E8E6E1] pt-xs">
+<span class="material-symbols-outlined text-[14px]">face</span>
+<span>Logged by Sarah J.</span>
+</div>
+</div>
+</div>
+<!-- Timeline Item: Health Check -->
+<div class="timeline-item relative pl-xl py-md">
+<div class="timeline-line absolute left-0 top-0 h-full w-xl">
+<div class="absolute left-[12px] top-6 w-4 h-4 rounded-full bg-surface border-2 border-tertiary-container z-10"></div>
+</div>
+<div class="bg-surface border border-[#E8E6E1] rounded-lg p-md shadow-sm relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-[4px] bg-tertiary-container"></div>
+<div class="flex justify-between items-start mb-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-container text-[20px]" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+<h3 class="text-label-md font-label-md text-on-surface">Health Check</h3>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">11:30</span>
+</div>
+<div class="inline-flex items-center gap-2 bg-tertiary-fixed-dim bg-opacity-20 text-on-tertiary-fixed-variant px-sm py-xs rounded-full mt-sm text-label-sm font-label-sm">
+<span class="material-symbols-outlined text-[16px]">device_thermostat</span>
+<span>Temperature: 37.1°C</span>
+</div>
+<div class="flex items-center gap-xs mt-sm text-label-sm font-label-sm text-on-surface-variant border-t border-[#E8E6E1] pt-xs">
+<span class="material-symbols-outlined text-[14px]">face</span>
+<span>Logged by Sarah J.</span>
+</div>
+</div>
+</div>
+<!-- Timeline Item: Lunch -->
+<div class="timeline-item relative pl-xl py-md">
+<div class="timeline-line absolute left-0 top-0 h-full w-xl">
+<div class="absolute left-[12px] top-6 w-4 h-4 rounded-full bg-surface border-2 border-primary-container z-10"></div>
+</div>
+<div class="bg-surface border border-[#E8E6E1] rounded-lg p-md shadow-sm relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-[4px] bg-primary-container"></div>
+<div class="flex justify-between items-start mb-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-[20px]" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+<h3 class="text-label-md font-label-md text-on-surface">Lunch</h3>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">12:45</span>
+</div>
+<div class="flex flex-col gap-1 mt-sm">
+<p class="text-body-md font-body-md text-on-surface">Ate some</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Left more than half</p>
+</div>
+<div class="flex items-center gap-xs mt-sm text-label-sm font-label-sm text-on-surface-variant border-t border-[#E8E6E1] pt-xs">
+<span class="material-symbols-outlined text-[14px]">face</span>
+<span>Logged by Sarah J.</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Note -->
+<div class="text-center mt-xl mb-lg">
+<p class="text-label-sm font-label-sm text-on-surface-variant italic">Sophie's day is complete.</p>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-safe bg-surface border-t border-outline-variant md:hidden">
+<!-- Feed (Active) -->
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-md py-xs active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">event_note</span>
+<span class="text-label-sm font-label-sm mt-1">Feed</span>
+</a>
+<!-- Gallery (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-secondary-container p-2 hover:bg-surface-container-high active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">photo_library</span>
+<span class="text-label-sm font-label-sm mt-1">Gallery</span>
+</a>
+<!-- Messages (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-secondary-container p-2 hover:bg-surface-container-high active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">chat_bubble</span>
+<span class="text-label-sm font-label-sm mt-1">Messages</span>
+</a>
+<!-- Profile (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-secondary-container p-2 hover:bg-surface-container-high active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person</span>
+<span class="text-label-sm font-label-sm mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NurseryLink - Incident Report</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#8d4b00",
+                        "surface": "#fcf9f8",
+                        "primary-fixed-dim": "#91d2d4",
+                        "on-secondary-fixed": "#1a1c1a",
+                        "on-surface-variant": "#3f4849",
+                        "on-primary-fixed-variant": "#004f51",
+                        "secondary-fixed": "#e3e2e0",
+                        "primary-container": "#3d7e80",
+                        "tertiary-fixed-dim": "#ffb77d",
+                        "inverse-primary": "#91d2d4",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "outline": "#6f7979",
+                        "tertiary-container": "#b15f00",
+                        "on-secondary-fixed-variant": "#464745",
+                        "surface-bright": "#fcf9f8",
+                        "on-surface": "#1b1c1c",
+                        "error-container": "#ffdad6",
+                        "primary": "#1f6567",
+                        "inverse-surface": "#303030",
+                        "on-secondary-container": "#626361",
+                        "primary-fixed": "#aceef0",
+                        "background": "#fcf9f8",
+                        "on-error-container": "#93000a",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#ffdcc3",
+                        "inverse-on-surface": "#f3f0f0",
+                        "secondary-fixed-dim": "#c7c6c4",
+                        "surface-container-high": "#eae7e7",
+                        "on-tertiary-container": "#fffbff",
+                        "on-tertiary-fixed": "#2f1500",
+                        "on-primary-fixed": "#002021",
+                        "error": "#ba1a1a",
+                        "surface-container": "#f0eded",
+                        "outline-variant": "#bfc8c8",
+                        "secondary": "#5e5f5d",
+                        "surface-container-low": "#f6f3f2",
+                        "surface-variant": "#e4e2e1",
+                        "surface-dim": "#dcd9d9",
+                        "on-tertiary": "#ffffff",
+                        "secondary-container": "#e0e0dd",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "on-background": "#1b1c1c",
+                        "on-primary-container": "#f2ffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#23686a",
+                        "surface-container-highest": "#e4e2e1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "12px",
+                        "md": "16px",
+                        "xl": "48px",
+                        "gutter": "20px",
+                        "xs": "4px",
+                        "container-max": "1200px",
+                        "lg": "24px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["\"Source Sans 3\""],
+                        "headline-md": ["\"Source Sans 3\""],
+                        "headline-lg": ["\"Source Sans 3\""],
+                        "body-md": ["\"Source Sans 3\""],
+                        "label-sm": ["\"Source Sans 3\""],
+                        "display": ["\"Source Sans 3\""],
+                        "label-md": ["\"Source Sans 3\""],
+                        "body-lg": ["\"Source Sans 3\""]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        
+        /* Custom styles for the severity chooser */
+        input[type="radio"]:checked + label.severity-minor {
+            background-color: theme('colors.surface-container-high');
+            border-color: theme('colors.outline');
+        }
+        input[type="radio"]:checked + label.severity-moderate {
+            background-color: #fef08a; /* Amber-200 equivalent for moderate */
+            border-color: #d97706; /* Amber-600 */
+            color: #78350f;
+        }
+        input[type="radio"]:checked + label.severity-serious {
+            background-color: theme('colors.error-container');
+            border-color: theme('colors.error');
+            color: theme('colors.on-error-container');
+        }
+
+        /* Hide radio inputs visually but keep accessible */
+        .sr-only-radio {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col font-body-md text-body-md bg-background selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar: Suppressed because this is a focused task (Linear/Transactional intent) -->
+<!-- SideNavBar: Suppressed because this is a focused task (Linear/Transactional intent) -->
+<!-- BottomNavBar: Suppressed because this is a focused task (Linear/Transactional intent) -->
+<!-- Main Canvas -->
+<main class="flex-grow flex items-center justify-center p-md sm:p-lg w-full max-w-container-max mx-auto">
+<div class="w-full max-w-3xl bg-surface rounded-xl border border-outline-variant shadow-sm overflow-hidden relative">
+<!-- Context Header -->
+<div class="px-lg py-md border-b border-outline-variant flex justify-between items-center bg-surface-bright">
+<div class="flex items-center gap-base">
+<button aria-label="Cancel and go back" class="p-xs text-secondary hover:text-primary transition-colors rounded-full hover:bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+<span class="material-symbols-outlined text-[24px]">close</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-primary">Incident Report</h1>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Date</span>
+<span class="font-body-md text-body-md font-medium text-on-surface">Oct 24, 2023</span>
+</div>
+</div>
+<!-- Form Content -->
+<div class="p-lg">
+<form action="#" class="space-y-xl" method="POST">
+<!-- Child Selection (Pre-selected) -->
+<section>
+<h2 class="font-label-md text-label-md text-on-surface-variant mb-base">Child Involved</h2>
+<div class="inline-flex items-center gap-xs bg-surface-container-low border border-outline-variant rounded-full px-4 py-2">
+<div class="w-6 h-6 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-label-sm text-label-sm">
+                                MS
+                            </div>
+<span class="font-body-md text-body-md text-on-surface font-medium">Mia S.</span>
+<span aria-hidden="true" class="material-symbols-outlined text-[16px] text-primary ml-xs">check_circle</span>
+</div>
+</section>
+<!-- Severity Chooser -->
+<section>
+<h2 class="font-label-md text-label-md text-on-surface-variant mb-sm">Incident Severity</h2>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-md">
+<!-- Minor -->
+<div class="relative">
+<input checked="" class="sr-only-radio" id="severity-minor" name="severity" type="radio" value="minor"/>
+<label class="severity-minor block cursor-pointer border border-outline-variant rounded-lg p-md text-center transition-all duration-200 hover:bg-surface-container-low" for="severity-minor">
+<span aria-hidden="true" class="material-symbols-outlined text-[28px] mb-xs text-secondary block mx-auto">healing</span>
+<span class="font-label-md text-label-md block font-semibold text-on-surface">Minor</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant block mt-xs">Scrape, bump, no treatment needed.</span>
+</label>
+</div>
+<!-- Moderate -->
+<div class="relative">
+<input class="sr-only-radio" id="severity-moderate" name="severity" type="radio" value="moderate"/>
+<label class="severity-moderate block cursor-pointer border border-outline-variant rounded-lg p-md text-center transition-all duration-200 hover:bg-surface-container-low" for="severity-moderate">
+<span aria-hidden="true" class="material-symbols-outlined text-[28px] mb-xs text-[#d97706] block mx-auto">warning</span>
+<span class="font-label-md text-label-md block font-semibold text-on-surface">Moderate</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant block mt-xs">First aid applied, parents notified.</span>
+</label>
+</div>
+<!-- Serious -->
+<div class="relative">
+<input class="sr-only-radio" id="severity-serious" name="severity" type="radio" value="serious"/>
+<label class="severity-serious block cursor-pointer border border-outline-variant rounded-lg p-md text-center transition-all duration-200 hover:bg-surface-container-low" for="severity-serious">
+<span aria-hidden="true" class="material-symbols-outlined text-[28px] mb-xs text-error block mx-auto">emergency</span>
+<span class="font-label-md text-label-md block font-semibold text-error">Serious</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant block mt-xs">Medical attention required immediately.</span>
+</label>
+</div>
+</div>
+</section>
+<!-- Incident Description -->
+<section>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-base" for="incident-description">Incident Description</label>
+<textarea class="w-full bg-[#F1F0EC] border-0 border-b border-outline text-on-surface font-body-md text-body-md p-md focus:ring-0 focus:border-primary focus:bg-surface-bright transition-colors resize-y rounded-t-DEFAULT placeholder:text-outline-variant" id="incident-description" name="incident-description" placeholder="Provide objective details: What happened, where, and when? Describe any actions taken." required="" rows="6"></textarea>
+</section>
+<!-- Important Notice -->
+<section class="bg-surface-container-low border border-outline-variant rounded-lg p-md flex items-start gap-md">
+<span aria-hidden="true" class="material-symbols-outlined text-primary text-[24px] shrink-0" style="font-variation-settings: 'FILL' 1;">info</span>
+<div>
+<p class="font-body-md text-body-md text-on-surface-variant font-medium">
+                                Filing this will notify every linked parent. Parents will be required to acknowledge this report individually.
+                            </p>
+</div>
+</section>
+<!-- Action Area -->
+<section class="pt-sm border-t border-outline-variant flex justify-end gap-md">
+<button class="px-lg py-sm font-label-md text-label-md font-semibold text-secondary hover:bg-surface-container-high rounded-[10px] transition-colors focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 bg-transparent border border-outline-variant border-opacity-20" type="button">
+                            Save as Draft
+                        </button>
+<button class="px-lg py-sm font-label-md text-label-md font-semibold text-on-primary bg-primary hover:bg-surface-tint rounded-[10px] transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 flex items-center gap-xs" type="submit">
+<span class="material-symbols-outlined text-[18px]">send</span>
+                            File Report
+                        </button>
+</section>
+</form>
+</div>
+<!-- Decorative Status Line (matches 'Record' card style guidance loosely) -->
+<div class="absolute left-0 top-0 bottom-0 w-[4px] bg-primary"></div>
+</div>
+</main>
+</body></html>

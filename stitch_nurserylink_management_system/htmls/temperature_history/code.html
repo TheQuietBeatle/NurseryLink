@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Temperature History</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-container": "#f2ffff",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-container": "#626361",
+                      "on-surface": "#1b1c1c",
+                      "outline-variant": "#bfc8c8",
+                      "on-surface-variant": "#3f4849",
+                      "on-background": "#1b1c1c",
+                      "primary-fixed": "#aceef0",
+                      "surface-container-low": "#f6f3f2",
+                      "tertiary": "#8d4b00",
+                      "surface-dim": "#dcd9d9",
+                      "on-primary": "#ffffff",
+                      "primary": "#1f6567",
+                      "tertiary-fixed": "#ffdcc3",
+                      "surface-container-highest": "#e4e2e1",
+                      "background": "#fcf9f8",
+                      "on-tertiary-fixed-variant": "#6e3900",
+                      "on-primary-fixed-variant": "#004f51",
+                      "error": "#ba1a1a",
+                      "secondary-fixed-dim": "#c7c6c4",
+                      "surface-container-high": "#eae7e7",
+                      "surface": "#fcf9f8",
+                      "surface-bright": "#fcf9f8",
+                      "on-tertiary": "#ffffff",
+                      "secondary-fixed": "#e3e2e0",
+                      "on-tertiary-fixed": "#2f1500",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed-variant": "#464745",
+                      "on-primary-fixed": "#002021",
+                      "primary-container": "#3d7e80",
+                      "secondary-container": "#e0e0dd",
+                      "tertiary-container": "#b15f00",
+                      "outline": "#6f7979",
+                      "on-secondary-fixed": "#1a1c1a",
+                      "on-secondary": "#ffffff",
+                      "surface-variant": "#e4e2e1",
+                      "inverse-primary": "#91d2d4",
+                      "inverse-on-surface": "#f3f0f0",
+                      "on-tertiary-container": "#fffbff",
+                      "tertiary-fixed-dim": "#ffb77d",
+                      "on-error-container": "#93000a",
+                      "primary-fixed-dim": "#91d2d4",
+                      "secondary": "#5e5f5d",
+                      "surface-tint": "#23686a",
+                      "on-error": "#ffffff",
+                      "surface-container": "#f0eded",
+                      "inverse-surface": "#303030"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "20px",
+                      "md": "16px",
+                      "xs": "4px",
+                      "container-max": "1200px",
+                      "sm": "12px",
+                      "xl": "48px",
+                      "lg": "24px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "label-sm": [
+                              "\"Source Sans 3\""
+                      ],
+                      "body-md": [
+                              "\"Source Sans 3\""
+                      ],
+                      "headline-lg-mobile": [
+                              "\"Source Sans 3\""
+                      ],
+                      "headline-md": [
+                              "\"Source Sans 3\""
+                      ],
+                      "label-md": [
+                              "\"Source Sans 3\""
+                      ],
+                      "body-lg": [
+                              "\"Source Sans 3\""
+                      ],
+                      "display": [
+                              "\"Source Sans 3\""
+                      ],
+                      "headline-lg": [
+                              "\"Source Sans 3\""
+                      ]
+              },
+              "fontSize": {
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background-color: #fcf9f8;
+            color: #1b1c1c;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Chart specific styles */
+        .chart-container {
+            position: relative;
+            height: 200px;
+            width: 100%;
+            margin-top: 24px;
+            margin-bottom: 32px;
+        }
+        .chart-line {
+            position: absolute;
+            bottom: 20%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #1f6567; /* Primary */
+            z-index: 10;
+        }
+        .threshold-line {
+            position: absolute;
+            bottom: 60%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            border-bottom: 1px dashed #6f7979; /* Outline */
+            z-index: 5;
+        }
+        .threshold-label {
+            position: absolute;
+            bottom: calc(60% + 4px);
+            right: 0;
+            color: #6f7979;
+            font-size: 12px;
+        }
+        .data-point {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #1f6567;
+            transform: translate(-50%, 50%);
+            z-index: 20;
+        }
+        .data-point.highlight {
+            width: 16px;
+            height: 16px;
+            background-color: rgba(239, 68, 68, 0.2); /* Soft red circle */
+            border: 2px solid #ba1a1a; /* Error */
+            z-index: 25;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col md:hidden pb-xl"> <!-- Mobile only, padding bottom for nav -->
+<!-- TopAppBar -->
+<header class="w-full top-0 bg-surface border-b border-outline-variant flex justify-between items-center px-md py-xs z-40 sticky">
+<div class="flex items-center gap-sm cursor-pointer" onclick="history.back()">
+<span class="material-symbols-outlined text-primary text-[24px]" data-icon="arrow_back">arrow_back</span>
+</div>
+<h1 class="text-headline-md font-headline-md text-primary truncate">Temperature History</h1>
+<div class="w-[24px]"></div> <!-- Spacer for centering -->
+</header>
+<main class="flex-1 px-md py-lg w-full max-w-container-max mx-auto">
+<!-- Context Header -->
+<div class="flex items-center gap-sm mb-lg">
+<img class="w-12 h-12 rounded-full object-cover border border-outline-variant" data-alt="A small, circular avatar portrait of a calm, healthy looking child in a well-lit, clinical but warm setting. Professional, modern corporate aesthetic. High key lighting, muted colors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-AI0RfGA3AVNhb9p3Rzuf42slcBj6HDUoS9jA0OVfwwjzetvWp9GYfm9ZPEsPt9Bx5mG29V5OQi2EMLGbZmrGX_2n5goR7rePTu9a_baIY7bB2Cp64DeDz7SwNCmj0Fjo4ZknVdVVCPz8y0MXIlxvE-4gK_Uw-5WIK6QF1DzthNt-DN5cz_TokKi5UUS1syc6ff2dTjBuv06xEVltG3nHoyaSyH6qs6oy6z7ADe5Vp1jEg1ZNk7Ee-A"/>
+<div>
+<h2 class="text-body-lg font-body-lg text-on-surface">Liam O'Connor</h2>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Last 3 Weeks</p>
+</div>
+</div>
+<!-- Chart Section -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg mb-xl">
+<h3 class="text-label-md font-label-md text-on-surface-variant mb-xs">Trend Overview</h3>
+<div class="chart-container">
+<div class="threshold-line"></div>
+<span class="threshold-label text-label-sm font-label-sm">37.5°C</span>
+<!-- Mock SVG Line for aesthetic representation -->
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none" style="z-index: 10;" viewbox="0 0 100 100">
+<path d="M0,80 Q20,80 30,75 T50,85 T70,40 T90,78 L100,78" fill="none" stroke="#1f6567" stroke-width="2"></path>
+</svg>
+<!-- Data Points (Mock positioned relative to SVG path roughly) -->
+<div class="data-point" style="left: 0%; bottom: 20%;"></div>
+<div class="data-point" style="left: 30%; bottom: 25%;"></div>
+<div class="data-point" style="left: 50%; bottom: 15%;"></div>
+<!-- Highlighted Peaks -->
+<div class="data-point highlight" style="left: 70%; bottom: 60%;"></div>
+<div class="data-point" style="left: 90%; bottom: 22%;"></div>
+<div class="data-point" style="left: 100%; bottom: 22%;"></div>
+<!-- X-Axis Labels -->
+<div class="absolute bottom-[-24px] left-0 text-label-sm font-label-sm text-on-surface-variant">Oct 3</div>
+<div class="absolute bottom-[-24px] right-0 text-label-sm font-label-sm text-on-surface-variant">Oct 24</div>
+</div>
+</section>
+<!-- History List Section -->
+<section>
+<h3 class="text-label-md font-label-md text-on-surface-variant mb-sm px-xs">Detailed Log</h3>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden">
+<!-- Entry 1 -->
+<div class="p-md border-b border-outline-variant flex gap-md items-start">
+<div class="w-1 bg-primary h-full absolute left-0 top-0 bottom-0"></div> <!-- Status Stripe Normal -->
+<div class="relative flex-1">
+<div class="flex justify-between items-start mb-xs">
+<div>
+<span class="text-body-md font-body-md text-on-surface block">37.1°C</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Oct 24, 11:30 AM</span>
+</div>
+<span class="bg-surface-container-high text-on-surface text-label-sm font-label-sm px-2 py-1 rounded-full">Normal</span>
+</div>
+<p class="text-label-md font-label-md text-on-surface mb-xs">"Routine check"</p>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="person">person</span>
+<span class="text-label-sm font-label-sm">Sarah J.</span>
+</div>
+</div>
+</div>
+<!-- Entry 2 - Highlighted -->
+<div class="p-md border-b border-outline-variant flex gap-md items-start bg-error-container bg-opacity-20 relative">
+<div class="w-[4px] bg-error h-full absolute left-0 top-0 bottom-0"></div> <!-- Status Stripe Alert -->
+<div class="relative flex-1">
+<div class="flex justify-between items-start mb-xs">
+<div>
+<span class="text-body-md font-body-md text-error block font-bold">38.4°C</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Oct 22, 02:15 PM</span>
+</div>
+<span class="bg-error-container text-on-error-container text-label-sm font-label-sm px-2 py-1 rounded-full border border-error">Fever</span>
+</div>
+<p class="text-label-md font-label-md text-on-surface mb-xs">"Fever detected, parent notified"</p>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="person">person</span>
+<span class="text-label-sm font-label-sm">Emily R.</span>
+</div>
+</div>
+</div>
+<!-- Entry 3 - Attention -->
+<div class="p-md border-b border-outline-variant flex gap-md items-start relative">
+<div class="w-[4px] bg-tertiary h-full absolute left-0 top-0 bottom-0"></div> <!-- Status Stripe Attention -->
+<div class="relative flex-1">
+<div class="flex justify-between items-start mb-xs">
+<div>
+<span class="text-body-md font-body-md text-tertiary block font-bold">37.8°C</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Oct 22, 10:00 AM</span>
+</div>
+<span class="bg-tertiary-container text-on-tertiary-container text-label-sm font-label-sm px-2 py-1 rounded-full opacity-80">Elevated</span>
+</div>
+<p class="text-label-md font-label-md text-on-surface mb-xs">"Feeling a bit warm"</p>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="person">person</span>
+<span class="text-label-sm font-label-sm">Emily R.</span>
+</div>
+</div>
+</div>
+<!-- Entry 4 -->
+<div class="p-md flex gap-md items-start relative">
+<div class="w-[4px] bg-primary h-full absolute left-0 top-0 bottom-0 opacity-50"></div> <!-- Status Stripe Normal -->
+<div class="relative flex-1">
+<div class="flex justify-between items-start mb-xs">
+<div>
+<span class="text-body-md font-body-md text-on-surface block">36.8°C</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Oct 21, 09:00 AM</span>
+</div>
+</div>
+<p class="text-label-md font-label-md text-on-surface mb-xs">"Morning intake check"</p>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="person">person</span>
+<span class="text-label-sm font-label-sm">Sarah J.</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Suppressed BottomNav because this is a sub-page/transactional focused screen with a back button. -->
+</body></html>

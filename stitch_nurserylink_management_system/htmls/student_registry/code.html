@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Student Registry - Administration Suite</title>
+<!-- Google Fonts: Source Sans 3 -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config injected from prompt -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#1b1c1c",
+                        "on-tertiary-container": "#fffbff",
+                        "tertiary-fixed-dim": "#ffb77d",
+                        "on-surface-variant": "#3f4849",
+                        "surface-container": "#f0eded",
+                        "secondary": "#5e5f5d",
+                        "surface-variant": "#e4e2e1",
+                        "on-secondary-fixed": "#1a1c1a",
+                        "surface": "#fcf9f8",
+                        "secondary-fixed-dim": "#c7c6c4",
+                        "on-background": "#1b1c1c",
+                        "inverse-primary": "#91d2d4",
+                        "primary-container": "#3d7e80",
+                        "primary-fixed": "#aceef0",
+                        "surface-container-low": "#f6f3f2",
+                        "on-primary-fixed-variant": "#004f51",
+                        "surface-container-highest": "#e4e2e1",
+                        "tertiary-fixed": "#ffdcc3",
+                        "on-tertiary-fixed": "#2f1500",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "surface-tint": "#23686a",
+                        "inverse-on-surface": "#f3f0f0",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#303030",
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#626361",
+                        "secondary-fixed": "#e3e2e0",
+                        "surface-dim": "#dcd9d9",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#eae7e7",
+                        "primary-fixed-dim": "#91d2d4",
+                        "outline-variant": "#bfc8c8",
+                        "on-tertiary": "#ffffff",
+                        "background": "#fcf9f8",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#e0e0dd",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#464745",
+                        "outline": "#6f7979",
+                        "tertiary": "#8d4b00",
+                        "on-primary-fixed": "#002021",
+                        "on-primary-container": "#f2ffff",
+                        "primary": "#1f6567",
+                        "surface-bright": "#fcf9f8",
+                        "tertiary-container": "#b15f00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "20px",
+                        "container-max": "1200px",
+                        "lg": "24px",
+                        "xl": "48px",
+                        "xs": "4px",
+                        "sm": "12px",
+                        "md": "16px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["\"Source Sans 3\""],
+                        "label-md": ["\"Source Sans 3\""],
+                        "body-lg": ["\"Source Sans 3\""],
+                        "body-md": ["\"Source Sans 3\""],
+                        "display": ["\"Source Sans 3\""],
+                        "headline-lg-mobile": ["\"Source Sans 3\""],
+                        "headline-md": ["\"Source Sans 3\""],
+                        "headline-lg": ["\"Source Sans 3\""]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md flex min-h-screen">
+<!-- SideNavBar -->
+<nav class="bg-surface dark:bg-inverse-surface h-screen w-64 fixed left-0 top-0 flex flex-col border-r border-surface-variant dark:border-outline-variant font-label-md text-label-md z-40">
+<div class="flex flex-col h-full py-lg px-md">
+<!-- Header -->
+<div class="flex items-center gap-sm mb-xl px-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center overflow-hidden border border-surface-variant">
+<img alt="Nursery Logo" class="object-cover w-full h-full" data-alt="A clean, minimalist logo for a modern nursery called CareNode, featuring geometric shapes in muted teal and soft gray, set against a pristine white background with high-key lighting for a clinical yet friendly corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBttNp0_GAOnF-cOI0e4O_aGCngGcSv9Vp8wSpNMt0xmZ4C1ka2Y1XsbQEtm4tmZF8lOzEdFLKjG8kipaOJf6qfxpuW0sCuAMrSwswlFgPz6pOnHB_nDnE7_aEYiPkiv9ZQUG2647oacrG6z2B2FvzKFSrc3jUVZ__ku14JdCU6K7VEbodLruCAkMuKJkcdY2v21EJBunOWdzCby78rdeim4-INTxrYOhWKphKmlPbGRrTqU1emZTzvUQ"/>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim leading-none">CareNode Admin</h1>
+<span class="font-label-sm text-label-sm text-on-surface-variant block mt-1">Oxford Central Nursery</span>
+</div>
+</div>
+<!-- Tabs -->
+<div class="flex flex-col gap-xs flex-grow">
+<!-- Inactive Tab -->
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- Inactive Tab -->
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">badge</span>
+<span>Staff Management</span>
+</a>
+<!-- Active Tab -->
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg text-primary dark:text-primary-fixed-dim font-bold border-r-2 border-primary dark:border-primary-fixed-dim bg-surface-container-low transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined icon-fill">child_care</span>
+<span>Student Registry</span>
+</a>
+<!-- Inactive Tab -->
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span>Staff Scheduling</span>
+</a>
+<!-- Inactive Tab -->
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-container dark:hover:bg-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Operations</span>
+</a>
+</div>
+<!-- CTA -->
+<button class="mt-lg w-full py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md shadow-[0_4px_20px_rgba(45,45,45,0.05)] hover:bg-surface-tint transition-colors">
+                New Registration
+            </button>
+<!-- Footer Tabs -->
+<div class="mt-lg flex flex-col gap-xs pt-md border-t border-surface-variant">
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-container hover:text-primary transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-sm rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-container hover:text-primary transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 ml-64 flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-inverse-surface h-16 w-full sticky top-0 z-30 border-b border-surface-variant dark:border-outline-variant font-label-md text-label-md">
+<div class="flex justify-between items-center w-full h-full px-lg">
+<!-- Left: Product Name & Search -->
+<div class="flex items-center gap-lg">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">Administration Suite</span>
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="pl-10 pr-sm py-1.5 bg-surface-container rounded-md border-b border-outline-variant text-body-md focus:outline-none focus:border-primary w-64" placeholder="Global search..." type="text"/>
+</div>
+</div>
+<!-- Center: Navigation Links -->
+<div class="hidden md:flex gap-md h-full items-end">
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-200 pb-4 px-2" href="#">Overview</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-200 pb-4 px-2" href="#">Reports</a>
+<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-4 px-2 transition-all duration-200 font-bold" href="#">Logs</a>
+</div>
+<!-- Right: Actions & Profile -->
+<div class="flex items-center gap-sm">
+<button class="px-md py-1.5 border border-outline-variant text-secondary rounded-lg hover:bg-surface-container transition-colors">Export Data</button>
+<button class="px-md py-1.5 bg-primary text-on-primary rounded-lg hover:bg-surface-tint transition-colors">Add Entry</button>
+<div class="h-6 w-px bg-surface-variant mx-2"></div>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-1"><span class="material-symbols-outlined">notifications</span></button>
+<button class="w-8 h-8 rounded-full overflow-hidden ml-2 border border-surface-variant focus:outline-none focus:ring-2 focus:ring-primary">
+<img alt="Administrator Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a female nursery administrator, smiling warmly, wearing smart casual corporate attire in soft gray, well-lit against a neutral light background, fitting a modern minimalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuActSZG4R06g-6OgBJ1oO40LfTy2Rkg_PdZVLq6GsYE6lSIZhGfQzhWV3QtTIQaN9fJXq0aKrlLEqcGIOQL3TjTu7HcNmkh-zZKytTzPBvXH5Seyn9mWfPhWQyfRS3-G_tcdIF9OuiyRS1_-ZSUZ5uPPNIEt1jViZHWwHZ4gMrRl8XuqdIcgWMIHrgtsxLXtA_LC6kHtrf97XyKkibnle5DqZwEGmUO2_zxmKKShBzlw7ucfRyolSb0iw"/>
+</button>
+</div>
+</div>
+</header>
+<!-- Page Content Canvas -->
+<main class="flex-1 p-lg bg-background">
+<div class="max-w-[1200px] mx-auto w-full">
+<!-- Section Header & Filters -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-lg gap-sm">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Students</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Manage active enrollments and class assignments.</p>
+</div>
+<div class="flex flex-wrap items-center gap-sm w-full md:w-auto">
+<!-- Search -->
+<div class="relative flex-grow md:flex-grow-0">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="w-full md:w-64 pl-8 pr-3 py-1.5 bg-surface rounded border-b border-surface-variant text-body-md focus:outline-none focus:border-primary placeholder:text-on-surface-variant/60 shadow-sm" placeholder="Search students..." type="text"/>
+</div>
+<!-- Class Filter Dropdown -->
+<div class="relative">
+<select class="appearance-none bg-surface border-b border-surface-variant py-1.5 pl-3 pr-8 rounded text-body-md focus:outline-none focus:border-primary shadow-sm text-on-surface cursor-pointer">
+<option>All Classes</option>
+<option>Little Explorers (1-2y)</option>
+<option>Curious Cubs (2-3y)</option>
+<option>Pre-K Scholars (3-5y)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[18px]">arrow_drop_down</span>
+</div>
+</div>
+</div>
+<!-- Data Table (Clinical, Flat) -->
+<div class="bg-surface rounded-lg border border-surface-variant overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-lowest border-b border-surface-variant">
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant font-semibold">Name</th>
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant font-semibold">Student Code</th>
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant font-semibold">DOB</th>
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant font-semibold">Current Class</th>
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant font-semibold">Linked Parents</th>
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface">
+<!-- Row 1 -->
+<tr class="border-b border-surface-variant hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-4">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container border border-surface-variant">
+<img class="w-full h-full object-cover" data-alt="A clear, well-lit passport-style photo of a toddler boy with blonde hair, smiling slightly against a neutral white background, reflecting a professional registry aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBX4HqNsxn2szhh-G8d_k8cyvDUeyOuztw64eHnbzegcsjeqAIiY3fYxbHVkwMks6ZYQFP01KPsgGuMt42iWB0P541et2Ihwnm49NDF9I6u5evWVxXC0IwX4tQVibkg8lK-klANwJSPSS95dzKroeo5DIiUq-1ycGOuQnKLO-Ra4sZ-1kNWBDzZYsf8rCPxVeV1dXqzMNhak2UYlU9g8aa1LyCudruI7d4ovNiZHtYVUQ42yBnX389r7A"/>
+</div>
+<span class="font-medium text-on-surface">Oliver Smith</span>
+</div>
+</td>
+<td class="py-3 px-4 text-on-surface-variant">NL-1024</td>
+<td class="py-3 px-4 text-on-surface-variant">12 May 2021</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-primary-fixed/20 text-on-primary-fixed-variant font-label-sm text-label-sm border border-primary-fixed/30">
+                                            Curious Cubs
+                                        </span>
+</td>
+<td class="py-3 px-4">
+<div class="flex -space-x-2">
+<div class="w-7 h-7 rounded-full overflow-hidden border-2 border-surface bg-surface-container z-10" title="Sarah Smith">
+<img class="w-full h-full object-cover" data-alt="A small circular avatar portrait of a young adult woman with brown hair, smiling, styled in a clean, modern corporate UI aesthetic against a light gray background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuANHntxyC7Xfvi-SXRq3O4Hkx9FGHyzr_SwROr_O4Ti02AD3c6JoBDBfViLjKfRfO_hgEmI86Z91EN7B27BgnCFBGm3q9_tUlRctbLZRlq7NwrIQPkrxKOuO3JG_KnyLQ8VKz1TSKokzhG3a4xdRDIzLrX9ZfmKQEbBZ2Ar7DsrkuY3ynTixtiKI3OFMTKnid7Ci-WGbuWZ0fkGofOvbCT1jR9IuSwSmUnwcX3O9_pMJJZvkXoBJu3nWQ"/>
+</div>
+<div class="w-7 h-7 rounded-full overflow-hidden border-2 border-surface bg-surface-container z-0" title="Mark Smith">
+<img class="w-full h-full object-cover" data-alt="A small circular avatar portrait of a young adult man with short hair and glasses, looking professional, styled in a clean, modern corporate UI aesthetic against a light gray background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvdABDKh-jPpxsztpy2HQACN-9OepIF6HwaaRFpMZU3rrCFz8XSIbEOGzObsFvouUX-wiWnKRbRQZhHyuk888fvIzPuWBSQXsxf601YCHW-YVJUZH2OYvl_7MrLkn_kJZhgZ3hBNh9v_P4fd0M5EVRR8548EzbKKbGRdOodBbE02id-5Kf0Df0kN1OMoK2AHLGHHF41zBotEsAKemF5F5Xn7rKSzahkzyhOlcErxmcRX1R6OAoCtDt2w"/>
+</div>
+</div>
+</td>
+<td class="py-3 px-4 text-right">
+<button class="opacity-0 group-hover:opacity-100 transition-opacity font-label-md text-label-md text-primary hover:text-surface-tint flex items-center justify-end gap-1 ml-auto" onclick="document.getElementById('transfer-modal').classList.remove('hidden')">
+<span class="material-symbols-outlined text-[18px]">swap_horiz</span>
+                                            Transfer
+                                        </button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-surface-variant hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-4">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container border border-surface-variant">
+<img class="w-full h-full object-cover" data-alt="A clear, well-lit passport-style photo of a baby girl with dark curly hair, looking forward against a neutral white background, reflecting a professional registry aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAngPgyhVsDPIIUtezSSin_iL33Uc7tNAm2TQgQpBBkhI0M0ZNaxovZKyUi3wXqW9NA3ys5W923Ga03FsTwqldOcfjNITWqrlufe3bvwZ-1lFCsGBmpzJLldN4Z_FQdUg0J7VJ2yL1cUbw2auVRAH0wUjy010_OZxlTcz5uTDlivFYUfmBGnAD0dSH8Nhh3GMu4KxR9fLlh0yn7cN9tsZSDrg59O_QfPEp4Q-DuDkTYW2GxEhaI5Lqh9A"/>
+</div>
+<span class="font-medium text-on-surface">Maya Johnson</span>
+</div>
+</td>
+<td class="py-3 px-4 text-on-surface-variant">NL-1089</td>
+<td class="py-3 px-4 text-on-surface-variant">04 Jan 2023</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm border border-surface-variant">
+                                            Little Explorers
+                                        </span>
+</td>
+<td class="py-3 px-4">
+<div class="flex -space-x-2">
+<div class="w-7 h-7 rounded-full overflow-hidden border-2 border-surface bg-surface-container z-10" title="David Johnson">
+<img class="w-full h-full object-cover" data-alt="A small circular avatar portrait of an adult man with a beard, smiling warmly, styled in a clean, modern corporate UI aesthetic against a light gray background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRh-AB0QP-h9dk-BNYRcgvVRq8I3321g_3j0KT7uvnMX4zRW2E50bVRdjwYx97RZ6SO_BqhyfUOj8YACIYTGbzE6Bf_6fsRSgrUgglkqHv_q3YPG4AfL3cQSOel8xjc6HHRgEZXbyyHpqGxBOTDioz-M-E2eXFH6yNDZlLJcy56hpghSmjbIb4NCfvJ4vUkDLzNFyKlcp69KckuS7VVWCEvYcywQ6xhhe0t5ZH55k3Awcdd6GXTiu1vw"/>
+</div>
+</div>
+</td>
+<td class="py-3 px-4 text-right">
+<button class="opacity-0 group-hover:opacity-100 transition-opacity font-label-md text-label-md text-primary hover:text-surface-tint flex items-center justify-end gap-1 ml-auto" onclick="document.getElementById('transfer-modal').classList.remove('hidden')">
+<span class="material-symbols-outlined text-[18px]">swap_horiz</span>
+                                            Transfer
+                                        </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Transfer Student Modal (Hidden by default) -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-on-surface/20 backdrop-blur-[1px]" id="transfer-modal">
+<div class="bg-surface rounded-lg w-full max-w-[480px] p-lg shadow-[0_4px_20px_rgba(45,45,45,0.05)] border border-surface-variant">
+<div class="flex justify-between items-start mb-md">
+<h3 class="font-headline-md text-headline-md text-on-surface">Transfer Student</h3>
+<button class="text-on-surface-variant hover:text-on-surface transition-colors" onclick="document.getElementById('transfer-modal').classList.add('hidden')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="mb-lg">
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">You are initiating a class transfer for <strong class="text-on-surface">Oliver Smith (NL-1024)</strong>.</p>
+<div class="bg-surface-container-low border border-surface-variant rounded p-sm flex gap-sm items-start mb-4">
+<span class="material-symbols-outlined text-secondary mt-0.5">info</span>
+<p class="font-label-md text-label-md text-secondary">
+                        This change affects future records only. All existing history remains attached to the current class.
+                    </p>
+</div>
+<div class="space-y-4">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">Current Class</label>
+<input class="w-full bg-surface-container-highest border-b border-surface-variant py-2 px-3 rounded text-on-surface-variant font-body-md cursor-not-allowed" disabled="" type="text" value="Curious Cubs (2-3y)"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">New Class Assignment</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface-container border-b border-surface-variant py-2 pl-3 pr-8 rounded text-body-md focus:outline-none focus:border-primary text-on-surface cursor-pointer">
+<option disabled="" selected="">Select destination class...</option>
+<option>Pre-K Scholars (3-5y)</option>
+<option>Little Explorers (1-2y)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">arrow_drop_down</span>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">Effective Date</label>
+<input class="w-full bg-surface-container border-b border-surface-variant py-2 px-3 rounded text-body-md focus:outline-none focus:border-primary text-on-surface" type="date"/>
+</div>
+</div>
+</div>
+<div class="flex justify-end gap-sm pt-sm border-t border-surface-variant">
+<button class="px-md py-2 border border-outline-variant text-secondary rounded-lg font-label-md text-label-md hover:bg-surface-container transition-colors" onclick="document.getElementById('transfer-modal').classList.add('hidden')">
+                    Cancel
+                </button>
+<button class="px-md py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-surface-tint transition-colors" onclick="document.getElementById('transfer-modal').classList.add('hidden')">
+                    Confirm Transfer
+                </button>
+</div>
+</div>
+</div>
+</body></html>

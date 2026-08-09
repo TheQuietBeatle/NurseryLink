@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>NurseryLink - Class Roster</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#8d4b00",
+                        "surface": "#fcf9f8",
+                        "primary-fixed-dim": "#91d2d4",
+                        "on-secondary-fixed": "#1a1c1a",
+                        "on-surface-variant": "#3f4849",
+                        "on-primary-fixed-variant": "#004f51",
+                        "secondary-fixed": "#e3e2e0",
+                        "primary-container": "#3d7e80",
+                        "tertiary-fixed-dim": "#ffb77d",
+                        "inverse-primary": "#91d2d4",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "outline": "#6f7979",
+                        "tertiary-container": "#b15f00",
+                        "on-secondary-fixed-variant": "#464745",
+                        "surface-bright": "#fcf9f8",
+                        "on-surface": "#1b1c1c",
+                        "error-container": "#ffdad6",
+                        "primary": "#1f6567",
+                        "inverse-surface": "#303030",
+                        "on-secondary-container": "#626361",
+                        "primary-fixed": "#aceef0",
+                        "background": "#fcf9f8",
+                        "on-error-container": "#93000a",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#ffdcc3",
+                        "inverse-on-surface": "#f3f0f0",
+                        "secondary-fixed-dim": "#c7c6c4",
+                        "surface-container-high": "#eae7e7",
+                        "on-tertiary-container": "#fffbff",
+                        "on-tertiary-fixed": "#2f1500",
+                        "on-primary-fixed": "#002021",
+                        "error": "#ba1a1a",
+                        "surface-container": "#f0eded",
+                        "outline-variant": "#bfc8c8",
+                        "secondary": "#5e5f5d",
+                        "surface-container-low": "#f6f3f2",
+                        "surface-variant": "#e4e2e1",
+                        "surface-dim": "#dcd9d9",
+                        "on-tertiary": "#ffffff",
+                        "secondary-container": "#e0e0dd",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "on-background": "#1b1c1c",
+                        "on-primary-container": "#f2ffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#23686a",
+                        "surface-container-highest": "#e4e2e1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "12px",
+                        "md": "16px",
+                        "xl": "48px",
+                        "gutter": "20px",
+                        "xs": "4px",
+                        "container-max": "1200px",
+                        "lg": "24px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["\"Source Sans 3\""],
+                        "headline-md": ["\"Source Sans 3\""],
+                        "headline-lg": ["\"Source Sans 3\""],
+                        "body-md": ["\"Source Sans 3\""],
+                        "label-sm": ["\"Source Sans 3\""],
+                        "display": ["\"Source Sans 3\""],
+                        "label-md": ["\"Source Sans 3\""],
+                        "body-lg": ["\"Source Sans 3\""]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined.filled { font-variation-settings: 'FILL' 1; }
+    </style>
+</head>
+<body class="antialiased text-on-background flex h-screen overflow-hidden">
+<!-- Side Navigation (Docked for tablet landscape/desktop) -->
+<nav class="hidden md:flex bg-surface h-screen w-64 border-r border-outline-variant flex-col shrink-0 z-10 relative">
+<div class="p-lg border-b border-outline-variant">
+<h1 class="text-headline-md font-headline-md font-bold text-primary">NurseryLink</h1>
+<p class="text-label-md font-label-md text-secondary mt-1">Teacher: Sarah Jenkins</p>
+</div>
+<ul class="flex flex-col gap-2 p-md flex-1 overflow-y-auto">
+<li>
+<a class="flex items-center gap-3 p-3 rounded-lg bg-surface-container-high text-primary font-bold border-l-4 border-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="text-label-md font-label-md">Classrooms</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 p-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-label-md font-label-md">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 p-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="event_note">event_note</span>
+<span class="text-label-md font-label-md">Daily Logs</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 p-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="text-label-md font-label-md">Messages</span>
+</a>
+</li>
+</ul>
+<div class="p-md mt-auto border-t border-outline-variant flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high shrink-0">
+<img alt="Administrator Profile" class="w-full h-full object-cover" data-alt="A close up, professional portrait of a female nursery teacher with a warm, friendly smile, in a modern, light-filled educational setting. The lighting is soft and flattering, creating a bright and approachable aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOdfIo4ztnd9_wZlU2OjD-AGsR05YB8vhGBZXD-lTj6L-GXaZDg0iZ4Uju8h_G0IKWPxkmnXZYLB4vN53_VqTlP8bXEhzu-4scqcI99-rlaBFYCUcDZq7QubPYRAnaWE88q3Wxwcf4wnQebA8gEZFsgHXF4OA1JBukt7mpRbbjjuo7jZBxC20FCizvPw8wfN8xaOS6XdwoMw5k98oO_sO5ecYKkmbWoLjuae8bG3-nOf-VzxijLPe8rA"/>
+</div>
+<div>
+<p class="text-label-md font-label-md text-on-surface font-semibold">Sarah Jenkins</p>
+<p class="text-label-sm font-label-sm text-secondary">Lead Educator</p>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- Header / Top App Bar -->
+<header class="flex justify-between items-center w-full px-lg py-sm border-b border-outline-variant bg-surface shrink-0 z-10">
+<div>
+<h2 class="text-headline-lg font-headline-lg text-on-surface">Little Explorers</h2>
+<p class="text-body-md font-body-md text-secondary">Monday, Oct 24</p>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-12 h-12 rounded-full flex items-center justify-center text-secondary hover:bg-surface-container-high transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[28px]" data-icon="search">search</span>
+</button>
+<button class="w-12 h-12 rounded-full flex items-center justify-center text-secondary hover:bg-surface-container-high transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[28px]" data-icon="notifications">notifications</span>
+</button>
+<button class="bg-primary text-on-primary h-[56px] px-6 rounded-[10px] text-label-md font-label-md font-bold shadow-sm active:scale-95 transition-transform flex items-center gap-2 ml-2">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+                    Take the Register
+                </button>
+</div>
+</header>
+<!-- Roster Grid Container -->
+<div class="flex-1 overflow-y-auto bg-surface-container-lowest p-lg @container">
+<div class="grid grid-cols-2 @[800px]:grid-cols-3 @[1100px]:grid-cols-4 gap-gutter max-w-container-max mx-auto pb-xl">
+<!-- Card Template (Checked In) -->
+<article class="bg-surface border border-outline-variant rounded-xl relative overflow-hidden flex flex-col h-full active:bg-surface-container-low transition-colors cursor-pointer select-none group">
+<div class="absolute left-0 top-0 bottom-0 w-[4px] bg-primary"></div>
+<div class="p-md flex items-center gap-4 border-b border-outline-variant opacity-50">
+<div class="w-14 h-14 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-headline-md font-headline-md font-bold shrink-0">
+                            A
+                        </div>
+<div class="flex-1 min-w-0">
+<h3 class="text-body-lg font-body-lg font-semibold text-on-surface truncate">Amelia</h3>
+<p class="text-label-sm font-label-sm text-secondary truncate">08:15 AM Drop-off</p>
+</div>
+</div>
+<div class="p-md bg-surface-bright flex-1 flex flex-col justify-end">
+<div class="flex justify-between items-center px-2">
+<div class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined filled text-[28px]" data-icon="local_cafe">local_cafe</span>
+<span class="text-[10px] font-label-sm uppercase tracking-wider opacity-80">Brkfst</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-outline">
+<span class="material-symbols-outlined text-[28px]" data-icon="restaurant">restaurant</span>
+<span class="text-[10px] font-label-sm uppercase tracking-wider">Lunch</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-outline">
+<span class="material-symbols-outlined text-[28px]" data-icon="cookie">cookie</span>
+<span class="text-[10px] font-label-sm uppercase tracking-wider">Snack</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined filled text-[28px]" data-icon="thermostat">thermostat</span>
+<span class="text-[10px] font-label-sm uppercase tracking-wider opacity-80">Temp</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Card Template (Attention/Amber) -->
+<article class="bg-surface border border-outline-variant rounded-xl relative overflow-hidden flex flex-col h-full active:bg-surface-container-low transition-colors cursor-pointer select-none">
+<div class="absolute left-0 top-0 bottom-0 w-[4px] bg-tertiary-container"></div>
+<div class="absolute top-3 right-3">
+<span class="bg-tertiary-container/10 text-tertiary-container text-[11px] font-label-md px-2 py-1 rounded-full font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="warning">warning</span> Attention
+                         </span>
+</div>
+<div class="p-md flex items-center gap-4 border-b border-outline-variant opacity-50 pt-8">
+<div class="w-14 h-14 rounded-full bg-surface-container-highest text-secondary flex items-center justify-center text-headline-md font-headline-md font-bold shrink-0">
+                            B
+                        </div>
+<div class="flex-1 min-w-0">
+<h3 class="text-body-lg font-body-lg font-semibold text-on-surface truncate">Benjamin</h3>
+<p class="text-label-sm font-label-sm text-secondary truncate">Needs Medication</p>
+</div>
+</div>
+<div class="p-md bg-surface-bright flex-1 flex flex-col justify-end">
+<div class="flex justify-between items-center px-2">
+<div class="flex flex-col items-center gap-1 text-outline">
+<span class="material-symbols-outlined text-[28px]" data-icon="local_cafe">local_cafe</span>
+<span class="text-[10px] font-label-sm uppercase tracking-wider">Brkfst</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-outline">
+<span class="material-symbols-outlined text-[28px]" data-icon="restaurant">restaurant</span>
+<span class="text-[10px] font-label-sm uppercase tracking-wider">Lunch</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-outline">
+<span class="material-symbols-outlined text-[28px]" data-icon="cookie">cookie</span>
+<span class="text-[10px] font-label-sm uppercase tracking-wider">Snack</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-outline">
+<span class="material-symbols-outlined text-[28px]" data-icon="thermostat">thermostat</span>
+<span class="text-[10px] font-label-sm uppercase tracking-wider">Temp</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Generate more dummy cards to fill grid -->
+<script>
+                    const names = ["Charlotte", "Daniel", "Emma", "Finn", "Grace", "Henry", "Isabella", "Jack", "Lily", "Mason", "Nora", "Oliver", "Penelope", "Samuel", "Sophie", "Wyatt"];
+                    const statuses = [
+                        { status: 'primary', time: '08:05 AM Drop-off', b: true, l: false, s: false, t: true },
+                        { status: 'primary', time: '08:20 AM Drop-off', b: false, l: false, s: false, t: false },
+                        { status: 'outline-variant', time: 'Expected 09:00 AM', b: false, l: false, s: false, t: false },
+                        { status: 'primary', time: '07:55 AM Drop-off', b: true, l: true, s: false, t: true },
+                        { status: 'tertiary-container', time: 'Allergy Alert', b: true, l: false, s: false, t: false, badge: true },
+                        { status: 'primary', time: '08:30 AM Drop-off', b: false, l: false, s: false, t: true }
+                    ];
+
+                    const container = document.querySelector('.grid');
+                    names.forEach((name, i) => {
+                        const s = statuses[i % statuses.length];
+                        const initial = name.charAt(0);
+                        const bgClass = s.status === 'outline-variant' ? 'bg-surface-container-high' : (s.status === 'primary' ? 'bg-primary-container text-on-primary-container' : 'bg-surface-container-highest text-secondary');
+                        
+                        let badgeHtml = '';
+                        if (s.badge) {
+                             badgeHtml = `<div class="absolute top-3 right-3">
+                                 <span class="bg-tertiary-container/10 text-tertiary-container text-[11px] font-label-md px-2 py-1 rounded-full font-bold flex items-center gap-1">
+                                     <span class="material-symbols-outlined text-[14px]" data-icon="warning">warning</span> Attention
+                                 </span>
+                             </div>`;
+                        }
+
+                        const card = `
+                        <article class="bg-surface border border-outline-variant rounded-xl relative overflow-hidden flex flex-col h-full active:bg-surface-container-low transition-colors cursor-pointer select-none">
+                            <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-${s.status}"></div>
+                            ${badgeHtml}
+                            <div class="p-md flex items-center gap-4 border-b border-outline-variant opacity-50 ${s.badge ? 'pt-8' : ''}">
+                                <div class="w-14 h-14 rounded-full ${bgClass} flex items-center justify-center text-headline-md font-headline-md font-bold shrink-0">
+                                    ${initial}
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="text-body-lg font-body-lg font-semibold text-on-surface truncate">${name}</h3>
+                                    <p class="text-label-sm font-label-sm text-secondary truncate">${s.time}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="p-md bg-surface-bright flex-1 flex flex-col justify-end">
+                                 <div class="flex justify-between items-center px-2">
+                                     <div class="flex flex-col items-center gap-1 ${s.b ? 'text-primary' : 'text-outline'}">
+                                         <span class="material-symbols-outlined ${s.b ? 'filled' : ''} text-[28px]" data-icon="local_cafe">local_cafe</span>
+                                         <span class="text-[10px] font-label-sm uppercase tracking-wider ${s.b ? 'opacity-80' : ''}">Brkfst</span>
+                                     </div>
+                                     <div class="flex flex-col items-center gap-1 ${s.l ? 'text-primary' : 'text-outline'}">
+                                         <span class="material-symbols-outlined ${s.l ? 'filled' : ''} text-[28px]" data-icon="restaurant">restaurant</span>
+                                         <span class="text-[10px] font-label-sm uppercase tracking-wider ${s.l ? 'opacity-80' : ''}">Lunch</span>
+                                     </div>
+                                     <div class="flex flex-col items-center gap-1 ${s.s ? 'text-primary' : 'text-outline'}">
+                                         <span class="material-symbols-outlined ${s.s ? 'filled' : ''} text-[28px]" data-icon="cookie">cookie</span>
+                                         <span class="text-[10px] font-label-sm uppercase tracking-wider ${s.s ? 'opacity-80' : ''}">Snack</span>
+                                     </div>
+                                     <div class="flex flex-col items-center gap-1 ${s.t ? 'text-primary' : 'text-outline'}">
+                                         <span class="material-symbols-outlined ${s.t ? 'filled' : ''} text-[28px]" data-icon="thermostat">thermostat</span>
+                                         <span class="text-[10px] font-label-sm uppercase tracking-wider ${s.t ? 'opacity-80' : ''}">Temp</span>
+                                     </div>
+                                 </div>
+                            </div>
+                        </article>
+                        `;
+                        container.insertAdjacentHTML('beforeend', card);
+                    });
+                </script>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe border-t border-outline-variant bg-surface shadow-sm rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-label-sm font-label-sm mt-1">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="text-label-sm font-label-sm mt-1 font-bold">Classrooms</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="event_note">event_note</span>
+<span class="text-label-sm font-label-sm mt-1">Logs</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="text-label-sm font-label-sm mt-1">Messages</span>
+</a>
+</nav>
+<script>
+        // Simple script to handle visual click feedback on cards for touch devices
+        document.querySelectorAll('article').forEach(card => {
+            card.addEventListener('touchstart', () => {
+                card.classList.add('bg-surface-container-low');
+            }, {passive: true});
+            card.addEventListener('touchend', () => {
+                card.classList.remove('bg-surface-container-low');
+            }, {passive: true});
+        });
+    </script>
+</body></html>

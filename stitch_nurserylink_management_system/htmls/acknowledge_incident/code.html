@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>Incident Report - NurseryLink</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary-container": "#f2ffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-container": "#626361",
+                        "on-surface": "#1b1c1c",
+                        "outline-variant": "#bfc8c8",
+                        "on-surface-variant": "#3f4849",
+                        "on-background": "#1b1c1c",
+                        "primary-fixed": "#aceef0",
+                        "surface-container-low": "#f6f3f2",
+                        "tertiary": "#8d4b00",
+                        "surface-dim": "#dcd9d9",
+                        "on-primary": "#ffffff",
+                        "primary": "#1f6567",
+                        "tertiary-fixed": "#ffdcc3",
+                        "surface-container-highest": "#e4e2e1",
+                        "background": "#fcf9f8",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "on-primary-fixed-variant": "#004f51",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#c7c6c4",
+                        "surface-container-high": "#eae7e7",
+                        "surface": "#fcf9f8",
+                        "surface-bright": "#fcf9f8",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#e3e2e0",
+                        "on-tertiary-fixed": "#2f1500",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#464745",
+                        "on-primary-fixed": "#002021",
+                        "primary-container": "#3d7e80",
+                        "secondary-container": "#e0e0dd",
+                        "tertiary-container": "#b15f00",
+                        "outline": "#6f7979",
+                        "on-secondary-fixed": "#1a1c1a",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#e4e2e1",
+                        "inverse-primary": "#91d2d4",
+                        "inverse-on-surface": "#f3f0f0",
+                        "on-tertiary-container": "#fffbff",
+                        "tertiary-fixed-dim": "#ffb77d",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#91d2d4",
+                        "secondary": "#5e5f5d",
+                        "surface-tint": "#23686a",
+                        "on-error": "#ffffff",
+                        "surface-container": "#f0eded",
+                        "inverse-surface": "#303030"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "gutter": "20px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "container-max": "1200px",
+                        "sm": "12px",
+                        "xl": "48px",
+                        "lg": "24px",
+                        "base": "8px",
+                        "safe": "env(safe-area-inset-bottom, 16px)"
+                    },
+                    fontFamily: {
+                        "label-sm": ["\"Source Sans 3\""],
+                        "body-md": ["\"Source Sans 3\""],
+                        "headline-lg-mobile": ["\"Source Sans 3\""],
+                        "headline-md": ["\"Source Sans 3\""],
+                        "label-md": ["\"Source Sans 3\""],
+                        "body-lg": ["\"Source Sans 3\""],
+                        "display": ["\"Source Sans 3\""],
+                        "headline-lg": ["\"Source Sans 3\""]
+                    },
+                    fontSize: {
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Tactical Minimalist Border */
+        .record-card {
+            border: 1px solid #E8E6E1;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Status Stripe - Attention (Amber/Warning) */
+        .record-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #f59e0b; /* Amber */
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col antialiased md:hidden">
+<!-- Top App Bar (Task-focused, linear flow, back button) -->
+<header class="bg-surface w-full top-0 border-b border-outline-variant flex justify-between items-center w-full px-md py-xs sticky z-10">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors active:scale-95 duration-150 text-on-surface-variant">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="text-headline-md font-headline-md text-primary truncate mx-auto">Incident Report</h1>
+<div class="w-10"></div> <!-- Spacer for centering -->
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col px-md py-lg gap-lg overflow-y-auto pb-32">
+<!-- Context Header -->
+<div class="text-center space-y-sm mt-sm">
+<div class="w-20 h-20 mx-auto rounded-full overflow-hidden border-2 border-outline-variant shadow-sm">
+<img alt="Sophie's profile picture" class="w-full h-full object-cover" data-alt="A professional close up portrait photo of a cute toddler girl named Sophie, soft natural lighting, warm clinical approachability, light corporate background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1lO1rcc-Djp3kTLw9MnC4Zg_KUv0OH-LleHGTk4bP67CjsGf4iQp-NA2saxZYO3Vxeq3vxu2xEnRxU-nutYlG-Wk9a6m9rcNQKzTP1NlHosuSq-Ct39kQdMniobLIp8HWp6cpIM3TU_2X0Jyo8ma2BxxQje5JBGZkKzFJuhjGp7BrcMNBw4aM_FAK9PP9cW-hW-bX5b7qLSzZhSMmxSLj41w0ILkq2Q4Satmj5dq8QVyXkm2y4IxCNA"/>
+</div>
+<div>
+<h2 class="text-headline-lg-mobile font-headline-lg-mobile text-on-surface">Sophie</h2>
+<p class="text-body-md font-body-md text-on-surface-variant">Oct 24, 10:45 AM</p>
+</div>
+</div>
+<!-- The Record Card (Bento Style/Glassmorphism touch via background nuance) -->
+<div class="record-card bg-surface-container-lowest rounded-xl p-lg mt-md shadow-[0_4px_20px_rgba(45,45,45,0.02)]">
+<div class="flex items-start justify-between border-b border-outline-variant pb-md mb-md border-opacity-30">
+<div class="space-y-xs">
+<h3 class="text-label-md font-label-md text-on-surface uppercase tracking-wider">Incident</h3>
+<p class="text-body-lg font-body-lg text-on-surface font-semibold">Minor fall on playground</p>
+</div>
+<!-- Status Chip -->
+<div class="flex items-center gap-xs bg-[#f59e0b]/10 text-[#d97706] px-sm py-1 rounded-full border border-[#f59e0b]/20">
+<span class="material-symbols-outlined filled text-[16px]">healing</span>
+<span class="text-label-sm font-label-sm">Minor</span>
+</div>
+</div>
+<div class="space-y-md">
+<div class="space-y-xs">
+<h4 class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Description</h4>
+<p class="text-body-md font-body-md text-on-surface leading-relaxed">
+                        "Sophie tripped while running on the grass. She has a small scrape on her left knee which was cleaned and a plaster applied. She was brave and went back to playing quickly."
+                    </p>
+</div>
+<div class="pt-sm flex items-center gap-sm text-on-surface-variant border-t border-outline-variant border-opacity-30 pt-md mt-md">
+<span class="material-symbols-outlined text-[20px]">person</span>
+<span class="text-label-sm font-label-sm">Filed by Sarah J.</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Action Area (Sticky) -->
+<div class="fixed bottom-0 left-0 w-full bg-surface/95 backdrop-blur-md border-t border-outline-variant p-md pb-safe z-20">
+<button class="w-full bg-primary text-on-primary font-label-md text-label-md rounded-lg py-sm px-lg flex items-center justify-center gap-sm active:scale-[0.98] transition-transform duration-150 shadow-sm" id="ackButton">
+<span class="material-symbols-outlined filled text-[20px]">check_circle</span>
+            Acknowledge Report
+        </button>
+<p class="text-label-sm font-label-sm text-on-surface-variant text-center mt-sm opacity-80">
+            Acknowledging lets the nursery know you have received this report.
+        </p>
+</div>
+<!-- Note: BottomNavBar is intentionally suppressed as this is a linear/transactional sub-screen requiring user action, following the Shared Components Logic mandate. -->
+<script>
+        // Lightweight interaction for the acknowledge button
+        document.getElementById('ackButton').addEventListener('click', function() {
+            const btn = this;
+            btn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">sync</span> Processing...';
+            btn.classList.add('opacity-90');
+            
+            // Simulate network request
+            setTimeout(() => {
+                btn.innerHTML = '<span class="material-symbols-outlined filled text-[20px]">done_all</span> Acknowledged';
+                btn.classList.remove('bg-primary');
+                btn.classList.add('bg-[#3d7e80]', 'cursor-default'); // Primary Container color
+                
+                // Return to dashboard after short delay
+                setTimeout(() => {
+                    // Window.location.href = '/dashboard';
+                    console.log('Redirecting to dashboard...');
+                }, 1000);
+            }, 800);
+        });
+    </script>
+</body></html>

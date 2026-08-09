@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CareNode Admin - Create New Administrator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#1b1c1c",
+                        "on-tertiary-container": "#fffbff",
+                        "tertiary-fixed-dim": "#ffb77d",
+                        "on-surface-variant": "#3f4849",
+                        "surface-container": "#f0eded",
+                        "secondary": "#5e5f5d",
+                        "surface-variant": "#e4e2e1",
+                        "on-secondary-fixed": "#1a1c1a",
+                        "surface": "#fcf9f8",
+                        "secondary-fixed-dim": "#c7c6c4",
+                        "on-background": "#1b1c1c",
+                        "inverse-primary": "#91d2d4",
+                        "primary-container": "#3d7e80",
+                        "primary-fixed": "#aceef0",
+                        "surface-container-low": "#f6f3f2",
+                        "on-primary-fixed-variant": "#004f51",
+                        "surface-container-highest": "#e4e2e1",
+                        "tertiary-fixed": "#ffdcc3",
+                        "on-tertiary-fixed": "#2f1500",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "surface-tint": "#23686a",
+                        "inverse-on-surface": "#f3f0f0",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#303030",
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#626361",
+                        "secondary-fixed": "#e3e2e0",
+                        "surface-dim": "#dcd9d9",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#eae7e7",
+                        "primary-fixed-dim": "#91d2d4",
+                        "outline-variant": "#bfc8c8",
+                        "on-tertiary": "#ffffff",
+                        "background": "#fcf9f8",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#e0e0dd",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#464745",
+                        "outline": "#6f7979",
+                        "tertiary": "#8d4b00",
+                        "on-primary-fixed": "#002021",
+                        "on-primary-container": "#f2ffff",
+                        "primary": "#1f6567",
+                        "surface-bright": "#fcf9f8",
+                        "tertiary-container": "#b15f00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "20px",
+                        "container-max": "1200px",
+                        "lg": "24px",
+                        "xl": "48px",
+                        "xs": "4px",
+                        "sm": "12px",
+                        "md": "16px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["\"Source Sans 3\""],
+                        "label-md": ["\"Source Sans 3\""],
+                        "body-lg": ["\"Source Sans 3\""],
+                        "body-md": ["\"Source Sans 3\""],
+                        "display": ["\"Source Sans 3\""],
+                        "headline-lg-mobile": ["\"Source Sans 3\""],
+                        "headline-md": ["\"Source Sans 3\""],
+                        "headline-lg": ["\"Source Sans 3\""]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        }
+        
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #3d7e80;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #3d7e80;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-md antialiased flex flex-col md:flex-row">
+<!-- SideNavBar (Hidden on Mobile) -->
+<nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-surface dark:bg-inverse-surface border-r border-surface-variant dark:border-outline-variant py-lg px-md z-40 transition-colors duration-200 ease-in-out">
+<div class="mb-xl px-sm">
+<div class="flex items-center gap-sm">
+<img alt="Nursery Logo" class="w-10 h-10 object-contain rounded-lg" data-alt="A clean, minimalist logo icon for a modern nursery management platform, featuring soft geometric shapes in teal and off-white. The aesthetic is professional, corporate yet approachable, suitable for a clinical care setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_5bzTjdIt4rgMh5Ygwlw-HsTW5ylxX9PVnqBv7qGBlfsj7qY5rw03s-rfZ1self6X2xeuyZH_Gu2tbRw0DWaeA9gBiVJpItIu9tykTcbczi8CPYApWWZ3gCuW4Wcf3mm86Un3efxPOb7f9AYj8e-RSI44mN8hvSqkMrnHzRg6msfLNC5COHJbFmC7MgJQ8-3wHA4TsmtO1Vv2e0UGZziXcuaT9biOYV2gipVFZWtuuGNQb_Nv7HzfhQ"/>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">CareNode Admin</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant mt-xs">Oxford Central Nursery</p>
+</div>
+</div>
+</div>
+<button class="mb-lg w-full bg-primary text-on-primary font-label-md text-label-md py-sm px-md rounded-lg flex items-center justify-center gap-xs hover:bg-surface-tint transition-colors shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+            New Registration
+        </button>
+<div class="flex-1 flex flex-col gap-xs overflow-y-auto scrollbar-hide">
+<a class="flex items-center gap-sm py-sm px-sm rounded-lg text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:bg-surface-container dark:hover:bg-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-sm py-sm px-sm rounded-lg text-primary dark:text-primary-fixed-dim font-bold border-r-2 border-primary dark:border-primary-fixed-dim bg-surface-container-low font-label-md text-label-md transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">badge</span>
+                Staff Management
+            </a>
+<a class="flex items-center gap-sm py-sm px-sm rounded-lg text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:bg-surface-container dark:hover:bg-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">child_care</span>
+                Student Registry
+            </a>
+<a class="flex items-center gap-sm py-sm px-sm rounded-lg text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:bg-surface-container dark:hover:bg-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+                Staff Scheduling
+            </a>
+<a class="flex items-center gap-sm py-sm px-sm rounded-lg text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:bg-surface-container dark:hover:bg-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Operations
+            </a>
+</div>
+<div class="mt-auto flex flex-col gap-xs pt-lg border-t border-surface-variant dark:border-outline-variant">
+<a class="flex items-center gap-sm py-sm px-sm rounded-lg text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:bg-surface-container dark:hover:bg-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+                Support
+            </a>
+<a class="flex items-center gap-sm py-sm px-sm rounded-lg text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:bg-surface-container dark:hover:bg-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">logout</span>
+                Logout
+            </a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-64 min-h-screen">
+<!-- TopAppBar -->
+<header class="h-16 w-full sticky top-0 z-30 bg-surface dark:bg-inverse-surface border-b border-surface-variant dark:border-outline-variant transition-all duration-200 flex justify-between items-center px-lg">
+<div class="flex items-center gap-md">
+<div class="md:hidden flex items-center">
+<span class="material-symbols-outlined text-primary cursor-pointer">menu</span>
+</div>
+<h2 class="font-headline-md text-headline-md font-bold text-primary hidden lg:block">Administration Suite</h2>
+<div class="relative hidden md:flex items-center ml-lg">
+<span class="material-symbols-outlined absolute left-3 text-outline">search</span>
+<input class="bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 font-body-md text-body-md focus:ring-1 focus:ring-primary w-64" placeholder="Search..." type="text"/>
+</div>
+</div>
+<nav class="hidden md:flex gap-md h-full items-end">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary pb-4 px-2 transition-colors" href="#">Overview</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary pb-4 px-2 transition-colors" href="#">Reports</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary pb-4 px-2 transition-colors" href="#">Logs</a>
+</nav>
+<div class="flex items-center gap-sm">
+<button class="hidden md:flex items-center gap-xs px-md py-2 border border-outline-variant rounded-lg font-label-md text-label-md hover:bg-surface-container transition-colors">
+                    Export Data
+                </button>
+<button class="hidden md:flex items-center gap-xs px-md py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-surface-tint transition-colors">
+                    Add Entry
+                </button>
+<button class="p-2 text-on-surface-variant hover:text-primary rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary rounded-full hover:bg-surface-container transition-colors mr-2">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+<img alt="Administrator Profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A professional headshot of a female administrator in a clinical setting, wearing a modern muted teal scrub top. Soft lighting, neutral white background, conveying competence and calm." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXV1F8EgvJWFEWCe7GnCOt0gTicq-gwz-vmTggC_LDxnlUJa85m0i-rjgEdPZpw47TM11IN0MLB8LjEImD0v8nQ9noypSzH1CstuVBTSYSO_5DnDTUHaclXKmCpCicVT45xXMDA4ATzo0q1TQUuIKJ7ATBkKVsXK22dfQd5L8kYpd5kglvN_hBVfzdlfxZO01TAwtW9GcoBtg7BU2VK521eJ6IJUN-uJD2UpfUBboHzgXLkMZc88_OrQ"/>
+</div>
+</header>
+<!-- Page Canvas -->
+<main class="flex-1 p-md md:p-lg max-w-[container-max] mx-auto w-full">
+<div class="mb-lg">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-xs">Create New Administrator</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Provision a new administrative account and configure system access permissions.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Main Form Panel -->
+<div class="lg:col-span-8 bg-surface border border-surface-variant rounded-lg p-lg shadow-[0_4px_20px_rgba(45,45,45,0.02)]">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-md pb-xs border-b border-surface-variant">Account Details</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md mb-xl">
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface" for="fullName">Full Name</label>
+<input class="bg-surface-container-low border-b border-surface-variant rounded-t p-sm font-body-md text-body-md focus:outline-none focus:border-primary focus:bg-surface-container transition-colors" id="fullName" placeholder="e.g. Jane Doe" type="text"/>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface" for="emailAddr">Email Address</label>
+<input class="bg-surface-container-low border-b border-surface-variant rounded-t p-sm font-body-md text-body-md focus:outline-none focus:border-primary focus:bg-surface-container transition-colors" id="emailAddr" placeholder="jane.doe@oxfordnursery.com" type="email"/>
+</div>
+<div class="flex flex-col gap-xs md:col-span-2">
+<label class="font-label-md text-label-md text-on-surface" for="primaryRole">Primary Role Designation</label>
+<div class="relative">
+<select class="w-full bg-surface-container-low border-b border-surface-variant rounded-t p-sm pr-10 font-body-md text-body-md appearance-none focus:outline-none focus:border-primary focus:bg-surface-container transition-colors" id="primaryRole">
+<option disabled="" selected="" value="">Select a role...</option>
+<option value="admin_coordinator">Administrative Coordinator</option>
+<option value="hr_manager">HR &amp; Staffing Manager</option>
+<option value="records_officer">Records Officer</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 transform -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-md pb-xs border-b border-surface-variant">Access Permissions</h3>
+<div class="flex flex-col gap-0 border border-surface-variant rounded-lg overflow-hidden">
+<!-- Permission 1: Manage Teachers -->
+<div class="flex items-start justify-between p-md border-b border-surface-variant bg-surface hover:bg-surface-container-low transition-colors">
+<div class="pr-md">
+<div class="flex items-center gap-xs mb-xs">
+<span class="material-symbols-outlined text-outline text-sm">badge</span>
+<h4 class="font-label-md text-label-md text-on-surface">Manage Teachers</h4>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Add, edit, or remove teaching staff records and adjust schedules.</p>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in mt-1">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-outline-variant z-10 transition-all duration-300" id="toggle1" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-variant cursor-pointer transition-all duration-300" for="toggle1"></label>
+</div>
+</div>
+<!-- Permission 2: Manage Students/Classes -->
+<div class="flex items-start justify-between p-md border-b border-surface-variant bg-surface hover:bg-surface-container-low transition-colors">
+<div class="pr-md">
+<div class="flex items-center gap-xs mb-xs">
+<span class="material-symbols-outlined text-outline text-sm">child_care</span>
+<h4 class="font-label-md text-label-md text-on-surface">Manage Students/Classes</h4>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Assign students to classes, update medical records, and manage daily logs.</p>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in mt-1">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-outline-variant z-10 transition-all duration-300" id="toggle2" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-variant cursor-pointer transition-all duration-300" for="toggle2"></label>
+</div>
+</div>
+<!-- Permission 3: View Reports/Dashboard -->
+<div class="flex items-start justify-between p-md border-b border-surface-variant bg-surface hover:bg-surface-container-low transition-colors">
+<div class="pr-md">
+<div class="flex items-center gap-xs mb-xs">
+<span class="material-symbols-outlined text-outline text-sm">analytics</span>
+<h4 class="font-label-md text-label-md text-on-surface">View Reports/Dashboard</h4>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Access to aggregate facility data, attendance trends, and financial summaries.</p>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in mt-1">
+<input class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-outline-variant z-10 transition-all duration-300" id="toggle3" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-variant cursor-pointer transition-all duration-300" for="toggle3"></label>
+</div>
+</div>
+<!-- Permission 4: Manage Parents/Links (Disabled) -->
+<div class="flex items-start justify-between p-md border-b border-surface-variant bg-surface-container-low opacity-60">
+<div class="pr-md">
+<div class="flex items-center gap-xs mb-xs">
+<span class="material-symbols-outlined text-outline text-sm">family_restroom</span>
+<h4 class="font-label-md text-label-md text-on-surface-variant">Manage Parents/Links</h4>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Send communications and manage portal access for guardians.</p>
+<div class="mt-xs flex items-center gap-xs text-error font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+<span>You do not have permission to grant these capabilities.</span>
+</div>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none mt-1">
+<input class="absolute block w-6 h-6 rounded-full bg-surface-variant border-4 appearance-none cursor-not-allowed border-outline-variant z-10" disabled="" type="checkbox"/>
+<label class="block overflow-hidden h-6 rounded-full bg-surface-container-highest cursor-not-allowed"></label>
+</div>
+</div>
+<!-- Permission 5: Manage Other Administrators (Disabled) -->
+<div class="flex items-start justify-between p-md bg-surface-container-low opacity-60">
+<div class="pr-md">
+<div class="flex items-center gap-xs mb-xs">
+<span class="material-symbols-outlined text-outline text-sm">admin_panel_settings</span>
+<h4 class="font-label-md text-label-md text-on-surface-variant">Manage Other Administrators</h4>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Create, edit, or revoke access for other administrative accounts.</p>
+<div class="mt-xs flex items-center gap-xs text-error font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+<span>You do not have permission to grant these capabilities.</span>
+</div>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none mt-1">
+<input class="absolute block w-6 h-6 rounded-full bg-surface-variant border-4 appearance-none cursor-not-allowed border-outline-variant z-10" disabled="" type="checkbox"/>
+<label class="block overflow-hidden h-6 rounded-full bg-surface-container-highest cursor-not-allowed"></label>
+</div>
+</div>
+</div>
+<div class="mt-xl flex justify-end gap-sm border-t border-surface-variant pt-md">
+<button class="px-lg py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container transition-colors border border-transparent">
+                            Cancel
+                        </button>
+<button class="px-lg py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-surface-tint transition-colors shadow-sm">
+                            Create Administrator
+                        </button>
+</div>
+</div>
+<!-- Context/Summary Sidebar -->
+<div class="lg:col-span-4 flex flex-col gap-md">
+<div class="bg-surface-container-lowest border border-surface-variant rounded-lg p-lg shadow-[0_4px_20px_rgba(45,45,45,0.02)] relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex items-center gap-sm mb-md">
+<span class="material-symbols-outlined text-primary bg-primary-container/20 p-2 rounded-full">security</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Active Profile Summary</h3>
+</div>
+<div class="font-body-md text-body-md text-on-surface-variant space-y-md">
+<p>The new administrator will receive an automated email invitation to set their password upon creation.</p>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface mb-xs">Granted Capabilities:</h4>
+<ul class="list-disc list-inside space-y-xs ml-xs text-sm">
+<li>Manage Teachers</li>
+<li>Manage Students/Classes</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

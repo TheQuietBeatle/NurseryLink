@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>NurseryLink Alerts</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-container": "#f2ffff",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-container": "#626361",
+                      "on-surface": "#1b1c1c",
+                      "outline-variant": "#bfc8c8",
+                      "on-surface-variant": "#3f4849",
+                      "on-background": "#1b1c1c",
+                      "primary-fixed": "#aceef0",
+                      "surface-container-low": "#f6f3f2",
+                      "tertiary": "#8d4b00",
+                      "surface-dim": "#dcd9d9",
+                      "on-primary": "#ffffff",
+                      "primary": "#1f6567",
+                      "tertiary-fixed": "#ffdcc3",
+                      "surface-container-highest": "#e4e2e1",
+                      "background": "#fcf9f8",
+                      "on-tertiary-fixed-variant": "#6e3900",
+                      "on-primary-fixed-variant": "#004f51",
+                      "error": "#ba1a1a",
+                      "secondary-fixed-dim": "#c7c6c4",
+                      "surface-container-high": "#eae7e7",
+                      "surface": "#fcf9f8",
+                      "surface-bright": "#fcf9f8",
+                      "on-tertiary": "#ffffff",
+                      "secondary-fixed": "#e3e2e0",
+                      "on-tertiary-fixed": "#2f1500",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed-variant": "#464745",
+                      "on-primary-fixed": "#002021",
+                      "primary-container": "#3d7e80",
+                      "secondary-container": "#e0e0dd",
+                      "tertiary-container": "#b15f00",
+                      "outline": "#6f7979",
+                      "on-secondary-fixed": "#1a1c1a",
+                      "on-secondary": "#ffffff",
+                      "surface-variant": "#e4e2e1",
+                      "inverse-primary": "#91d2d4",
+                      "inverse-on-surface": "#f3f0f0",
+                      "on-tertiary-container": "#fffbff",
+                      "tertiary-fixed-dim": "#ffb77d",
+                      "on-error-container": "#93000a",
+                      "primary-fixed-dim": "#91d2d4",
+                      "secondary": "#5e5f5d",
+                      "surface-tint": "#23686a",
+                      "on-error": "#ffffff",
+                      "surface-container": "#f0eded",
+                      "inverse-surface": "#303030"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "20px",
+                      "md": "16px",
+                      "xs": "4px",
+                      "container-max": "1200px",
+                      "sm": "12px",
+                      "xl": "48px",
+                      "lg": "24px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "label-sm": [
+                              "\"Source Sans 3\""
+                      ],
+                      "body-md": [
+                              "\"Source Sans 3\""
+                      ],
+                      "headline-lg-mobile": [
+                              "\"Source Sans 3\""
+                      ],
+                      "headline-md": [
+                              "\"Source Sans 3\""
+                      ],
+                      "label-md": [
+                              "\"Source Sans 3\""
+                      ],
+                      "body-lg": [
+                              "\"Source Sans 3\""
+                      ],
+                      "display": [
+                              "\"Source Sans 3\""
+                      ],
+                      "headline-lg": [
+                              "\"Source Sans 3\""
+                      ]
+              },
+              "fontSize": {
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="w-full top-0 bg-surface border-b border-outline-variant flex justify-between items-center px-md py-xs sticky z-40">
+<div class="flex items-center gap-sm">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="A small, circular profile picture of a young child smiling, set against a soft, light background, in a modern, professional nursery management app context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxFVND2aa0PNLyMrZe4w5l9_unNhLN6-gszKlbFTunRVrcw_Dw1xd7JERXEGX7nJXc4Wyu3ycNOp_Oolx0jTJTf3JNCQ8I4zdeyDvSac7HjAzuhEm280fqsYDVMC-a1_705hpbgjb64IGrf5Oo1GEPqfjzCgZ8kqG-5LMXGKDV92i-3ADMg40eUn9D3w2g7eTzwOPqLJFqbcGLJTDnRw6-uys5P13JRJY7CrSqqGNkjSgobnW-lGGOyw"/>
+<h1 class="text-headline-md font-headline-md text-primary">NurseryLink</h1>
+</div>
+<button class="active:scale-95 transition-transform duration-150 p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full">
+<span class="material-symbols-outlined" data-icon="notifications" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+</header>
+<main class="max-w-container-max mx-auto w-full px-md py-lg md:px-lg mt-4">
+<div class="flex justify-between items-end mb-lg border-b border-outline-variant pb-xs">
+<h2 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg-mobile md:font-headline-lg text-on-surface flex items-center gap-2">
+                Alerts
+                <span class="bg-primary text-on-primary text-label-sm font-label-sm px-2 py-0.5 rounded-full flex items-center justify-center">3</span>
+</h2>
+<button class="text-primary text-label-md font-label-md active:scale-95 transition-transform duration-150">Mark all read</button>
+</div>
+<div class="flex flex-col gap-sm">
+<!-- Fever Alert - Unread -->
+<div class="bg-error-container/30 border-l-4 border-error border-y border-r border-outline-variant rounded-r-lg p-lg relative shadow-[0_4px_20px_rgba(45,45,45,0.02)]">
+<div class="absolute top-4 right-4 w-2 h-2 rounded-full bg-error"></div>
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error" data-icon="device_thermostat">device_thermostat</span>
+<span class="text-label-sm font-label-sm text-error uppercase tracking-wider">Fever Alert</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">10m ago</span>
+</div>
+<h3 class="text-body-lg font-body-lg text-on-surface mb-1">Sophie</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">High temperature detected: 38.4°C</p>
+<div class="mt-4 flex gap-2">
+<button class="bg-error text-on-error text-label-md font-label-md px-4 py-2 rounded-[10px] active:scale-95 transition-transform">Acknowledge</button>
+</div>
+</div>
+<!-- Attention Alert - Unread -->
+<div class="bg-tertiary-container/10 border-l-4 border-tertiary-container border-y border-r border-outline-variant rounded-r-lg p-lg relative shadow-[0_4px_20px_rgba(45,45,45,0.02)]">
+<div class="absolute top-4 right-4 w-2 h-2 rounded-full bg-tertiary-container"></div>
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-container" data-icon="restaurant">restaurant</span>
+<span class="text-label-sm font-label-sm text-tertiary-container uppercase tracking-wider">Attention</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">1h ago</span>
+</div>
+<h3 class="text-body-lg font-body-lg text-on-surface mb-1">Sophie</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Sophie has refused lunch for 3 consecutive days</p>
+</div>
+<!-- Incident Report - Unread -->
+<div class="bg-surface border-l-4 border-error border-y border-r border-outline-variant rounded-r-lg p-lg relative shadow-[0_4px_20px_rgba(45,45,45,0.02)]">
+<div class="absolute top-4 right-4 w-2 h-2 rounded-full bg-error"></div>
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error" data-icon="personal_injury">personal_injury</span>
+<span class="text-label-sm font-label-sm text-error uppercase tracking-wider">Incident Report</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">2h ago</span>
+</div>
+<h3 class="text-body-lg font-body-lg text-on-surface mb-1">Sophie</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Minor fall on playground</p>
+<div class="mt-4 flex gap-2">
+<button class="bg-[#4A8B8D] text-white text-label-md font-label-md px-4 py-2 rounded-[10px] active:scale-95 transition-transform">Acknowledge</button>
+</div>
+</div>
+<!-- Read notification - Gallery -->
+<div class="bg-surface-container-low border border-outline-variant rounded-lg p-lg opacity-80">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="photo_library">photo_library</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Update</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">4h ago</span>
+</div>
+<h3 class="text-body-lg font-body-lg text-on-surface mb-1">Sophie</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">New photo added to gallery</p>
+</div>
+<!-- Read notification - Arrival -->
+<div class="bg-surface-container-low border border-outline-variant rounded-lg p-lg opacity-80">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="login">login</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Update</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">8h ago</span>
+</div>
+<h3 class="text-body-lg font-body-lg text-on-surface mb-1">Sophie</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Arrival recorded</p>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) - Suppressed as Alerts is a focused task/sub-view, but keeping as it's a top level destination for parents in this context -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-safe bg-surface border-t border-outline-variant md:hidden">
+<button class="flex flex-col items-center justify-center text-on-secondary-container p-2 hover:bg-surface-container-high active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="event_note">event_note</span>
+<span class="text-label-sm font-label-sm">Feed</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-secondary-container p-2 hover:bg-surface-container-high active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="photo_library">photo_library</span>
+<span class="text-label-sm font-label-sm">Gallery</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-secondary-container p-2 hover:bg-surface-container-high active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="text-label-sm font-label-sm">Messages</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-secondary-container p-2 hover:bg-surface-container-high active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="text-label-sm font-label-sm">Profile</span>
+</button>
+</nav>
+</body></html>
