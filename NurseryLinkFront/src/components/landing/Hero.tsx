@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import lockupUrl from '../../assets/nurserylink-lockup.png'
 
 export function Hero() {
@@ -39,13 +40,12 @@ export function Hero() {
           className="reveal mt-8 flex flex-col items-stretch justify-center gap-3 sm:mt-10 sm:flex-row sm:items-center"
           style={{ animationDelay: '280ms' }}
         >
-          <button
-            onClick={() => alert('Sign in / Register')}
+          <Link
+            to="/sign-in"
             className="rounded-lg bg-teal-700 px-7 py-3.5 text-center text-sm font-semibold text-paper shadow-card transition-all duration-200 ease-[var(--ease-out-soft)] hover:-translate-y-0.5 hover:bg-teal-900 hover:shadow-lift active:translate-y-0"
           >
-                     Sign in / Register
-
-          </button>
+            Sign in / Register
+          </Link>
           <a
             href="#learnmore"
             className="group rounded-lg border border-rule bg-paper-raised px-7 py-3.5 text-center text-sm font-semibold text-teal-900 transition-all duration-200 ease-[var(--ease-out-soft)] hover:-translate-y-0.5 hover:border-teal-300 hover:shadow-card"

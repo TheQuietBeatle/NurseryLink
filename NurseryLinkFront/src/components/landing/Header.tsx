@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Logo } from './Logo'
 
 const NAV = [
@@ -62,12 +63,12 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <button  onClick={() => alert('Sign in / Register')}
+          <Link
+            to="/sign-in"
             className="hidden rounded-lg bg-teal-700 px-4 py-2.5 text-[0.8125rem] font-semibold text-paper shadow-card transition-all duration-200 hover:-translate-y-px hover:bg-teal-900 hover:shadow-lift sm:inline-block"
           >
-                     Sign in / Register
-
-          </button>
+            Sign in / Register
+          </Link>
 
           <button
             type="button"
