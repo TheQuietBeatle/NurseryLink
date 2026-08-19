@@ -1,6 +1,15 @@
 import { Link } from 'react-router-dom'
 import { Logo } from '../landing/Logo'
 import background from '../../assets/cdc-gsRi9cWCIB0-unsplash.jpg'
+
+type OAuthProvider = 'google' | 'apple'
+
+function getOAuthUrl(provider: OAuthProvider) {
+  const authBaseUrl = import.meta.env.VITE_AUTH_BASE_URL?.trim().replace(/\/+$/, '') ?? ''
+
+  return `${authBaseUrl}/auth/${provider}`
+}
+
 function SignInHeader() {
   return (
     <header className="sticky top-0  h-30 sm:h-20 z-50 border-b border-rule/80 bg-paper/85 backdrop-blur-md">
@@ -16,6 +25,10 @@ function SignInHeader() {
 }
 
 export function SignIn() {
+  const handleOAuthSignIn = (provider: OAuthProvider) => {
+    window.location.assign(getOAuthUrl(provider))
+  }
+
     
   return (
     <>
@@ -119,6 +132,8 @@ export function SignIn() {
           <div className="flex gap-3">
             <button
               type="button"
+              onClick={() => handleOAuthSignIn('google')}
+              aria-label="Sign in with Google"
               className="flex h-11 flex-1 items-center justify-center gap-2 rounded-lg border border-rule bg-paper text-sm font-medium text-ink transition-colors duration-200 hover:border-teal-300"
             >
               <svg width={16} height={16} viewBox="0 0 512 512" aria-hidden="true">
@@ -131,6 +146,8 @@ export function SignIn() {
             </button>
             <button
               type="button"
+              onClick={() => handleOAuthSignIn('apple')}
+              aria-label="Sign in with Apple"
               className="flex h-11 flex-1 items-center justify-center gap-2 rounded-lg border border-rule bg-paper text-sm font-medium text-ink transition-colors duration-200 hover:border-teal-300"
             >
               <svg height={16} width={16} viewBox="0 0 22.773 22.773" aria-hidden="true">
