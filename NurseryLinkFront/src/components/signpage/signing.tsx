@@ -1,13 +1,52 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Logo } from '../landing/Logo'
 import background from '../../assets/cdc-gsRi9cWCIB0-unsplash.jpg'
 
 type OAuthProvider = 'google' | 'apple'
 
-function getOAuthUrl(provider: OAuthProvider) {
-  const authBaseUrl = import.meta.env.VITE_AUTH_BASE_URL?.trim().replace(/\/+$/, '') ?? ''
+function getRedirectUri() {
+  return import.meta.env.VITE_AUTH_REDIRECT_URI?.trim() || `${window.location.origin}/sign-in`
+}
 
-  return `${authBaseUrl}/auth/${provider}`
+function getGoogleOAuthUrl() {
+  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID?.trim()
+
+  if (!clientId) {
+    return null
+  }
+
+  const params = new URLSearchParams({
+    client_id: clientId,
+    redirect_uri: getRedirectUri(),
+    response_type: 'token',
+    scope: 'openid email profile',
+    prompt: 'select_account',
+  })
+
+  return `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`
+}
+
+function getAppleOAuthUrl() {
+  const clientId = import.meta.env.VITE_APPLE_CLIENT_ID?.trim()
+
+  if (!clientId) {
+    return null
+  }
+
+  const params = new URLSearchParams({
+    client_id: clientId,
+    redirect_uri: getRedirectUri(),
+    response_type: 'code id_token',
+    response_mode: 'fragment',
+    scope: 'name email',
+  })
+
+  return `https://appleid.apple.com/auth/authorize?${params.toString()}`
+}
+
+function getOAuthUrl(provider: OAuthProvider) {
+  return provider === 'google' ? getGoogleOAuthUrl() : getAppleOAuthUrl()
 }
 
 function SignInHeader() {
@@ -25,8 +64,19 @@ function SignInHeader() {
 }
 
 export function SignIn() {
+  const [oauthError, setOauthError] = useState('')
+
   const handleOAuthSignIn = (provider: OAuthProvider) => {
-    window.location.assign(getOAuthUrl(provider))
+    const oauthUrl = getOAuthUrl(provider)
+
+    if (!oauthUrl) {
+      setOauthError(
+        `Add ${provider === 'google' ? 'VITE_GOOGLE_CLIENT_ID' : 'VITE_APPLE_CLIENT_ID'} to enable ${provider} sign-in.`,
+      )
+      return
+    }
+
+    window.location.assign(oauthUrl)
   }
 
     
@@ -157,6 +207,12 @@ export function SignIn() {
               Apple
             </button>
           </div>
+
+          {oauthError ? (
+            <p className="rounded-lg border border-coral/30 bg-coral-soft px-3 py-2 text-center text-[0.8125rem] font-medium text-ink">
+              {oauthError}
+            </p>
+          ) : null}
         </form>
       </div>
 
