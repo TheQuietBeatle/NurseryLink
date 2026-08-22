@@ -1,0 +1,119 @@
+{
+  "info": {
+    "name": "NurseryLink Backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check - GET /",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": ["{{baseUrl}}"],
+          "path": [""]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Body says Hello World!', function () {",
+              "    pm.expect(pm.response.text()).to.eql('Hello World!');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Account - POST /account (valid)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"jane.doe.{{$randomInt}}\",\n  \"full_name\": \"Jane Doe\",\n  \"email\": \"jane.doe+{{$randomInt}}@example.com\",\n  \"password\": \"Sup3rSecret!\",\n  \"role\": \"parent\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/account",
+          "host": ["{{baseUrl}}"],
+          "path": ["account"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Body confirms creation', function () {",
+              "    pm.expect(pm.response.text()).to.eql('Account created successfully');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Account - POST /account (missing fields)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Missing Fields\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/account",
+          "host": ["{{baseUrl}}"],
+          "path": ["account"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 500 (DB rejects missing required columns)', function () {",
+              "    pm.response.to.have.status(500);",
+              "});",
+              "",
+              "pm.test('Body reports an error', function () {",
+              "    pm.expect(pm.response.text()).to.eql('Error creating account');",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
