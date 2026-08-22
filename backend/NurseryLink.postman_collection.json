@@ -114,6 +114,194 @@
           }
         }
       ]
+    },
+    {
+      "name": "Get Account - GET /account/id/:id (existing)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/account/id/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["account", "id", "1"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Response is an array with one account', function () {",
+              "    const body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array').with.lengthOf(1);",
+              "});",
+              "",
+              "pm.test('Account has expected fields', function () {",
+              "    const account = pm.response.json()[0];",
+              "    pm.expect(account).to.have.property('id', '1');",
+              "    pm.expect(account).to.have.property('username');",
+              "    pm.expect(account).to.have.property('full_name');",
+              "    pm.expect(account).to.have.property('email');",
+              "    pm.expect(account).to.have.property('role');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Account - GET /account/id/:id (nonexistent)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/account/id/999999",
+          "host": ["{{baseUrl}}"],
+          "path": ["account", "id", "999999"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Response is an empty array', function () {",
+              "    pm.expect(pm.response.json()).to.eql([]);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Account - GET /account/id/:id (invalid id)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/account/id/abc",
+          "host": ["{{baseUrl}}"],
+          "path": ["account", "id", "abc"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 500 (non-numeric id rejected by DB)', function () {",
+              "    pm.response.to.have.status(500);",
+              "});",
+              "",
+              "pm.test('Error mentions invalid bigint input', function () {",
+              "    pm.expect(pm.response.text()).to.include('invalid input syntax for type bigint');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search Accounts - GET /account/role/:role (parent)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/account/role/parent",
+          "host": ["{{baseUrl}}"],
+          "path": ["account", "role", "parent"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Response is a non-empty array of parents', function () {",
+              "    const body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array').that.is.not.empty;",
+              "    body.forEach((account) => pm.expect(account.role).to.eql('parent'));",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search Accounts - GET /account/role/:role (teacher)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/account/role/teacher",
+          "host": ["{{baseUrl}}"],
+          "path": ["account", "role", "teacher"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Response is a non-empty array of teachers', function () {",
+              "    const body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array').that.is.not.empty;",
+              "    body.forEach((account) => pm.expect(account.role).to.eql('teacher'));",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search Accounts - GET /account/role/:role (nonexistent role)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/account/role/bogus",
+          "host": ["{{baseUrl}}"],
+          "path": ["account", "role", "bogus"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Response is an empty array', function () {",
+              "    pm.expect(pm.response.json()).to.eql([]);",
+              "});"
+            ]
+          }
+        }
+      ]
     }
   ]
 }

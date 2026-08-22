@@ -1,7 +1,9 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import type { FormEvent } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { Logo } from '../landing/Logo'
 import background from '../../assets/cdc-gsRi9cWCIB0-unsplash.jpg'
+import { ApiError, login } from '../../lib/api'
 
 type OAuthProvider = 'google' | 'apple'
 
@@ -64,7 +66,13 @@ function SignInHeader() {
 }
 
 export function SignIn() {
+  const navigate = useNavigate()
   const [oauthError, setOauthError] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loginError, setLoginError] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [welcomeMessage, setWelcomeMessage] = useState('')
 
   const handleOAuthSignIn = (provider: OAuthProvider) => {
     const oauthUrl = getOAuthUrl(provider)
@@ -79,7 +87,29 @@ export function SignIn() {
     window.location.assign(oauthUrl)
   }
 
-    
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setLoginError('')
+    setIsSubmitting(true)
+
+    try {
+      const account = await login(email, password)
+      localStorage.setItem('account', JSON.stringify(account))
+
+      if (account.role === 'parent') {
+        navigate('/parent')
+        return
+      }
+
+      setWelcomeMessage(`Welcome back, ${account.full_name}! (role: ${account.role})`)
+    } catch (error) {
+      setLoginError(error instanceof ApiError ? error.message : 'Could not reach the server. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+
   return (
     <>
       <SignInHeader />
@@ -97,7 +127,7 @@ export function SignIn() {
           Sign in to your NurseryLink account.
         </p>
 
-        <form className="mt-8 flex flex-col gap-4">
+        <form className="mt-8 flex flex-col gap-4" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="email" className="text-[0.8125rem] font-semibold text-teal-900">
               Email
@@ -116,6 +146,9 @@ export function SignIn() {
               <input
                 id="email"
                 type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                required
                 placeholder="Enter your email"
                 autoComplete="email"
                 className="h-11 w-full bg-transparent text-sm text-ink placeholder:text-ink-soft/70 focus:outline-none"
@@ -142,6 +175,9 @@ export function SignIn() {
               <input
                 id="password"
                 type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                required
                 placeholder="Enter your password"
                 autoComplete="current-password"
                 className="h-11 w-full bg-transparent text-sm text-ink placeholder:text-ink-soft/70 focus:outline-none"
@@ -159,11 +195,24 @@ export function SignIn() {
             </a>
           </div>
 
+          {loginError ? (
+            <p className="rounded-lg border border-coral/30 bg-coral-soft px-3 py-2 text-center text-[0.8125rem] font-medium text-ink">
+              {loginError}
+            </p>
+          ) : null}
+
+          {welcomeMessage ? (
+            <p className="rounded-lg border border-teal-300/50 bg-teal-50 px-3 py-2 text-center text-[0.8125rem] font-medium text-teal-900">
+              {welcomeMessage}
+            </p>
+          ) : null}
+
           <button
             type="submit"
-            className="mt-2 inline-block rounded-lg bg-teal-700 px-8 py-3.5 text-sm font-semibold text-paper shadow-card transition-all duration-200 ease-out-soft hover:-translate-y-0.5 hover:bg-teal-900 hover:shadow-lift active:translate-y-0"
+            disabled={isSubmitting}
+            className="mt-2 inline-block rounded-lg bg-teal-700 px-8 py-3.5 text-sm font-semibold text-paper shadow-card transition-all duration-200 ease-out-soft hover:-translate-y-0.5 hover:bg-teal-900 hover:shadow-lift active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Sign In
+            {isSubmitting ? 'Signing in…' : 'Sign In'}
           </button>
 
           <p className="text-center text-[0.8125rem] text-ink-soft">

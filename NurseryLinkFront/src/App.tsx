@@ -1,11 +1,12 @@
 import { Routes, Route } from 'react-router-dom'
-import { Header } from './components/landing/Header'
+import { Header } from './components/parents/Header'
 import { Hero } from './components/landing/Hero'
 import { TrustBar } from './components/landing/TrustBar'
 
 import { CtaPanel } from './components/landing/CtaPanel'
 import { Footer } from './components/landing/Footer'
 import { SignIn } from './components/signpage/signing'
+import { ParentDashboard } from './components/parents/ParentDashboard'
 
 function Landing() {
   return (
@@ -37,6 +38,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/parent" element={<ParentDashboard />} />
       </Routes>
     </>
   )

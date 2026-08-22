@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { Logo } from '../landing/Logo'
+import type { Account } from '../../lib/api'
 
 const NAV = [
-  { label: 'Products', href: '#products' },
-  { label: 'Solutions', href: '#solutions' },
-  { label: 'Pricing', href: '#pricing' },
-  { label: 'Contact Us', href: '#contact' },
+  { label: 'Temperature History', href: '#temperature_history' },
+  { label: 'Incident History', href: '#incident_history' },
+  { label: 'Meal History', href: '#meal_history' },
+  { label: 'Supply History', href: '#supply_history' },
 ]
 
-export function Header() {
+export function Header({ account }: { account?: Account }) {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -63,12 +63,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link
-            to="/sign-in"
-            className="hidden rounded-lg bg-teal-700 px-4 py-2.5 text-[0.8125rem] font-semibold text-paper shadow-card transition-all duration-200 hover:-translate-y-px hover:bg-teal-900 hover:shadow-lift sm:inline-block"
-          >
-            Sign in / Register
-          </Link>
+         {account ? <p>{account.full_name}</p> : <p>Sign in / Register</p>}
 
           <button
             type="button"
