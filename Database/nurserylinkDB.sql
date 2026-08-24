@@ -14,6 +14,7 @@ DROP TABLE IF EXISTS incidient_report CASCADE;
 DROP TABLE IF EXISTS notifications CASCADE;
 DROP TABLE IF EXISTS child_parent CASCADE;
 DROP TABLE IF EXISTS parent CASCADE;
+DROP TABLE IF EXISTS teacher_class CASCADE; -- NEW Many-to-Many Join Table
 DROP TABLE IF EXISTS teacher CASCADE;
 DROP TABLE IF EXISTS child CASCADE;
 DROP TABLE IF EXISTS class CASCADE;
@@ -48,11 +49,11 @@ CREATE TABLE priviliedge (
 CREATE TABLE admin_previlledge (
     id BIGSERIAL PRIMARY KEY,
     account_id BIGINT NOT NULL,
-    priveldge VARCHAR(50),
+    privilege_id BIGINT NOT NULL, -- Changed from VARCHAR(50)
     assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (account_id) REFERENCES account(id)
+    FOREIGN KEY (account_id) REFERENCES account(id),
+    FOREIGN KEY (privilege_id) REFERENCES priviliedge(id) -- New Foreign Key
 );
-
 -- Class table
 CREATE TABLE class (
     id BIGSERIAL PRIMARY KEY,
@@ -62,18 +63,26 @@ CREATE TABLE class (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Teacher table (NEW: gender column)
+-- Teacher table (UPDATED: removed class_id for many-to-many relationship)
 CREATE TABLE teacher (
     id BIGSERIAL PRIMARY KEY,
     account_id BIGINT NOT NULL,
-    class_id BIGINT,
     gender VARCHAR(10) CHECK (gender IN ('male', 'female', 'other')),
     assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (account_id) REFERENCES account(id),
+    FOREIGN KEY (account_id) REFERENCES account(id)
+);
+
+-- Teacher-Class join table (NEW: Many-to-Many relationship)
+CREATE TABLE teacher_class (
+    teacher_id BIGINT NOT NULL,
+    class_id BIGINT NOT NULL,
+    assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (teacher_id, class_id),
+    FOREIGN KEY (teacher_id) REFERENCES teacher(id),
     FOREIGN KEY (class_id) REFERENCES class(id)
 );
 
--- Parent table (NEW: gender column)
+-- Parent table 
 CREATE TABLE parent (
     id BIGSERIAL PRIMARY KEY,
     account_id BIGINT NOT NULL,
@@ -83,7 +92,7 @@ CREATE TABLE parent (
     FOREIGN KEY (account_id) REFERENCES account(id)
 );
 
--- Child table (NEW: name column)
+-- Child table 
 CREATE TABLE child (
     id BIGSERIAL PRIMARY KEY,
     parent_id BIGINT NOT NULL,
@@ -98,8 +107,7 @@ CREATE TABLE child (
     FOREIGN KEY (class_id) REFERENCES class(id)
 );
 
--- Child-Parent join table (a child can have multiple parents/guardians,
--- a parent can have multiple children)
+-- Child-Parent join table 
 CREATE TABLE child_parent (
     child_id BIGINT NOT NULL,
     parent_id BIGINT NOT NULL,
@@ -122,7 +130,7 @@ CREATE TABLE attendance_records (
     FOREIGN KEY (admin_id) REFERENCES account(id)
 );
 
--- Activity Logs
+-- Activity Logs (UPDATED: Replaced specific activity details with a JSONB column)
 CREATE TABLE activity_logs (
     id BIGSERIAL PRIMARY KEY,
     account_id BIGINT NOT NULL,
@@ -130,13 +138,7 @@ CREATE TABLE activity_logs (
     activity_timestamp TIMESTAMP NOT NULL,
     recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     comments VARCHAR(255),
-    food_portion VARCHAR(50),
-    meal_type VARCHAR(50),
-    degree_celsius FLOAT,
-    toilet_type VARCHAR(50),
-    sleep_duration_minutes INT,
-    medication_name VARCHAR(100),
-    dosage VARCHAR(50),
+    log_details JSONB, -- <--- Replaces all the individual property columns
     FOREIGN KEY (account_id) REFERENCES account(id)
 );
 
@@ -219,11 +221,14 @@ CREATE TABLE notifications (
     FOREIGN KEY (account_id) REFERENCES account(id)
 );
 
+
 -- ======================================================
 -- 2. INSERT DUMMY DATA WITH REALISTIC TIMESTAMPS
 -- ======================================================
 
--- Insert Parents (30 parents = 15 couples, same last name per couple)
+-- ... [Account, Parent, Child insert statements remain unchanged] ...
+
+-- Insert Parents 
 INSERT INTO account (username, full_name, email, password, role, is_active, created_at) VALUES
 ('john.smith', 'John Smith', 'john.smith@email.com', 'hashed_pw_1', 'parent', true, '2024-01-15 08:30:00'),
 ('sarah.smith', 'Sarah Smith', 'sarah.smith@email.com', 'hashed_pw_2', 'parent', true, '2024-01-15 09:15:00'),
@@ -256,7 +261,6 @@ INSERT INTO account (username, full_name, email, password, role, is_active, crea
 ('kevin.thomas', 'Kevin Thomas', 'kevin.thomas@email.com', 'hashed_pw_29', 'parent', true, '2025-03-01 09:00:00'),
 ('kimberly.thomas', 'Kimberly Thomas', 'kimberly.thomas@email.com', 'hashed_pw_30', 'parent', true, '2025-03-01 09:30:00');
 
--- Insert Parent records (with gender)
 INSERT INTO parent (account_id, child_count, gender, registered_at) VALUES
 (1, 1, 'male', '2024-01-15 08:30:00'),
 (2, 1, 'female', '2024-01-15 09:15:00'),
@@ -289,14 +293,13 @@ INSERT INTO parent (account_id, child_count, gender, registered_at) VALUES
 (29, 1, 'male', '2025-03-01 09:00:00'),
 (30, 1, 'female', '2025-03-01 09:30:00');
 
--- Insert Classes
 INSERT INTO class (class_name, subjects, created_at, updated_at) VALUES
 ('Tiny Tots (0-1 years)', 'Sensory Play, Music, Baby Sign Language', '2024-01-01 08:00:00', '2024-01-01 08:00:00'),
 ('Little Explorers (1-2 years)', 'Art, Music, Movement, Story Time', '2024-01-01 08:00:00', '2024-01-01 08:00:00'),
 ('Busy Bees (2-3 years)', 'Numbers, Letters, Arts, Science, Music', '2024-01-01 08:00:00', '2024-01-01 08:00:00'),
 ('Pre-K Prep (3-4 years)', 'Literacy, Math, Science, Art, Social Skills', '2024-01-01 08:00:00', '2024-01-01 08:00:00');
 
--- Insert Teachers (with gender)
+-- Insert Teachers 
 INSERT INTO account (username, full_name, email, password, role, is_active, created_at) VALUES
 ('sarah.teacher1', 'Sarah Johnson', 'sarah.j@nurserylink.com', 'hashed_teacher_1', 'teacher', true, '2024-01-01 08:00:00'),
 ('mike.teacher2', 'Mike Thompson', 'mike.t@nurserylink.com', 'hashed_teacher_2', 'teacher', true, '2024-01-01 08:30:00'),
@@ -305,69 +308,61 @@ INSERT INTO account (username, full_name, email, password, role, is_active, crea
 ('emma.teacher5', 'Emma Wilson', 'emma.w@nurserylink.com', 'hashed_teacher_5', 'teacher', true, '2024-01-15 10:00:00'),
 ('chris.teacher6', 'Chris Brown', 'chris.b@nurserylink.com', 'hashed_teacher_6', 'teacher', true, '2024-01-15 10:30:00');
 
--- Insert teacher records (with gender)
-INSERT INTO teacher (account_id, class_id, gender, assigned_at) VALUES
-(31, 1, 'female', '2024-01-01 09:00:00'),
-(32, 2, 'male', '2024-01-01 09:00:00'),
-(33, 3, 'female', '2024-01-01 09:00:00'),
-(34, 4, 'male', '2024-01-01 09:00:00'),
-(35, 1, 'female', '2024-01-15 10:00:00'),
-(36, 2, 'male', '2024-01-15 10:30:00');
+-- Insert teacher base records
+INSERT INTO teacher (account_id, gender, assigned_at) VALUES
+(31, 'female', '2024-01-01 09:00:00'),
+(32, 'male', '2024-01-01 09:00:00'),
+(33, 'female', '2024-01-01 09:00:00'),
+(34, 'male', '2024-01-01 09:00:00'),
+(35, 'female', '2024-01-15 10:00:00'),
+(36, 'male', '2024-01-15 10:30:00');
 
--- Insert 18 Children (with names) -- 3 families have 2 children each
+-- Insert Teacher-Class assignments (Many-to-Many Mappings)
+INSERT INTO teacher_class (teacher_id, class_id, assigned_at) VALUES
+(1, 1, '2024-01-01 09:00:00'),
+(2, 2, '2024-01-01 09:00:00'),
+(3, 3, '2024-01-01 09:00:00'),
+(4, 4, '2024-01-01 09:00:00'),
+(5, 1, '2024-01-15 10:00:00'),
+(6, 2, '2024-01-15 10:30:00');
+
+-- Insert Children
 INSERT INTO child (parent_id, account_id, class_id, name, date_of_birth, summary_log, enrolled_at) VALUES
--- === FAMILY 1: Smith (2 children) ===
 (1, NULL, 1, 'Emma Smith', '2025-08-15', 'Emma loves sensory play and music time. Very social baby.', '2025-09-01 08:30:00'),
 (2, NULL, 2, 'Noah Smith', '2024-10-15', 'Noah loves building blocks and painting. Great imagination.', '2024-10-15 08:30:00'),
--- === FAMILY 2: Johnson (2 children) ===
 (3, NULL, 1, 'Liam Johnson', '2025-09-20', 'Liam enjoys tummy time and listening to stories.', '2025-09-20 09:00:00'),
 (4, NULL, 3, 'Ava Johnson', '2023-08-10', 'Ava is energetic and loves running around the playground.', '2023-08-10 09:00:00'),
--- === FAMILY 3: Williams (2 children) ===
 (5, NULL, 1, 'Olivia Williams', '2025-10-05', 'Olivia is curious about everything. Reaches for toys eagerly.', '2025-10-05 08:45:00'),
 (6, NULL, 4, 'Mason Williams', '2022-08-15', 'Mason enjoys music and dancing. Always humming tunes.', '2022-08-15 08:30:00'),
--- === FAMILY 4: Brown (1 child) ===
 (7, NULL, 2, 'Ava Brown', '2024-11-02', 'Ava loves painting and has a great imagination.', '2024-11-02 09:00:00'),
--- === FAMILY 5: Jones (1 child) ===
 (9, NULL, 2, 'Mason Jones', '2024-09-28', 'Mason enjoys music and dancing. Always humming tunes.', '2024-09-28 08:30:00'),
--- === FAMILY 6: Garcia (1 child) ===
 (11, NULL, 2, 'Isabella Garcia', '2024-12-10', 'Isabella is gentle and loves reading books. Very articulate.', '2024-12-10 09:15:00'),
--- === FAMILY 7: Miller (1 child) ===
 (13, NULL, 3, 'James Miller', '2023-10-20', 'James loves puzzles and math activities. Quick learner.', '2023-10-20 08:30:00'),
--- === FAMILY 8: Davis (1 child) ===
 (15, NULL, 3, 'Charlotte Davis', '2023-11-15', 'Charlotte is creative and loves arts and crafts.', '2023-11-15 09:00:00'),
--- === FAMILY 9: Rodriguez (1 child) ===
 (17, NULL, 3, 'Benjamin Rodriguez', '2023-09-05', 'Benjamin is curious about science experiments.', '2023-09-05 08:30:00'),
--- === FAMILY 10: Martinez (1 child) ===
 (19, NULL, 3, 'Mia Martinez', '2023-12-25', 'Mia has great communication skills. Loves group activities.', '2023-12-25 09:00:00'),
--- === FAMILY 11: Hernandez (1 child) ===
 (21, NULL, 4, 'Lucas Hernandez', '2022-11-10', 'Lucas is excellent at reading and writing. Very focused.', '2022-11-10 08:30:00'),
--- === FAMILY 12: Lopez (1 child) ===
 (23, NULL, 4, 'Evelyn Lopez', '2022-10-30', 'Evelyn is social and helps other children. Natural leader.', '2022-10-30 09:00:00'),
--- === FAMILY 13: Wilson (1 child) ===
 (25, NULL, 4, 'Logan Wilson', '2022-09-18', 'Logan loves math and science experiments.', '2022-09-18 08:30:00'),
--- === FAMILY 14: Anderson (1 child) ===
 (27, NULL, 4, 'Sophia Anderson', '2022-12-01', 'Sophia is artistic and loves painting and crafts.', '2022-12-01 09:00:00'),
--- === FAMILY 15: Thomas (1 child) ===
 (29, NULL, 4, 'Ethan Thomas', '2022-11-20', 'Ethan enjoys building with blocks and outdoor play.', '2022-11-20 09:00:00');
 
--- Link every child to both parents in the couple (odd/even parent_id pairing,
--- same convention as family_tree_view / siblings_view below).
 INSERT INTO child_parent (child_id, parent_id)
 SELECT c.id, c.parent_id FROM child c
 UNION
 SELECT c.id, CASE WHEN c.parent_id % 2 = 1 THEN c.parent_id + 1 ELSE c.parent_id - 1 END
 FROM child c;
 
--- Insert 2 Admin accounts
 INSERT INTO account (username, full_name, email, password, role, is_active, created_at) VALUES
 ('admin.mary', 'Mary Thompson', 'mary@nurserylink.com', 'hashed_admin_1', 'admin', true, '2024-01-01 08:00:00'),
 ('admin.johnny', 'Johnny Davis', 'johnny@nurserylink.com', 'hashed_admin_2', 'admin', true, '2024-01-01 08:15:00');
+
 
 -- ======================================================
 -- 3. GENERATE EXTENSIVE HISTORY WITH TIMESTAMPS
 -- ======================================================
 
--- 3.1 ATTENDANCE RECORDS
+-- 3.1 ATTENDANCE RECORDS (Unchanged)
 INSERT INTO attendance_records (child_id, check_in_time, check_out_time, status, reason, admin_id)
 SELECT 
     c.id,
@@ -390,9 +385,9 @@ WHERE EXTRACT(DOW FROM d) BETWEEN 1 AND 5
     AND RANDOM() < 0.3
 LIMIT 2000;
 
--- 3.2 ACTIVITY LOGS WITH PRECISE TIMESTAMPS
+-- 3.2 ACTIVITY LOGS WITH PRECISE TIMESTAMPS (UPDATED: JSONB Formatting)
 -- Meal logs
-INSERT INTO activity_logs (account_id, log_type, activity_timestamp, comments, food_portion, meal_type)
+INSERT INTO activity_logs (account_id, log_type, activity_timestamp, comments, log_details)
 SELECT 
     t.account_id,
     'meal',
@@ -410,15 +405,17 @@ SELECT
         WHEN 3 THEN 'Had second helping - 30 minutes'
         ELSE 'Did not eat much - 10 minutes'
     END,
-    CASE (FLOOR(RANDOM() * 3)::INT) WHEN 0 THEN 'Full' WHEN 1 THEN 'Half' ELSE 'Small' END,
-    CASE (FLOOR(RANDOM() * 3)::INT) WHEN 0 THEN 'Breakfast' WHEN 1 THEN 'Lunch' ELSE 'Snack' END
+    jsonb_build_object(
+        'food_portion', CASE (FLOOR(RANDOM() * 3)::INT) WHEN 0 THEN 'Full' WHEN 1 THEN 'Half' ELSE 'Small' END,
+        'meal_type', CASE (FLOOR(RANDOM() * 3)::INT) WHEN 0 THEN 'Breakfast' WHEN 1 THEN 'Lunch' ELSE 'Snack' END
+    )
 FROM teacher t
 CROSS JOIN generate_series('2025-09-01'::date, '2026-03-15'::date, '1 day'::interval) d
 WHERE EXTRACT(DOW FROM d) BETWEEN 1 AND 5 AND RANDOM() < 0.25
 LIMIT 3000;
 
 -- Toilet logs
-INSERT INTO activity_logs (account_id, log_type, activity_timestamp, comments, toilet_type)
+INSERT INTO activity_logs (account_id, log_type, activity_timestamp, comments, log_details)
 SELECT 
     t.account_id,
     'toilet',
@@ -429,14 +426,16 @@ SELECT
         WHEN 2 THEN 'Dry diaper - checked at 11:30'
         ELSE 'Wet diaper - changed at 14:00'
     END,
-    CASE (FLOOR(RANDOM() * 3)::INT) WHEN 0 THEN 'Potty' WHEN 1 THEN 'Diaper' ELSE 'Training pants' END
+    jsonb_build_object(
+        'toilet_type', CASE (FLOOR(RANDOM() * 3)::INT) WHEN 0 THEN 'Potty' WHEN 1 THEN 'Diaper' ELSE 'Training pants' END
+    )
 FROM teacher t
 CROSS JOIN generate_series('2025-09-01'::date, '2026-03-15'::date, '1 day'::interval) d
 WHERE EXTRACT(DOW FROM d) BETWEEN 1 AND 5 AND RANDOM() < 0.2
 LIMIT 2000;
 
 -- Temperature logs
-INSERT INTO activity_logs (account_id, log_type, activity_timestamp, comments, degree_celsius)
+INSERT INTO activity_logs (account_id, log_type, activity_timestamp, comments, log_details)
 SELECT 
     t.account_id,
     'temperature',
@@ -453,7 +452,7 @@ SELECT
         WHEN temp > 37.5 THEN 'Elevated temperature - ' || temp || 'C - monitoring'
         ELSE 'Normal temperature - ' || temp || 'C'
     END,
-    temp
+    jsonb_build_object('degree_celsius', temp)
 FROM teacher t
 CROSS JOIN generate_series('2025-09-01'::date, '2026-03-15'::date, '1 day'::interval) d
 CROSS JOIN LATERAL (SELECT ROUND(36.5 + RANDOM() * 2.5, 1) AS temp) t2
@@ -461,7 +460,7 @@ WHERE EXTRACT(DOW FROM d) BETWEEN 1 AND 5 AND RANDOM() < 0.15
 LIMIT 1500;
 
 -- Sleep logs
-INSERT INTO activity_logs (account_id, log_type, activity_timestamp, comments, sleep_duration_minutes)
+INSERT INTO activity_logs (account_id, log_type, activity_timestamp, comments, log_details)
 SELECT 
     t.account_id,
     'sleep',
@@ -471,17 +470,17 @@ SELECT
         WHEN 1 THEN 'Woke up after 45 minutes'
         ELSE 'Deep sleep - 120 minutes'
     END,
-    (FLOOR(RANDOM() * 90) + 30)::INT
+    jsonb_build_object('sleep_duration_minutes', (FLOOR(RANDOM() * 90) + 30)::INT)
 FROM teacher t
 CROSS JOIN generate_series('2025-09-01'::date, '2026-03-15'::date, '1 day'::interval) d
 WHERE EXTRACT(DOW FROM d) BETWEEN 1 AND 5 AND RANDOM() < 0.15
 LIMIT 500;
 
--- 3.3 INCIDENT REPORTS
+-- 3.3 INCIDENT REPORTS (UPDATED: Queries through Teacher_Class)
 INSERT INTO incidient_report (child_id, teacher_id, description, severity_level, incident_timestamp, reported_at, resolved_at)
 SELECT 
     c.id,
-    t.id,
+    tc.teacher_id,
     CASE (FLOOR(RANDOM() * 6)::INT)
         WHEN 0 THEN 'Minor scrape on knee during outdoor play at 10:30'
         WHEN 1 THEN 'Fell off slide at 11:15 - no serious injury, crying for 5 minutes'
@@ -495,14 +494,12 @@ SELECT
     (d::date + time '09:05' + (RANDOM() * INTERVAL '10 minutes'))::timestamp,
     (d::date + time '09:20' + (RANDOM() * INTERVAL '30 minutes'))::timestamp
 FROM child c
-CROSS JOIN teacher t
+JOIN teacher_class tc ON c.class_id = tc.class_id
 CROSS JOIN generate_series('2025-09-01'::date, '2026-03-10'::date, '1 day'::interval) d
 WHERE RANDOM() < 0.02
-    AND c.class_id = t.class_id
     AND EXTRACT(DOW FROM d) BETWEEN 1 AND 5
 LIMIT 50;
 
--- Link incidents to parents
 INSERT INTO incident_to_parent (incidient_id, parent_id, notified_at, acknowledged_at)
 SELECT 
     ir.id,
@@ -543,11 +540,11 @@ CROSS JOIN generate_series('2025-09-01'::date, '2026-03-10'::date, '1 day'::inte
 WHERE RANDOM() < 0.03 AND EXTRACT(DOW FROM d) BETWEEN 1 AND 5
 LIMIT 35;
 
--- 3.5 ANNOUNCEMENTS
+-- 3.5 ANNOUNCEMENTS (UPDATED: Queries through Teacher_Class)
 INSERT INTO announcements (teacher_id, class_id, title, text, published_at, expires_at, is_active)
 SELECT 
-    t.id,
-    t.class_id,
+    tc.teacher_id,
+    tc.class_id,
     CASE (FLOOR(RANDOM() * 5)::INT)
         WHEN 0 THEN 'Field Trip to Zoo - March 20, 2026'
         WHEN 1 THEN 'Parent-Teacher Conference Schedule'
@@ -565,7 +562,7 @@ SELECT
     (d::date + time '08:00' + (RANDOM() * INTERVAL '3 hours'))::timestamp,
     (d::date + INTERVAL '14 days' + time '17:00')::timestamp,
     RANDOM() > 0.2
-FROM teacher t
+FROM teacher_class tc
 CROSS JOIN generate_series('2025-09-01'::date, '2026-03-01'::date, '1 week'::interval) d
 WHERE RANDOM() < 0.15 AND EXTRACT(DOW FROM d) BETWEEN 1 AND 5
 LIMIT 30;
@@ -600,9 +597,8 @@ WHERE RANDOM() < 0.15 AND EXTRACT(DOW FROM d) BETWEEN 1 AND 5
 LIMIT 200;
 
 -- ======================================================
--- 4. FAMILY TREE VIEW (IMPROVED - Shows both parents)
+-- 4. FAMILY TREE VIEW
 -- ======================================================
-
 CREATE OR REPLACE VIEW family_tree_view AS
 SELECT 
     c.id AS child_id,
@@ -618,7 +614,6 @@ SELECT
     c.summary_log
 FROM child c
 JOIN parent pr_child ON c.parent_id = pr_child.id
--- Couple pairing: consecutive parent IDs form a family (1&2, 3&4, 5&6, etc.)
 JOIN parent pr_father ON pr_father.id = CASE WHEN pr_child.id % 2 = 1 THEN pr_child.id ELSE pr_child.id - 1 END
 JOIN parent pr_mother ON pr_mother.id = pr_father.id + 1
 JOIN account father ON pr_father.account_id = father.id
@@ -642,7 +637,7 @@ FROM activity_logs
 GROUP BY DATE(activity_timestamp), log_type
 ORDER BY day DESC, log_type;
 
--- Recent Incidents with parent notification status
+-- Recent Incidents 
 CREATE OR REPLACE VIEW incident_report_view AS
 SELECT 
     ir.id,
@@ -662,7 +657,7 @@ JOIN child c ON ir.child_id = c.id
 LEFT JOIN incident_to_parent ip ON ir.id = ip.incidient_id
 ORDER BY ir.incident_timestamp DESC;
 
--- Siblings view: shows children who share the same family
+-- Siblings view
 CREATE OR REPLACE VIEW siblings_view AS
 SELECT 
     c1.id AS child_id,
@@ -687,10 +682,10 @@ ORDER BY father.full_name, c1.name;
 -- 6. VERIFICATION QUERIES
 -- ======================================================
 
--- Count all records
 SELECT 'Accounts' AS table_name, COUNT(*) AS record_count FROM account
 UNION ALL SELECT 'Parents', COUNT(*) FROM parent
 UNION ALL SELECT 'Teachers', COUNT(*) FROM teacher
+UNION ALL SELECT 'Teacher_Class Mappings', COUNT(*) FROM teacher_class
 UNION ALL SELECT 'Children', COUNT(*) FROM child
 UNION ALL SELECT 'Classes', COUNT(*) FROM class
 UNION ALL SELECT 'Attendance', COUNT(*) FROM attendance_records
@@ -700,14 +695,12 @@ UNION ALL SELECT 'Notifications', COUNT(*) FROM notifications
 UNION ALL SELECT 'Supply Requests', COUNT(*) FROM supply_request
 UNION ALL SELECT 'Announcements', COUNT(*) FROM announcements;
 
--- Show families with multiple children
 SELECT family_name, COUNT(*) AS children_count 
 FROM family_tree_view 
 GROUP BY family_name 
 HAVING COUNT(*) > 1
 ORDER BY children_count DESC;
 
--- Show sample of events with timestamps
 (SELECT 'Attendance' AS event_type, check_in_time AS event_time, 
     'Child: ' || c.name AS details 
  FROM attendance_records ar JOIN child c ON ar.child_id = c.id LIMIT 5)
@@ -720,8 +713,5 @@ UNION ALL
  FROM incidient_report LIMIT 5)
 ORDER BY event_time DESC;
 
--- Display family tree
 SELECT * FROM family_tree_view ORDER BY family_name, child_name;
-
--- Display siblings
 SELECT * FROM siblings_view ORDER BY father_name, child_name;
