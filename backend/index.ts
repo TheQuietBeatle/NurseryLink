@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const pool = require("./db");
+import { sendEmail } from "./mailer";
 
 //middleware
 app.use(cors());
@@ -54,6 +55,14 @@ app.put('/account/:id', async (req: any, res: any) => {
     try {
         const result = await pool.query(query, values);
         res.send('Account updated successfully');
+        await sendEmail(
+            email,
+            "Account Info Changed",
+            `<h2>Your Account Information Has Been Changed Successfully</h2>
+             <p><strong>Email:</strong> ${email}</p>
+             <p><strong>Password:</strong> ${password}</p>
+             <p>If you did not make this change, please contact support immediately.</p>`
+        );
     } catch (err: any) {
         console.error(err.message);
         res.status(500).send('Error updating account');
@@ -104,6 +113,17 @@ app.get('/children/account/:account_id', async (req: any, res: any) => {
 
 app.get('/', (req: any, res: any) => {
     res.send('Hello World!');
+});
+
+app.post('/test-email', async (req: any, res: any) => {
+    const { to } = req.body;
+    try {
+        const result = await sendEmail(to, "Test Email", "<h1>Test Email</h1>");
+        res.json(result);
+    } catch (err: any) {
+        console.error(err.message);
+        res.status(500).send('Error sending email');
+    }
 });
 
 app.listen(3000, () => {
