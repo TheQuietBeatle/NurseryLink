@@ -9,6 +9,17 @@ export type Account = {
   role: string
 }
 
+export type Child = {
+  id: string
+  parent_id: string
+  account_id: string | null
+  class_id: string | null
+  name: string
+  date_of_birth: string
+  summary_log: string | null
+  enrolled_at: string
+}
+
 export class ApiError extends Error {
   status: number
 
@@ -30,6 +41,16 @@ export async function login(email: string, password: string): Promise<Account> {
       response.status,
       response.status === 401 ? 'Invalid email or password.' : 'Something went wrong. Please try again.',
     )
+  }
+
+  return response.json()
+}
+
+export async function getChildrenForAccount(accountId: string): Promise<Child[]> {
+  const response = await fetch(`${getApiUrl()}/children/account/${accountId}`)
+
+  if (!response.ok) {
+    throw new ApiError(response.status, 'Could not load children.')
   }
 
   return response.json()

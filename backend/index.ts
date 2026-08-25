@@ -126,6 +126,33 @@ app.post('/test-email', async (req: any, res: any) => {
     }
 });
 
+/* getting the temps of children as a Json  */
+app.get('/temperature/:child_id', async (req: any, res: any) => {
+    const query = `
+        SELECT * FROM activity_logs
+        WHERE child_id = $1 AND log_type = 'temperature'
+        ORDER BY activity_timestamp DESC
+    `;
+    const result = await pool.query(query, [req.params.child_id]);
+    res.send(result.rows);
+})
+
+/* letting a parent log a temperature reading for their child */
+app.post('/temperature', async (req: any, res: any) => {
+    const { account_id, child_id, degree_celsius, comments } = req.body;
+    const query = `
+        INSERT INTO activity_logs (account_id, child_id, log_type, activity_timestamp, degree_celsius, comments)
+        VALUES ($1, $2, 'temperature', CURRENT_TIMESTAMP, $3, $4)
+        RETURNING *
+    `;
+    try {
+        const result = await pool.query(query, [account_id, child_id, degree_celsius, comments || null]);
+        res.status(201).json(result.rows[0]);
+    } catch (err: any) {
+        console.error(err.message);
+        res.status(500).send('Error logging temperature');
+    }
+})
 app.listen(3000, () => {
     console.log('Server started on port 3000');
 });

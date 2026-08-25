@@ -1,0 +1,99 @@
+.App {
+  height: 80vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  gap: 2vw;
+  flex-wrap: wrap;
+  background-color: #ddd;
+}
+
+.dataCard {
+  background-color: #efefef;
+  border-radius: 0.5em;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: 1em;
+}
+
+.revenueCard {
+  width: 92%;
+  height: 20rem;
+}
+
+.customerCard {
+  width: 50%;
+  height: 20rem;
+}
+
+.categoryCard {
+  width: 40%;
+  height: 20rem;
+}
+
+.temp-status-badge {
+  padding: 0.4em 1em;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.temp-status-normal {
+  background-color: #d1f5df;
+  color: #0f7a3d;
+}
+
+.temp-status-elevated {
+  background-color: #fff2cc;
+  color: #96720b;
+}
+
+.temp-status-fever {
+  background-color: #ffdfc2;
+  color: #b5560a;
+}
+
+.temp-status-high-fever {
+  background-color: #ffd2d2;
+  color: #b3261e;
+}
+
+.temp-status-unknown {
+  background-color: #e4e4e4;
+  color: #555;
+}
+
+.temp-add-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  align-items: center;
+}
+
+.temp-add-form input {
+  padding: 0.4em 0.6em;
+  border: 1px solid #ccc;
+  border-radius: 0.4em;
+}
+
+.temp-add-form button {
+  padding: 0.4em 1em;
+  border: none;
+  border-radius: 0.4em;
+  background-color: #064ff0;
+  color: white;
+  cursor: pointer;
+}
+
+.temp-add-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.temp-form-error {
+  color: #b3261e;
+  font-size: 0.85rem;
+}

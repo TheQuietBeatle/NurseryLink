@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { Logo } from '../landing/Logo'
 
 const NAV = [
@@ -36,11 +36,10 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-colors duration-300 ${
-        scrolled
+      className={`sticky top-0 z-50 transition-colors duration-300 ${scrolled
           ? 'border-b border-rule/80 bg-paper/85 backdrop-blur-md'
           : 'border-b border-transparent bg-paper'
-      }`}
+        }`}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-6 px-5 sm:h-[4.5rem] sm:px-8">
         <a href="#top" className="shrink-0" aria-label="NurseryLink home">
@@ -80,19 +79,16 @@ export function Header() {
           >
             <span className="relative block h-3.5 w-5">
               <span
-                className={`absolute left-0 h-[1.75px] w-full rounded bg-current transition-all duration-300 ease-[var(--ease-out-soft)] ${
-                  open ? 'top-1.5 rotate-45' : 'top-0'
-                }`}
+                className={`absolute left-0 h-[1.75px] w-full rounded bg-current transition-all duration-300 ease-[var(--ease-out-soft)] ${open ? 'top-1.5 rotate-45' : 'top-0'
+                  }`}
               />
               <span
-                className={`absolute left-0 top-1.5 h-[1.75px] w-full rounded bg-current transition-opacity duration-200 ${
-                  open ? 'opacity-0' : 'opacity-100'
-                }`}
+                className={`absolute left-0 top-1.5 h-[1.75px] w-full rounded bg-current transition-opacity duration-200 ${open ? 'opacity-0' : 'opacity-100'
+                  }`}
               />
               <span
-                className={`absolute left-0 h-[1.75px] w-full rounded bg-current transition-all duration-300 ease-[var(--ease-out-soft)] ${
-                  open ? 'top-1.5 -rotate-45' : 'top-3'
-                }`}
+                className={`absolute left-0 h-[1.75px] w-full rounded bg-current transition-all duration-300 ease-[var(--ease-out-soft)] ${open ? 'top-1.5 -rotate-45' : 'top-3'
+                  }`}
               />
             </span>
           </button>
