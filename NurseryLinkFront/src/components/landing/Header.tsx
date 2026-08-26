@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { Logo } from '../landing/Logo'
 
 export function Header() {

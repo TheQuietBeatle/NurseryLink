@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import type { Child } from '../../lib/api';
 import { useNavigate } from 'react-router-dom';

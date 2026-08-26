@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Logo } from '../landing/Logo'
 import type { Account } from '../../lib/api'
-import { Navigate } from 'react-router-dom'
 
 export function Header({ account }: { account?: Account }) {
   const [open, setOpen] = useState(false)

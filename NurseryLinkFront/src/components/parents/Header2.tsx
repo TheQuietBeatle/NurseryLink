@@ -2,13 +2,6 @@ import { useEffect, useState } from 'react'
 import { Logo } from '../landing/Logo'
 import type { Account } from '../../lib/api'
 
-const NAV = [
-  { label: 'Temperature History', href: '#temperature_history' },
-  { label: 'Incident History', href: '#incident_history' },
-  { label: 'Meal History', href: '#meal_history' },
-  { label: 'Supply History', href: '#supply_history' },
-]
-
 export function Header({ account }: { account?: Account }) {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
