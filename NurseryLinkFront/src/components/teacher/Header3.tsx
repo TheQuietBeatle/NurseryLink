@@ -1,13 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Logo } from '../landing/Logo'
 import type { Account } from '../../lib/api'
-
-const NAV = [
-  { label: 'Temperature History', href: '#temperature_history' },
-  { label: 'Incident History', href: '#incident_history' },
-  { label: 'Meal History', href: '#meal_history' },
-  { label: 'Supply History', href: '#supply_history' },
-]
+import { Navigate } from 'react-router-dom'
 
 export function Header({ account }: { account?: Account }) {
   const [open, setOpen] = useState(false)
@@ -50,9 +44,9 @@ export function Header({ account }: { account?: Account }) {
         
 
         <div className="flex items-center gap-2">
-         {account ? <p className=' cursor-pointer font-semibold'> {account.full_name}</p> : <p>Sign in / Register</p>}
-
-           <a onClick={()=>{localStorage.removeItem('account')}} className=" font-semibold border border-teal-700 px-3 py-1 rounded-lg cursor-pointer text-teal-700 hover:bg-teal-700 hover:text-white transition-all duration-300" href="/">logout</a>
+         {account ? <p>{account.full_name}</p> : <p>Sign in / Register</p>}
+        <button className=" font-semibold border border-teal-700 px-3 py-1 rounded-lg cursor-pointer text-teal-700 hover:bg-teal-700 hover:text-white transition-all duration-300">settings</button>
+                    <a onClick={()=>{localStorage.removeItem('account')}} className=" font-semibold border border-teal-700 px-3 py-1 rounded-lg cursor-pointer text-teal-700 hover:bg-teal-700 hover:text-white transition-all duration-300" href="/">logout</a>
 
         </div>
       </div>

@@ -9,6 +9,8 @@ import { SignIn } from './components/signpage/signing'
 import { ParentDashboard } from './components/parents/ParentDashboard'
 import { ChildDashboard } from './components/parents/child/child_dashboard'
 import { Settings } from './components/parents/settings'
+import { TeacherDashboard } from './components/teacher/TeacherDashboard'
+import { EventsNotices } from './components/parents/Events'
 
 function Landing() {
   return (
@@ -41,8 +43,10 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/parent" element={<ParentDashboard />} />
+        <Route path="/teacher" element={<TeacherDashboard />} />
         <Route path="/parent/child/child_dashboard" element={<ChildDashboard />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/events" element={<EventsNotices />} />
       </Routes>
     </>
   )

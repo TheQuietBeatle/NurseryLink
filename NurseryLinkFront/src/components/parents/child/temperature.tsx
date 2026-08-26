@@ -140,7 +140,7 @@ export const Temperature = ({ childId }: { childId: string }) => {
   const status = getTempStatus(latest?.degree_celsius);
 
   return (
-    <div className="App">
+    <div className="temp-card">
       <div className={`temp-status-badge ${status.className}`}>
         {status.label}
         {latest?.degree_celsius !== undefined && ` (${latest.degree_celsius}°C)`}
@@ -167,28 +167,30 @@ export const Temperature = ({ childId }: { childId: string }) => {
       </form>
       {formError && <p className="temp-form-error">{formError}</p>}
 
-      <div className="dataCard revenueCard">
-        <Line
-          data={{
-            // your endpoint returns newest-first; reverse so the chart reads left→right in time
-            labels: [...history]
-              .reverse()
-              .map((log) => formatLogDate(log.activity_timestamp)),
-            datasets: [
-              {
-                label: "Temperature (°C)",
-                data: [...history].reverse().map((log) => log.degree_celsius),
-                backgroundColor: "#064FF0",
-                borderColor: "#064FF0",
-              },
-            ],
-          }}
-          options={{
-            elements: { line: { tension: 0.5 } },
-            plugins: { title: { text: "Temperature History" } },
-          }}
-        />
-      </div>
+      {history.length > 0 && (
+        <div className="temp-chart">
+          <Line
+            data={{
+              // your endpoint returns newest-first; reverse so the chart reads left→right in time
+              labels: [...history]
+                .reverse()
+                .map((log) => formatLogDate(log.activity_timestamp)),
+              datasets: [
+                {
+                  label: "Temperature (°C)",
+                  data: [...history].reverse().map((log) => log.degree_celsius),
+                  backgroundColor: "#064FF0",
+                  borderColor: "#064FF0",
+                },
+              ],
+            }}
+            options={{
+              elements: { line: { tension: 0.5 } },
+              plugins: { title: { text: "Temperature History" } },
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };

@@ -53,10 +53,10 @@ function getOAuthUrl(provider: OAuthProvider) {
 
 function SignInHeader() {
   return (
-    <header className="sticky top-0  h-30 sm:h-20 z-50 border-b border-rule/80 bg-paper/85 backdrop-blur-md">
+    <header className="sticky top-0  h-20 sm:h-20 z-50 border-b border-rule/80 bg-paper/85 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-center gap-6 px-5 sm:h-[4.5rem] sm:px-8">
         <Link to="/" className="shrink-0 " aria-label="NurseryLink home">
-          <Logo className="h-32 w-40" />
+          <Logo className="h-20 w-28" />
         </Link>
 
       
@@ -98,6 +98,16 @@ export function SignIn() {
 
       if (account.role === 'parent') {
         navigate('/parent')
+        return
+      }
+
+      if (account.role === 'teacher') {
+        navigate('/teacher')
+        return
+      }
+      
+       if (account.role === 'admin') {
+        navigate('/AdminDashboard')
         return
       }
 

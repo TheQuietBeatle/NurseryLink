@@ -134,12 +134,14 @@ CREATE TABLE attendance_records (
 CREATE TABLE activity_logs (
     id BIGSERIAL PRIMARY KEY,
     account_id BIGINT NOT NULL,
+    child_id BIGINT,
     log_type VARCHAR(50) CHECK (log_type IN ('meal', 'toilet', 'temperature', 'note', 'sleep', 'medication')),
     activity_timestamp TIMESTAMP NOT NULL,
     recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     comments VARCHAR(255),
     log_details JSONB, -- <--- Replaces all the individual property columns
-    FOREIGN KEY (account_id) REFERENCES account(id)
+    FOREIGN KEY (account_id) REFERENCES account(id),
+    FOREIGN KEY (child_id) REFERENCES child(id)
 );
 
 -- Incident Report
@@ -301,7 +303,7 @@ INSERT INTO class (class_name, subjects, created_at, updated_at) VALUES
 
 -- Insert Teachers 
 INSERT INTO account (username, full_name, email, password, role, is_active, created_at) VALUES
-('sarah.teacher1', 'Sarah Johnson', 'sarah.j@nurserylink.com', 'hashed_teacher_1', 'teacher', true, '2024-01-01 08:00:00'),
+('sarah.teacher1', 'Sarah Johnson', '   ', 'hashed_teacher_1', 'teacher', true, '2024-01-01 08:00:00'),
 ('mike.teacher2', 'Mike Thompson', 'mike.t@nurserylink.com', 'hashed_teacher_2', 'teacher', true, '2024-01-01 08:30:00'),
 ('lisa.teacher3', 'Lisa Rodriguez', 'lisa.r@nurserylink.com', 'hashed_teacher_3', 'teacher', true, '2024-01-01 09:00:00'),
 ('david.teacher4', 'David Kim', 'david.k@nurserylink.com', 'hashed_teacher_4', 'teacher', true, '2024-01-01 09:30:00'),
@@ -387,9 +389,10 @@ LIMIT 2000;
 
 -- 3.2 ACTIVITY LOGS WITH PRECISE TIMESTAMPS (UPDATED: JSONB Formatting)
 -- Meal logs
-INSERT INTO activity_logs (account_id, log_type, activity_timestamp, comments, log_details)
+INSERT INTO activity_logs (account_id, child_id, log_type, activity_timestamp, comments, log_details)
 SELECT 
     t.account_id,
+    c.id,
     'meal',
     (date_trunc('day', d) + 
         CASE (FLOOR(RANDOM() * 3)::INT)
@@ -409,15 +412,18 @@ SELECT
         'food_portion', CASE (FLOOR(RANDOM() * 3)::INT) WHEN 0 THEN 'Full' WHEN 1 THEN 'Half' ELSE 'Small' END,
         'meal_type', CASE (FLOOR(RANDOM() * 3)::INT) WHEN 0 THEN 'Breakfast' WHEN 1 THEN 'Lunch' ELSE 'Snack' END
     )
-FROM teacher t
+FROM child c
+JOIN teacher_class tc ON c.class_id = tc.class_id
+JOIN teacher t ON t.id = tc.teacher_id
 CROSS JOIN generate_series('2025-09-01'::date, '2026-03-15'::date, '1 day'::interval) d
-WHERE EXTRACT(DOW FROM d) BETWEEN 1 AND 5 AND RANDOM() < 0.25
+WHERE EXTRACT(DOW FROM d) BETWEEN 1 AND 5 AND RANDOM() < 0.12
 LIMIT 3000;
 
 -- Toilet logs
-INSERT INTO activity_logs (account_id, log_type, activity_timestamp, comments, log_details)
+INSERT INTO activity_logs (account_id, child_id, log_type, activity_timestamp, comments, log_details)
 SELECT 
     t.account_id,
+    c.id,
     'toilet',
     (date_trunc('day', d) + time '09:00' + (RANDOM() * INTERVAL '6 hours'))::timestamp,
     CASE (FLOOR(RANDOM() * 4)::INT)
@@ -429,15 +435,18 @@ SELECT
     jsonb_build_object(
         'toilet_type', CASE (FLOOR(RANDOM() * 3)::INT) WHEN 0 THEN 'Potty' WHEN 1 THEN 'Diaper' ELSE 'Training pants' END
     )
-FROM teacher t
+FROM child c
+JOIN teacher_class tc ON c.class_id = tc.class_id
+JOIN teacher t ON t.id = tc.teacher_id
 CROSS JOIN generate_series('2025-09-01'::date, '2026-03-15'::date, '1 day'::interval) d
-WHERE EXTRACT(DOW FROM d) BETWEEN 1 AND 5 AND RANDOM() < 0.2
+WHERE EXTRACT(DOW FROM d) BETWEEN 1 AND 5 AND RANDOM() < 0.10
 LIMIT 2000;
 
 -- Temperature logs
-INSERT INTO activity_logs (account_id, log_type, activity_timestamp, comments, log_details)
+INSERT INTO activity_logs (account_id, child_id, log_type, activity_timestamp, comments, log_details)
 SELECT 
     t.account_id,
+    c.id,
     'temperature',
     (date_trunc('day', d) + 
         CASE (FLOOR(RANDOM() * 3)::INT)
@@ -453,16 +462,19 @@ SELECT
         ELSE 'Normal temperature - ' || temp || 'C'
     END,
     jsonb_build_object('degree_celsius', temp)
-FROM teacher t
+FROM child c
+JOIN teacher_class tc ON c.class_id = tc.class_id
+JOIN teacher t ON t.id = tc.teacher_id
 CROSS JOIN generate_series('2025-09-01'::date, '2026-03-15'::date, '1 day'::interval) d
 CROSS JOIN LATERAL (SELECT ROUND(36.5 + RANDOM() * 2.5, 1) AS temp) t2
-WHERE EXTRACT(DOW FROM d) BETWEEN 1 AND 5 AND RANDOM() < 0.15
+WHERE EXTRACT(DOW FROM d) BETWEEN 1 AND 5 AND RANDOM() < 0.08
 LIMIT 1500;
 
 -- Sleep logs
-INSERT INTO activity_logs (account_id, log_type, activity_timestamp, comments, log_details)
+INSERT INTO activity_logs (account_id, child_id, log_type, activity_timestamp, comments, log_details)
 SELECT 
     t.account_id,
+    c.id,
     'sleep',
     (date_trunc('day', d) + time '12:30' + (RANDOM() * INTERVAL '45 minutes'))::timestamp,
     CASE (FLOOR(RANDOM() * 3)::INT)
@@ -471,9 +483,11 @@ SELECT
         ELSE 'Deep sleep - 120 minutes'
     END,
     jsonb_build_object('sleep_duration_minutes', (FLOOR(RANDOM() * 90) + 30)::INT)
-FROM teacher t
+FROM child c
+JOIN teacher_class tc ON c.class_id = tc.class_id
+JOIN teacher t ON t.id = tc.teacher_id
 CROSS JOIN generate_series('2025-09-01'::date, '2026-03-15'::date, '1 day'::interval) d
-WHERE EXTRACT(DOW FROM d) BETWEEN 1 AND 5 AND RANDOM() < 0.15
+WHERE EXTRACT(DOW FROM d) BETWEEN 1 AND 5 AND RANDOM() < 0.08
 LIMIT 500;
 
 -- 3.3 INCIDENT REPORTS (UPDATED: Queries through Teacher_Class)
@@ -503,13 +517,14 @@ LIMIT 50;
 INSERT INTO incident_to_parent (incidient_id, parent_id, notified_at, acknowledged_at)
 SELECT 
     ir.id,
-    c.parent_id,
+    cp.parent_id,
     ir.reported_at + INTERVAL '5 minutes' + (RANDOM() * INTERVAL '10 minutes'),
     CASE WHEN RANDOM() > 0.3 THEN 
         ir.reported_at + INTERVAL '30 minutes' + (RANDOM() * INTERVAL '2 hours')
     ELSE NULL END
 FROM incidient_report ir
 JOIN child c ON ir.child_id = c.id
+JOIN child_parent cp ON cp.child_id = c.id
 WHERE RANDOM() < 0.7;
 
 -- 3.4 SUPPLY REQUESTS
@@ -539,6 +554,29 @@ FROM teacher t
 CROSS JOIN generate_series('2025-09-01'::date, '2026-03-10'::date, '1 day'::interval) d
 WHERE RANDOM() < 0.03 AND EXTRACT(DOW FROM d) BETWEEN 1 AND 5
 LIMIT 35;
+
+-- Link supply requests to parents via the children in the teacher's class
+INSERT INTO supplyrequest_to_parent (supply_id, parent_id, notified_at, responded_at, response)
+SELECT DISTINCT
+    sr.id,
+    cp.parent_id,
+    sr.requested_at + INTERVAL '10 minutes' + (RANDOM() * INTERVAL '20 minutes'),
+    CASE WHEN RANDOM() > 0.4 THEN
+        sr.requested_at + INTERVAL '1 hour' + (RANDOM() * INTERVAL '1 day')
+    ELSE NULL END,
+    CASE WHEN RANDOM() > 0.5 THEN
+        CASE (FLOOR(RANDOM() * 3)::INT)
+            WHEN 0 THEN 'Will bring it tomorrow'
+            WHEN 1 THEN 'Approved, ordering now'
+            ELSE 'On the way'
+        END
+    ELSE NULL END
+FROM supply_request sr
+JOIN teacher t ON t.id = sr.teacher_id
+JOIN teacher_class tc ON tc.teacher_id = t.id
+JOIN child c ON c.class_id = tc.class_id
+JOIN child_parent cp ON cp.child_id = c.id
+WHERE RANDOM() < 0.6;
 
 -- 3.5 ANNOUNCEMENTS (UPDATED: Queries through Teacher_Class)
 INSERT INTO announcements (teacher_id, class_id, title, text, published_at, expires_at, is_active)
@@ -595,6 +633,34 @@ FROM parent p
 CROSS JOIN generate_series('2025-09-01'::date, '2026-03-10'::date, '1 day'::interval) d
 WHERE RANDOM() < 0.15 AND EXTRACT(DOW FROM d) BETWEEN 1 AND 5
 LIMIT 200;
+
+-- 3.7 GUARANTEED RECENT NOTIFICATIONS (fixed set per parent, so every account
+-- has a predictable mix of read/unread notifications to demo and test against)
+INSERT INTO notifications (account_id, notification_type, sent_at, seen_at, handled_at, seen, handled, description, priority)
+SELECT
+    p.account_id,
+    v.notification_type,
+    v.sent_at,
+    v.seen_at,
+    v.handled_at,
+    v.seen,
+    v.handled,
+    v.description,
+    v.priority
+FROM parent p
+CROSS JOIN (
+    VALUES
+        ('announcement', NOW() - INTERVAL '2 hours', NULL::timestamp, NULL::timestamp, FALSE, FALSE,
+            'Reminder: Sports Day is this Friday at 9:00 AM. Please pack extra water and sunscreen.', 'normal'),
+        ('temperature_alert', NOW() - INTERVAL '3 hours', NULL::timestamp, NULL::timestamp, FALSE, FALSE,
+            'FEVER ALERT: Your child''s temperature is 38.7C. Please check in with the nursery.', 'urgent'),
+        ('incident', NOW() - INTERVAL '1 day', NOW() - INTERVAL '20 hours', NOW() - INTERVAL '18 hours', TRUE, TRUE,
+            'Mild allergic reaction to snack at 10:00 - antihistamine administered.', 'high'),
+        ('supply', NOW() - INTERVAL '2 days', NOW() - INTERVAL '2 days' + INTERVAL '1 hour', NULL::timestamp, TRUE, FALSE,
+            'Your supply request for diapers has been approved and is awaiting fulfillment.', 'low'),
+        ('attendance', NOW() - INTERVAL '5 hours', NOW() - INTERVAL '5 hours' + INTERVAL '10 minutes', NULL::timestamp, TRUE, FALSE,
+            'Your child was checked in safely at 8:12 AM today.', 'normal')
+) AS v(notification_type, sent_at, seen_at, handled_at, seen, handled, description, priority);
 
 -- ======================================================
 -- 4. FAMILY TREE VIEW

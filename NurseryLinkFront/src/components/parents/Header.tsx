@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Logo } from '../landing/Logo'
 import type { Account } from '../../lib/api'
 
@@ -8,31 +8,19 @@ const NAV = [
   { label: 'Incident History', href: '#incident_history' },
   { label: 'Meal History', href: '#meal_history' },
   { label: 'Supply History', href: '#supply_history' },
+  { label: 'Toilet Visits', href: '#toilet_history' },
+  { label: 'Attendance', href: '#attendance_history' },
 ]
 
 export function Header({ account }: { account?: Account }) {
-  const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const headerRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  // The drawer is a fixed overlay on small screens; lock the page behind it.
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [open])
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false)
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
   }, [])
 
   // These hrefs are always in-page anchors ("" or "#id"). Following them as
@@ -45,11 +33,16 @@ export function Header({ account }: { account?: Account }) {
       window.scrollTo({ top: 0, behavior: 'smooth' })
       return
     }
-    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
+    const target = document.querySelector<HTMLElement>(href)
+    if (!target) return
+    const headerHeight = headerRef.current?.offsetHeight ?? 0
+    const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - 8
+    window.scrollTo({ top, behavior: 'smooth' })
   }
 
   return (
     <header
+      ref={headerRef}
       className={`sticky top-0 z-50 transition-colors duration-300 ${
         scrolled
           ? 'border-b border-rule/80 bg-paper/85 backdrop-blur-md'
@@ -84,68 +77,7 @@ export function Header({ account }: { account?: Account }) {
 
         <div className="flex items-center gap-2">
          {account ? <p>{account.full_name}</p> : <p>Sign in / Register</p>}
-
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            aria-controls="mobile-nav"
-            aria-label={open ? 'Close menu' : 'Open menu'}
-            className="-mr-1.5 grid h-10 w-10 place-items-center rounded-lg text-teal-900 transition-colors hover:bg-paper-sunk md:hidden"
-          >
-            <span className="relative block h-3.5 w-5">
-              <span
-                className={`absolute left-0 h-[1.75px] w-full rounded bg-current transition-all duration-300 ease-[var(--ease-out-soft)] ${
-                  open ? 'top-1.5 rotate-45' : 'top-0'
-                }`}
-              />
-              <span
-                className={`absolute left-0 top-1.5 h-[1.75px] w-full rounded bg-current transition-opacity duration-200 ${
-                  open ? 'opacity-0' : 'opacity-100'
-                }`}
-              />
-              <span
-                className={`absolute left-0 h-[1.75px] w-full rounded bg-current transition-all duration-300 ease-[var(--ease-out-soft)] ${
-                  open ? 'top-1.5 -rotate-45' : 'top-3'
-                }`}
-              />
-            </span>
-          </button>
         </div>
-      </div>
-
-      {/* Mobile drawer */}
-      <div
-        id="mobile-nav"
-        hidden={!open}
-        className="border-t border-rule bg-paper md:hidden"
-      >
-        <ul className="mx-auto max-w-6xl px-5 py-3">
-          {NAV.map((item, i) => (
-            <li key={item.label}>
-              <a
-                href={item.href || '#top'}
-                onClick={(e) => {
-                  handleNavClick(e, item.href)
-                  setOpen(false)
-                }}
-                style={{ animationDelay: `${i * 45}ms` }}
-                className="reveal block border-b border-rule/60 py-3.5 font-display text-lg text-teal-900"
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
-          <li className="pt-4 pb-2">
-            <a
-              href="#demo"
-              onClick={() => setOpen(false)}
-              className="block rounded-lg bg-teal-700 px-4 py-3 text-center text-sm font-semibold text-paper"
-            >
-              Book a Demo
-            </a>
-          </li>
-        </ul>
       </div>
     </header>
   )
