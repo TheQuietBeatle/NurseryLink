@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Logo } from '../landing/Logo'
 import type { Account } from '../../lib/api'
 import { Navigate } from 'react-router-dom'
+import { DarkModeToggle } from '../DarkModeToggle'
 
 export function Header({ account }: { account?: Account }) {
   const [open, setOpen] = useState(false)
@@ -43,11 +44,11 @@ export function Header({ account }: { account?: Account }) {
 
         
 
-        <div className="flex items-center gap-2">
-         {account ? <p>{account.full_name}</p> : <p>Sign in / Register</p>}
-        <button className=" font-semibold border border-teal-700 px-3 py-1 rounded-lg cursor-pointer text-teal-700 hover:bg-teal-700 hover:text-white transition-all duration-300">settings</button>
-                    <a onClick={()=>{localStorage.removeItem('account')}} className=" font-semibold border border-teal-700 px-3 py-1 rounded-lg cursor-pointer text-teal-700 hover:bg-teal-700 hover:text-white transition-all duration-300" href="/">logout</a>
-
+        <div className="flex items-center gap-3">
+          <DarkModeToggle />
+          {account ? <p>{account.full_name}</p> : <p>Sign in / Register</p>}
+          <button className="font-semibold border border-teal-700 px-3 py-1 rounded-lg cursor-pointer text-teal-700 hover:bg-teal-700 hover:text-white transition-all duration-300">settings</button>
+          <a onClick={()=>{localStorage.removeItem('account')}} className="font-semibold border border-teal-700 px-3 py-1 rounded-lg cursor-pointer text-teal-700 hover:bg-teal-700 hover:text-white transition-all duration-300" href="/">logout</a>
         </div>
       </div>
 

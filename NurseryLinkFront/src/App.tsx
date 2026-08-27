@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import { ThemeProvider } from './context/ThemeContext'
 import { Header } from './components/parents/Header'
 import { Hero } from './components/landing/Hero'
 import { TrustBar } from './components/landing/TrustBar'
@@ -31,7 +32,7 @@ function Landing() {
 
 function App() {
   return (
-    <>
+    <ThemeProvider>
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-teal-700 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-paper"
@@ -48,7 +49,7 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/events" element={<EventsNotices />} />
       </Routes>
-    </>
+    </ThemeProvider>
   )
 }
 

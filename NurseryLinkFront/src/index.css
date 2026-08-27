@@ -103,6 +103,33 @@
   }
 }
 
+/* ---- Dark theme overrides ---- */
+[data-theme='dark'] {
+  --color-paper: #1a2428;
+  --color-paper-sunk: #111b1f;
+  --color-paper-raised: #222e33;
+
+  --color-teal-50: #0f1e23;
+  --color-teal-100: #162830;
+  --color-teal-300: #4a8494;
+  --color-teal-500: #6aacbc;
+  --color-teal-700: #8ecfde;
+  --color-teal-900: #b8e3ef;
+
+  --color-gold: #e0a840;
+  --color-gold-soft: #2a2010;
+  --color-coral: #f07075;
+  --color-coral-soft: #2d1416;
+
+  --color-charcoal: #d4d8d4;
+  --color-ink: #e2e5df;
+  --color-ink-soft: #8e9b9f;
+  --color-rule: #2a383d;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.2), 0 12px 28px -18px rgb(0 0 0 / 0.5);
+  --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.25), 0 24px 44px -22px rgb(0 0 0 / 0.6);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

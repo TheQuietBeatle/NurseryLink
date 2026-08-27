@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Logo } from '../landing/Logo'
 import type { Account } from '../../lib/api'
+import { DarkModeToggle } from '../DarkModeToggle'
 
 const NAV = [
   { label: 'Temperature History', href: '#temperature_history' },
@@ -49,11 +50,10 @@ export function Header({ account }: { account?: Account }) {
 
         
 
-        <div className="flex items-center gap-2">
-         {account ? <p className=' cursor-pointer font-semibold'> {account.full_name}</p> : <p>Sign in / Register</p>}
-
-           <a onClick={()=>{localStorage.removeItem('account')}} className=" font-semibold border border-teal-700 px-3 py-1 rounded-lg cursor-pointer text-teal-700 hover:bg-teal-700 hover:text-white transition-all duration-300" href="/">logout</a>
-
+        <div className="flex items-center gap-3">
+          <DarkModeToggle />
+          {account ? <p className=' cursor-pointer font-semibold'> {account.full_name}</p> : <p>Sign in / Register</p>}
+          <a onClick={()=>{localStorage.removeItem('account')}} className=" font-semibold border border-teal-700 px-3 py-1 rounded-lg cursor-pointer text-teal-700 hover:bg-teal-700 hover:text-white transition-all duration-300" href="/">logout</a>
         </div>
       </div>
 

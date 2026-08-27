@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Logo } from '../landing/Logo'
 import type { Account } from '../../lib/api'
+import { DarkModeToggle } from '../DarkModeToggle'
 
 const NAV = [
   { label: 'Children Overview', href: '' },
@@ -75,8 +76,9 @@ export function Header({ account }: { account?: Account }) {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-2">
-         {account ? <p>{account.full_name}</p> : <p>Sign in / Register</p>}
+        <div className="flex items-center gap-3">
+          <DarkModeToggle />
+          {account ? <p>{account.full_name}</p> : <p>Sign in / Register</p>}
         </div>
       </div>
     </header>

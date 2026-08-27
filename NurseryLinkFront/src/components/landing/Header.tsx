@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Logo } from '../landing/Logo'
+import { DarkModeToggle } from '../DarkModeToggle'
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false)
@@ -25,7 +26,7 @@ export function Header() {
           <Logo />
         </a>
 
-        
+        <DarkModeToggle />
       </div>
     </header>
   )
