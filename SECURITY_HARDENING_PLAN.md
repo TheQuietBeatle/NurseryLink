@@ -202,3 +202,138 @@ for (const row of accounts.rows) {
 ```
 
 **After migration, login must switch from SQL-level password comparison to bcrypt.compare().**
+
+---
+
+## 20-Point Audit Fix Checklist
+
+> Added from the latest security audit. This section corrects stale items above where needed: the current Git scan found real `.env` files locally, but did not find real `.env` files tracked; the tracked secret issue found in code is the hardcoded database password in `backend/DB.ts:7`.
+
+### 1. Committed `.env`
+
+**Status:** Partial issue. Real env files exist locally at `backend/.env:1` and `NurseryLinkFront/.env.local:1`, but Git currently ignores them and the history scan found only `.env.example` files.
+
+**Fix:** keep `.env` and `.env.local` ignored, keep examples placeholder-only, move the hardcoded database password from `backend/DB.ts:7` into env vars, and rotate any key or password that may ever have been exposed.
+
+### 2. Real API keys in frontend code
+
+**Status:** Not found. Frontend uses public Vite config such as `VITE_API_URL` in `NurseryLinkFront/src/lib/api.ts:2` and OAuth client ID config in `NurseryLinkFront/src/components/signpage/signing.tsx:15`.
+
+**Fix:** keep only public browser-safe values in `VITE_*`. Keep `RESEND_API_KEY`, DB credentials, JWT secrets, service-role keys, and webhook secrets only in backend environment variables.
+
+### 3. Row level security / database authorization
+
+**Status:** Issue if this database is exposed through Supabase/client access. No RLS policies were found in `Database/nurserylinkDB.sql`, and the app uses direct Postgres through `backend/DB.ts:1`.
+
+**Fix:** if using Supabase client access, enable RLS and add scoped policies for every table. If access is only through Express, enforce ownership and role checks in backend middleware and SQL joins before every read/write.
+
+### 4. Frontend-only permission checks
+
+**Status:** Present. Role gates depend on editable `localStorage` account data in `NurseryLinkFront/src/components/teacher/TeacherDashboard.tsx:15`, `TeacherDashboard.tsx:69`, and `NurseryLinkFront/src/components/parents/ParentDashboard.tsx:40`.
+
+**Fix:** add server-side sessions plus `authMiddleware` and `requireRole(...)`. Keep frontend route guards only for UX.
+
+### 5. No rate limiting
+
+**Status:** Present. `backend/index.ts:8-9` only installs CORS and JSON parsing. `POST /Login` starts at `backend/index.ts:82` with no throttle.
+
+**Fix:** install `express-rate-limit`; apply strict limits to `/Login`, `/account`, `/test-email`, `/notifications/:id/email`, and other write or expensive endpoints.
+
+### 6. SQL string concatenation
+
+**Status:** Not found in main API request paths. Request-driven queries use `$1`, `$2`, etc., for example `backend/index.ts:84-85`.
+
+**Fix:** keep all user input parameterized. Avoid interpolation in scripts too, especially generated SQL in `backend/seed_george.ts`.
+
+### 7. No server-side input validation
+
+**Status:** Present. Routes destructure and trust `req.body`, for example `backend/index.ts:16`, `backend/index.ts:142`, and `backend/index.ts:334`.
+
+**Fix:** install `zod`; validate body and params for every route before DB calls. Validate emails, IDs, roles, temperature ranges, severity levels, meal types, quantity/status fields, string lengths, and required fields.
+
+### 8. Raw HTML rendering / injection
+
+**Status:** No React `dangerouslySetInnerHTML` was found. Email HTML does interpolate user-controlled content in `backend/index.ts:170-173`, `backend/index.ts:569-573`, and `backend/mailer.ts:15`.
+
+**Fix:** HTML-escape all dynamic values before inserting into email templates. Treat `comments`, `description`, `full_name`, `childName`, and similar values as untrusted.
+
+### 9. Plaintext passwords
+
+**Status:** Present. Passwords are inserted directly in `backend/index.ts:17-18`, updated directly in `backend/index.ts:52-54`, compared directly in SQL at `backend/index.ts:84-85`, and stored in `Database/nurserylinkDB.sql:34`.
+
+**Fix:** replace plaintext storage with `argon2` or `bcrypt`, store only password hashes, fetch by email on login, verify with the hash library, migrate existing rows, and remove passwords from emails/API responses.
+
+### 10. Auth state in `localStorage`
+
+**Status:** Related issue present. No token was found, but the account object is stored in `localStorage` and treated as auth at `NurseryLinkFront/src/components/signpage/signing.tsx:97`.
+
+**Fix:** use httpOnly, `Secure`, `SameSite=Lax` or `Strict` cookies for web sessions. Do not authorize backend requests from account IDs supplied by the frontend.
+
+### 11. Admin/internal routes without auth
+
+**Status:** Present. All backend routes are unauthenticated, including account listing at `backend/index.ts:38`, update at `backend/index.ts:51`, and delete at `backend/index.ts:74`.
+
+**Fix:** protect every route except health check and login/signup. Restrict account listing, role changes, deletes, and notification creation to admin/staff roles.
+
+### 12. CORS wildcard/permissive config
+
+**Status:** Present. `app.use(cors())` at `backend/index.ts:8` is permissive.
+
+**Fix:**
+
+```ts
+app.use(cors({
+  origin: [process.env.FRONTEND_URL ?? 'http://localhost:5173'],
+  credentials: true,
+}));
+```
+
+Do not use `*` with credentialed requests.
+
+### 13. No email verification
+
+**Status:** Present. `POST /account` creates usable accounts immediately at `backend/index.ts:15-21`.
+
+**Fix:** add an email verification token flow, store token hashes server-side, send a one-time verification link, and block access to real data until email verification succeeds.
+
+### 14. Predictable IDs without ownership checks
+
+**Status:** Present. Routes use raw IDs without proving ownership, for example `GET /temperature/:child_id` at `backend/index.ts:130`, `GET /incidents/:child_id` at `backend/index.ts:194`, and `PUT /notifications/:id/seen` at `backend/index.ts:532`.
+
+**Fix:** derive requester identity from server auth. For parent access, join through `parent`/`child_parent` and require `parent.account_id = req.user.id`. For teacher access, require assigned class membership. For notifications, require `notifications.account_id = req.user.id`.
+
+### 15. Unsafe account update body
+
+**Status:** Present. `PUT /account/:id` accepts `username`, `full_name`, `email`, `password`, and `role` from the body at `backend/index.ts:52-54`.
+
+**Fix:** split profile update, password change, and admin role change into separate endpoints. Allowlist editable fields, put role changes behind `requireRole('admin')`, and reject unexpected fields.
+
+### 16. Webhooks without signature check
+
+**Status:** Not applicable right now. No webhook endpoint was found.
+
+**Fix:** when webhooks are added, use raw body parsing for that route, verify provider signatures before trusting the payload, and store webhook secrets only in backend env vars.
+
+### 17. Stack traces in production
+
+**Status:** Mostly OK. API responses are generic, for example `backend/index.ts:24`, while server logs print `err.message` in catch blocks.
+
+**Fix:** keep client responses generic, add centralized error middleware, and in production log structured errors server-side without returning stacks, secrets, or raw request bodies to clients.
+
+### 18. Dependency vulnerabilities / update process
+
+**Status:** Backend `npm audit --omit=dev` reported one moderate vulnerability in `qs`. Frontend production audit reported zero vulnerabilities. Backend lockfile includes `qs` at `backend/package-lock.json:1785`.
+
+**Fix:** run `npm audit fix` in `backend`, then run backend build/tests. Enable Dependabot or a scheduled monthly dependency update process and keep lockfiles committed.
+
+### 19. No password strength or breach check
+
+**Status:** Present. Signup and password update accept passwords without server-side policy at `backend/index.ts:16`; frontend password update calls `updateAccount(..., { password })` from `NurseryLinkFront/src/components/parents/settings.tsx:121`.
+
+**Fix:** enforce password policy server-side, preferably 12+ characters, and reject common/breached passwords with Have I Been Pwned k-anonymity API or an auth-provider feature. Apply it to signup, password change, admin-created password flows, and reset.
+
+### 20. File uploads without validation
+
+**Status:** Not applicable right now. No upload endpoint or file input was found.
+
+**Fix:** when uploads are added, validate MIME type, extension, and size server-side; store files in object storage or outside the web root; generate random object names; never execute uploaded files; and serve downloads with safe `Content-Type` and `Content-Disposition` headers.
