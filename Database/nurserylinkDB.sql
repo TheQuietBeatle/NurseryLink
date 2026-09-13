@@ -11,10 +11,11 @@ DROP TABLE IF EXISTS activity_logs CASCADE;
 DROP TABLE IF EXISTS announcements CASCADE;
 DROP TABLE IF EXISTS supply_request CASCADE;
 DROP TABLE IF EXISTS incidient_report CASCADE;
+DROP TABLE IF EXISTS account_notification CASCADE; -- NEW Many-to-Many Join Table
 DROP TABLE IF EXISTS notifications CASCADE;
 DROP TABLE IF EXISTS child_parent CASCADE;
 DROP TABLE IF EXISTS parent CASCADE;
-DROP TABLE IF EXISTS teacher_class CASCADE; -- NEW Many-to-Many Join Table
+DROP TABLE IF EXISTS teacher_class CASCADE; 
 DROP TABLE IF EXISTS teacher CASCADE;
 DROP TABLE IF EXISTS child CASCADE;
 DROP TABLE IF EXISTS class CASCADE;
@@ -49,11 +50,12 @@ CREATE TABLE priviliedge (
 CREATE TABLE admin_previlledge (
     id BIGSERIAL PRIMARY KEY,
     account_id BIGINT NOT NULL,
-    privilege_id BIGINT NOT NULL, -- Changed from VARCHAR(50)
+    privilege_id BIGINT NOT NULL, 
     assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (account_id) REFERENCES account(id),
-    FOREIGN KEY (privilege_id) REFERENCES priviliedge(id) -- New Foreign Key
+    FOREIGN KEY (privilege_id) REFERENCES priviliedge(id) 
 );
+
 -- Class table
 CREATE TABLE class (
     id BIGSERIAL PRIMARY KEY,
@@ -63,7 +65,7 @@ CREATE TABLE class (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Teacher table (UPDATED: removed class_id for many-to-many relationship)
+-- Teacher table 
 CREATE TABLE teacher (
     id BIGSERIAL PRIMARY KEY,
     account_id BIGINT NOT NULL,
@@ -72,7 +74,7 @@ CREATE TABLE teacher (
     FOREIGN KEY (account_id) REFERENCES account(id)
 );
 
--- Teacher-Class join table (NEW: Many-to-Many relationship)
+-- Teacher-Class join table 
 CREATE TABLE teacher_class (
     teacher_id BIGINT NOT NULL,
     class_id BIGINT NOT NULL,
@@ -130,7 +132,7 @@ CREATE TABLE attendance_records (
     FOREIGN KEY (admin_id) REFERENCES account(id)
 );
 
--- Activity Logs (UPDATED: Replaced specific activity details with a JSONB column)
+-- Activity Logs 
 CREATE TABLE activity_logs (
     id BIGSERIAL PRIMARY KEY,
     account_id BIGINT NOT NULL,
@@ -139,7 +141,7 @@ CREATE TABLE activity_logs (
     activity_timestamp TIMESTAMP NOT NULL,
     recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     comments VARCHAR(255),
-    log_details JSONB, -- <--- Replaces all the individual property columns
+    log_details JSONB, 
     FOREIGN KEY (account_id) REFERENCES account(id),
     FOREIGN KEY (child_id) REFERENCES child(id)
 );
@@ -208,27 +210,32 @@ CREATE TABLE announcements (
     FOREIGN KEY (class_id) REFERENCES class(id)
 );
 
--- Notifications
+-- Notifications (UPDATED: Removed user-specific state for M:N mapping)
 CREATE TABLE notifications (
     id BIGSERIAL PRIMARY KEY,
-    account_id BIGINT NOT NULL,
     notification_type VARCHAR(50) CHECK (notification_type IN ('incident', 'supply', 'announcement', 'attendance', 'activity', 'temperature_alert')),
     sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    description TEXT,
+    priority VARCHAR(20) DEFAULT 'normal' CHECK (priority IN ('low', 'normal', 'high', 'urgent'))
+);
+
+-- Account Notifications (NEW: M:N Junction table to hold user-specific read/handled states)
+CREATE TABLE account_notification (
+    account_id BIGINT NOT NULL,
+    notification_id BIGINT NOT NULL,
     seen_at TIMESTAMP,
     handled_at TIMESTAMP,
     seen BOOLEAN DEFAULT FALSE,
     handled BOOLEAN DEFAULT FALSE,
-    description TEXT,
-    priority VARCHAR(20) DEFAULT 'normal' CHECK (priority IN ('low', 'normal', 'high', 'urgent')),
-    FOREIGN KEY (account_id) REFERENCES account(id)
+    PRIMARY KEY (account_id, notification_id),
+    FOREIGN KEY (account_id) REFERENCES account(id) ON DELETE CASCADE,
+    FOREIGN KEY (notification_id) REFERENCES notifications(id) ON DELETE CASCADE
 );
 
 
 -- ======================================================
 -- 2. INSERT DUMMY DATA WITH REALISTIC TIMESTAMPS
 -- ======================================================
-
--- ... [Account, Parent, Child insert statements remain unchanged] ...
 
 -- Insert Parents 
 INSERT INTO account (username, full_name, email, password, role, is_active, created_at) VALUES
@@ -264,36 +271,21 @@ INSERT INTO account (username, full_name, email, password, role, is_active, crea
 ('kimberly.thomas', 'Kimberly Thomas', 'kimberly.thomas@email.com', 'hashed_pw_30', 'parent', true, '2025-03-01 09:30:00');
 
 INSERT INTO parent (account_id, child_count, gender, registered_at) VALUES
-(1, 1, 'male', '2024-01-15 08:30:00'),
-(2, 1, 'female', '2024-01-15 09:15:00'),
-(3, 1, 'male', '2024-02-20 10:00:00'),
-(4, 1, 'female', '2024-02-20 10:30:00'),
-(5, 1, 'male', '2024-03-10 11:00:00'),
-(6, 1, 'female', '2024-03-10 11:30:00'),
-(7, 1, 'male', '2024-04-05 09:00:00'),
-(8, 1, 'female', '2024-04-05 09:45:00'),
-(9, 1, 'male', '2024-05-12 14:00:00'),
-(10, 1, 'female', '2024-05-12 14:30:00'),
-(11, 1, 'male', '2024-06-18 08:00:00'),
-(12, 1, 'female', '2024-06-18 08:45:00'),
-(13, 1, 'male', '2024-07-22 10:00:00'),
-(14, 1, 'female', '2024-07-22 10:30:00'),
-(15, 1, 'male', '2024-08-30 11:00:00'),
-(16, 1, 'female', '2024-08-30 11:30:00'),
-(17, 1, 'male', '2024-09-14 09:00:00'),
-(18, 1, 'female', '2024-09-14 09:30:00'),
-(19, 1, 'male', '2024-10-01 08:00:00'),
-(20, 1, 'female', '2024-10-01 08:30:00'),
-(21, 1, 'male', '2024-11-11 10:00:00'),
-(22, 1, 'female', '2024-11-11 10:30:00'),
-(23, 1, 'male', '2024-12-05 09:00:00'),
-(24, 1, 'female', '2024-12-05 09:30:00'),
-(25, 1, 'male', '2025-01-20 08:00:00'),
-(26, 1, 'female', '2025-01-20 08:30:00'),
-(27, 1, 'male', '2025-02-14 10:00:00'),
-(28, 1, 'female', '2025-02-14 10:30:00'),
-(29, 1, 'male', '2025-03-01 09:00:00'),
-(30, 1, 'female', '2025-03-01 09:30:00');
+(1, 1, 'male', '2024-01-15 08:30:00'), (2, 1, 'female', '2024-01-15 09:15:00'),
+(3, 1, 'male', '2024-02-20 10:00:00'), (4, 1, 'female', '2024-02-20 10:30:00'),
+(5, 1, 'male', '2024-03-10 11:00:00'), (6, 1, 'female', '2024-03-10 11:30:00'),
+(7, 1, 'male', '2024-04-05 09:00:00'), (8, 1, 'female', '2024-04-05 09:45:00'),
+(9, 1, 'male', '2024-05-12 14:00:00'), (10, 1, 'female', '2024-05-12 14:30:00'),
+(11, 1, 'male', '2024-06-18 08:00:00'), (12, 1, 'female', '2024-06-18 08:45:00'),
+(13, 1, 'male', '2024-07-22 10:00:00'), (14, 1, 'female', '2024-07-22 10:30:00'),
+(15, 1, 'male', '2024-08-30 11:00:00'), (16, 1, 'female', '2024-08-30 11:30:00'),
+(17, 1, 'male', '2024-09-14 09:00:00'), (18, 1, 'female', '2024-09-14 09:30:00'),
+(19, 1, 'male', '2024-10-01 08:00:00'), (20, 1, 'female', '2024-10-01 08:30:00'),
+(21, 1, 'male', '2024-11-11 10:00:00'), (22, 1, 'female', '2024-11-11 10:30:00'),
+(23, 1, 'male', '2024-12-05 09:00:00'), (24, 1, 'female', '2024-12-05 09:30:00'),
+(25, 1, 'male', '2025-01-20 08:00:00'), (26, 1, 'female', '2025-01-20 08:30:00'),
+(27, 1, 'male', '2025-02-14 10:00:00'), (28, 1, 'female', '2025-02-14 10:30:00'),
+(29, 1, 'male', '2025-03-01 09:00:00'), (30, 1, 'female', '2025-03-01 09:30:00');
 
 INSERT INTO class (class_name, subjects, created_at, updated_at) VALUES
 ('Tiny Tots (0-1 years)', 'Sensory Play, Music, Baby Sign Language', '2024-01-01 08:00:00', '2024-01-01 08:00:00'),
@@ -303,7 +295,7 @@ INSERT INTO class (class_name, subjects, created_at, updated_at) VALUES
 
 -- Insert Teachers 
 INSERT INTO account (username, full_name, email, password, role, is_active, created_at) VALUES
-('sarah.teacher1', 'Sarah Johnson', '   ', 'hashed_teacher_1', 'teacher', true, '2024-01-01 08:00:00'),
+('sarah.teacher1', 'Sarah Johnson', 'sarah.j@nurserylink.com', 'hashed_teacher_1', 'teacher', true, '2024-01-01 08:00:00'),
 ('mike.teacher2', 'Mike Thompson', 'mike.t@nurserylink.com', 'hashed_teacher_2', 'teacher', true, '2024-01-01 08:30:00'),
 ('lisa.teacher3', 'Lisa Rodriguez', 'lisa.r@nurserylink.com', 'hashed_teacher_3', 'teacher', true, '2024-01-01 09:00:00'),
 ('david.teacher4', 'David Kim', 'david.k@nurserylink.com', 'hashed_teacher_4', 'teacher', true, '2024-01-01 09:30:00'),
@@ -312,21 +304,15 @@ INSERT INTO account (username, full_name, email, password, role, is_active, crea
 
 -- Insert teacher base records
 INSERT INTO teacher (account_id, gender, assigned_at) VALUES
-(31, 'female', '2024-01-01 09:00:00'),
-(32, 'male', '2024-01-01 09:00:00'),
-(33, 'female', '2024-01-01 09:00:00'),
-(34, 'male', '2024-01-01 09:00:00'),
-(35, 'female', '2024-01-15 10:00:00'),
-(36, 'male', '2024-01-15 10:30:00');
+(31, 'female', '2024-01-01 09:00:00'), (32, 'male', '2024-01-01 09:00:00'),
+(33, 'female', '2024-01-01 09:00:00'), (34, 'male', '2024-01-01 09:00:00'),
+(35, 'female', '2024-01-15 10:00:00'), (36, 'male', '2024-01-15 10:30:00');
 
 -- Insert Teacher-Class assignments (Many-to-Many Mappings)
 INSERT INTO teacher_class (teacher_id, class_id, assigned_at) VALUES
-(1, 1, '2024-01-01 09:00:00'),
-(2, 2, '2024-01-01 09:00:00'),
-(3, 3, '2024-01-01 09:00:00'),
-(4, 4, '2024-01-01 09:00:00'),
-(5, 1, '2024-01-15 10:00:00'),
-(6, 2, '2024-01-15 10:30:00');
+(1, 1, '2024-01-01 09:00:00'), (2, 2, '2024-01-01 09:00:00'),
+(3, 3, '2024-01-01 09:00:00'), (4, 4, '2024-01-01 09:00:00'),
+(5, 1, '2024-01-15 10:00:00'), (6, 2, '2024-01-15 10:30:00');
 
 -- Insert Children
 INSERT INTO child (parent_id, account_id, class_id, name, date_of_birth, summary_log, enrolled_at) VALUES
@@ -364,7 +350,7 @@ INSERT INTO account (username, full_name, email, password, role, is_active, crea
 -- 3. GENERATE EXTENSIVE HISTORY WITH TIMESTAMPS
 -- ======================================================
 
--- 3.1 ATTENDANCE RECORDS (Unchanged)
+-- 3.1 ATTENDANCE RECORDS 
 INSERT INTO attendance_records (child_id, check_in_time, check_out_time, status, reason, admin_id)
 SELECT 
     c.id,
@@ -387,8 +373,7 @@ WHERE EXTRACT(DOW FROM d) BETWEEN 1 AND 5
     AND RANDOM() < 0.3
 LIMIT 2000;
 
--- 3.2 ACTIVITY LOGS WITH PRECISE TIMESTAMPS (UPDATED: JSONB Formatting)
--- Meal logs
+-- 3.2 ACTIVITY LOGS WITH PRECISE TIMESTAMPS 
 INSERT INTO activity_logs (account_id, child_id, log_type, activity_timestamp, comments, log_details)
 SELECT 
     t.account_id,
@@ -419,7 +404,6 @@ CROSS JOIN generate_series('2025-09-01'::date, '2026-03-15'::date, '1 day'::inte
 WHERE EXTRACT(DOW FROM d) BETWEEN 1 AND 5 AND RANDOM() < 0.12
 LIMIT 3000;
 
--- Toilet logs
 INSERT INTO activity_logs (account_id, child_id, log_type, activity_timestamp, comments, log_details)
 SELECT 
     t.account_id,
@@ -442,7 +426,7 @@ CROSS JOIN generate_series('2025-09-01'::date, '2026-03-15'::date, '1 day'::inte
 WHERE EXTRACT(DOW FROM d) BETWEEN 1 AND 5 AND RANDOM() < 0.10
 LIMIT 2000;
 
--- Temperature logs
+-- Temperature logs (UPDATED: Added numeric cast to fix ROUND error)
 INSERT INTO activity_logs (account_id, child_id, log_type, activity_timestamp, comments, log_details)
 SELECT 
     t.account_id,
@@ -466,11 +450,10 @@ FROM child c
 JOIN teacher_class tc ON c.class_id = tc.class_id
 JOIN teacher t ON t.id = tc.teacher_id
 CROSS JOIN generate_series('2025-09-01'::date, '2026-03-15'::date, '1 day'::interval) d
-CROSS JOIN LATERAL (SELECT ROUND(36.5 + RANDOM() * 2.5, 1) AS temp) t2
+CROSS JOIN LATERAL (SELECT ROUND((36.5 + RANDOM() * 2.5)::numeric, 1) AS temp) t2
 WHERE EXTRACT(DOW FROM d) BETWEEN 1 AND 5 AND RANDOM() < 0.08
 LIMIT 1500;
 
--- Sleep logs
 INSERT INTO activity_logs (account_id, child_id, log_type, activity_timestamp, comments, log_details)
 SELECT 
     t.account_id,
@@ -490,7 +473,7 @@ CROSS JOIN generate_series('2025-09-01'::date, '2026-03-15'::date, '1 day'::inte
 WHERE EXTRACT(DOW FROM d) BETWEEN 1 AND 5 AND RANDOM() < 0.08
 LIMIT 500;
 
--- 3.3 INCIDENT REPORTS (UPDATED: Queries through Teacher_Class)
+-- 3.3 INCIDENT REPORTS 
 INSERT INTO incidient_report (child_id, teacher_id, description, severity_level, incident_timestamp, reported_at, resolved_at)
 SELECT 
     c.id,
@@ -555,7 +538,6 @@ CROSS JOIN generate_series('2025-09-01'::date, '2026-03-10'::date, '1 day'::inte
 WHERE RANDOM() < 0.03 AND EXTRACT(DOW FROM d) BETWEEN 1 AND 5
 LIMIT 35;
 
--- Link supply requests to parents via the children in the teacher's class
 INSERT INTO supplyrequest_to_parent (supply_id, parent_id, notified_at, responded_at, response)
 SELECT DISTINCT
     sr.id,
@@ -578,7 +560,7 @@ JOIN child c ON c.class_id = tc.class_id
 JOIN child_parent cp ON cp.child_id = c.id
 WHERE RANDOM() < 0.6;
 
--- 3.5 ANNOUNCEMENTS (UPDATED: Queries through Teacher_Class)
+-- 3.5 ANNOUNCEMENTS 
 INSERT INTO announcements (teacher_id, class_id, title, text, published_at, expires_at, is_active)
 SELECT 
     tc.teacher_id,
@@ -605,62 +587,72 @@ CROSS JOIN generate_series('2025-09-01'::date, '2026-03-01'::date, '1 week'::int
 WHERE RANDOM() < 0.15 AND EXTRACT(DOW FROM d) BETWEEN 1 AND 5
 LIMIT 30;
 
--- 3.6 NOTIFICATIONS
-INSERT INTO notifications (account_id, notification_type, sent_at, seen_at, handled_at, seen, handled, description, priority)
+-- 3.6 NOTIFICATIONS (UPDATED: Split into Notifications insert & Junction table mapping)
+WITH inserted_notifs AS (
+    INSERT INTO notifications (notification_type, sent_at, description, priority)
+    SELECT 
+        CASE (FLOOR(RANDOM() * 5)::INT)
+            WHEN 0 THEN 'incident'
+            WHEN 1 THEN 'activity'
+            WHEN 2 THEN 'attendance'
+            WHEN 3 THEN 'announcement'
+            ELSE 'temperature_alert'
+        END,
+        (d::date + time '08:00' + (RANDOM() * INTERVAL '8 hours'))::timestamp,
+        CASE (FLOOR(RANDOM() * 5)::INT)
+            WHEN 0 THEN 'Your child had a minor incident at 10:30 AM. Details in the app.'
+            WHEN 1 THEN 'New temperature reading recorded for your child at 2:15 PM - 37.2C'
+            WHEN 2 THEN 'Your child was checked in at 8:45 AM today.'
+            WHEN 3 THEN 'New announcement from your child''s class: Field Trip scheduled!'
+            ELSE 'FEVER ALERT: Your child''s temperature is 38.5C. Action required.'
+        END,
+        CASE (FLOOR(RANDOM() * 4)::INT) WHEN 0 THEN 'low' WHEN 1 THEN 'normal' WHEN 2 THEN 'high' ELSE 'urgent' END
+    FROM generate_series('2025-09-01'::date, '2026-03-10'::date, '1 day'::interval) d
+    WHERE RANDOM() < 0.15 AND EXTRACT(DOW FROM d) BETWEEN 1 AND 5
+    LIMIT 200
+    RETURNING id, sent_at
+)
+INSERT INTO account_notification (account_id, notification_id, seen_at, handled_at, seen, handled)
 SELECT 
     p.account_id,
-    CASE (FLOOR(RANDOM() * 5)::INT)
-        WHEN 0 THEN 'incident'
-        WHEN 1 THEN 'activity'
-        WHEN 2 THEN 'attendance'
-        WHEN 3 THEN 'announcement'
-        ELSE 'temperature_alert'
-    END,
-    (d::date + time '08:00' + (RANDOM() * INTERVAL '8 hours'))::timestamp,
-    CASE WHEN RANDOM() > 0.3 THEN (d::date + time '08:05' + (RANDOM() * INTERVAL '4 hours'))::timestamp ELSE NULL END,
-    CASE WHEN RANDOM() > 0.5 THEN (d::date + time '08:10' + (RANDOM() * INTERVAL '6 hours'))::timestamp ELSE NULL END,
+    n.id,
+    CASE WHEN RANDOM() > 0.3 THEN n.sent_at + (RANDOM() * INTERVAL '4 hours') ELSE NULL END,
+    CASE WHEN RANDOM() > 0.5 THEN n.sent_at + (RANDOM() * INTERVAL '6 hours') ELSE NULL END,
     RANDOM() > 0.3,
-    RANDOM() > 0.5,
-    CASE (FLOOR(RANDOM() * 5)::INT)
-        WHEN 0 THEN 'Your child had a minor incident at 10:30 AM. Details in the app.'
-        WHEN 1 THEN 'New temperature reading recorded for your child at 2:15 PM - 37.2C'
-        WHEN 2 THEN 'Your child was checked in at 8:45 AM today.'
-        WHEN 3 THEN 'New announcement from your child''s class: Field Trip scheduled!'
-        ELSE 'FEVER ALERT: Your child''s temperature is 38.5C. Action required.'
-    END,
-    CASE (FLOOR(RANDOM() * 4)::INT) WHEN 0 THEN 'low' WHEN 1 THEN 'normal' WHEN 2 THEN 'high' ELSE 'urgent' END
-FROM parent p
-CROSS JOIN generate_series('2025-09-01'::date, '2026-03-10'::date, '1 day'::interval) d
-WHERE RANDOM() < 0.15 AND EXTRACT(DOW FROM d) BETWEEN 1 AND 5
-LIMIT 200;
+    RANDOM() > 0.5
+FROM inserted_notifs n
+CROSS JOIN parent p
+WHERE RANDOM() < 0.1; -- Distribute randomly to roughly 10% of parents for each notification
 
--- 3.7 GUARANTEED RECENT NOTIFICATIONS (fixed set per parent, so every account
--- has a predictable mix of read/unread notifications to demo and test against)
-INSERT INTO notifications (account_id, notification_type, sent_at, seen_at, handled_at, seen, handled, description, priority)
+-- 3.7 GUARANTEED RECENT NOTIFICATIONS (UPDATED: For m:n structure)
+WITH fixed_notifs AS (
+    INSERT INTO notifications (notification_type, sent_at, description, priority)
+    VALUES
+        ('announcement', NOW() - INTERVAL '2 hours', 'Reminder: Sports Day is this Friday at 9:00 AM. Please pack extra water and sunscreen.', 'normal'),
+        ('temperature_alert', NOW() - INTERVAL '3 hours', 'FEVER ALERT: Your child''s temperature is 38.7C. Please check in with the nursery.', 'urgent'),
+        ('incident', NOW() - INTERVAL '1 day', 'Mild allergic reaction to snack at 10:00 - antihistamine administered.', 'high'),
+        ('supply', NOW() - INTERVAL '2 days', 'Your supply request for diapers has been approved and is awaiting fulfillment.', 'low'),
+        ('attendance', NOW() - INTERVAL '5 hours', 'Your child was checked in safely at 8:12 AM today.', 'normal')
+    RETURNING id, notification_type, sent_at
+)
+INSERT INTO account_notification (account_id, notification_id, seen_at, handled_at, seen, handled)
 SELECT
     p.account_id,
-    v.notification_type,
-    v.sent_at,
-    v.seen_at,
-    v.handled_at,
-    v.seen,
-    v.handled,
-    v.description,
-    v.priority
+    n.id,
+    CASE 
+        WHEN n.notification_type = 'incident' THEN NOW() - INTERVAL '20 hours'
+        WHEN n.notification_type = 'supply' THEN NOW() - INTERVAL '2 days' + INTERVAL '1 hour'
+        WHEN n.notification_type = 'attendance' THEN NOW() - INTERVAL '5 hours' + INTERVAL '10 minutes'
+        ELSE NULL::timestamp 
+    END,
+    CASE 
+        WHEN n.notification_type = 'incident' THEN NOW() - INTERVAL '18 hours'
+        ELSE NULL::timestamp 
+    END,
+    CASE WHEN n.notification_type IN ('incident', 'supply', 'attendance') THEN TRUE ELSE FALSE END,
+    CASE WHEN n.notification_type = 'incident' THEN TRUE ELSE FALSE END
 FROM parent p
-CROSS JOIN (
-    VALUES
-        ('announcement', NOW() - INTERVAL '2 hours', NULL::timestamp, NULL::timestamp, FALSE, FALSE,
-            'Reminder: Sports Day is this Friday at 9:00 AM. Please pack extra water and sunscreen.', 'normal'),
-        ('temperature_alert', NOW() - INTERVAL '3 hours', NULL::timestamp, NULL::timestamp, FALSE, FALSE,
-            'FEVER ALERT: Your child''s temperature is 38.7C. Please check in with the nursery.', 'urgent'),
-        ('incident', NOW() - INTERVAL '1 day', NOW() - INTERVAL '20 hours', NOW() - INTERVAL '18 hours', TRUE, TRUE,
-            'Mild allergic reaction to snack at 10:00 - antihistamine administered.', 'high'),
-        ('supply', NOW() - INTERVAL '2 days', NOW() - INTERVAL '2 days' + INTERVAL '1 hour', NULL::timestamp, TRUE, FALSE,
-            'Your supply request for diapers has been approved and is awaiting fulfillment.', 'low'),
-        ('attendance', NOW() - INTERVAL '5 hours', NOW() - INTERVAL '5 hours' + INTERVAL '10 minutes', NULL::timestamp, TRUE, FALSE,
-            'Your child was checked in safely at 8:12 AM today.', 'normal')
-) AS v(notification_type, sent_at, seen_at, handled_at, seen, handled, description, priority);
+CROSS JOIN fixed_notifs n;
 
 -- ======================================================
 -- 4. FAMILY TREE VIEW
@@ -758,6 +750,7 @@ UNION ALL SELECT 'Attendance', COUNT(*) FROM attendance_records
 UNION ALL SELECT 'Activity Logs', COUNT(*) FROM activity_logs
 UNION ALL SELECT 'Incidents', COUNT(*) FROM incidient_report
 UNION ALL SELECT 'Notifications', COUNT(*) FROM notifications
+UNION ALL SELECT 'Account-Notification links', COUNT(*) FROM account_notification
 UNION ALL SELECT 'Supply Requests', COUNT(*) FROM supply_request
 UNION ALL SELECT 'Announcements', COUNT(*) FROM announcements;
 
