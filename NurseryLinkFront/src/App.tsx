@@ -3,7 +3,7 @@ import { ThemeProvider } from './context/ThemeContext'
 import { Header } from './components/parents/Header'
 import { Hero } from './components/landing/Hero'
 import { TrustBar } from './components/landing/TrustBar'
-
+import { Administrator } from './components/admin/Administrator'
 import { CtaPanel } from './components/landing/CtaPanel'
 import { Footer } from './components/landing/Footer'
 import { SignIn } from './components/signpage/signing'
@@ -44,6 +44,7 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/parent" element={<ParentDashboard />} />
+        <Route path="/admin_panel" element={<Administrator />} />
         <Route path="/teacher" element={<TeacherDashboard />} />
         <Route path="/parent/child/child_dashboard" element={<ChildDashboard />} />
         <Route path="/settings" element={<Settings />} />

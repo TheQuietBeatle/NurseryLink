@@ -93,8 +93,10 @@ export function SignIn() {
     setIsSubmitting(true)
 
     try {
-      const account = await login(email, password)
+      const { account, token } = await login(email, password)
+      console.log(account)
       localStorage.setItem('account', JSON.stringify(account))
+      localStorage.setItem('token', token)
 
       if (account.role === 'parent') {
         navigate('/parent')
@@ -106,8 +108,9 @@ export function SignIn() {
         return
       }
       
-       if (account.role === 'admin') {
-        navigate('/AdminDashboard')
+       if (account.role == 'admin') {
+        console.log('admin hello')
+        navigate('/admin_panel')
         return
       }
 

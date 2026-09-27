@@ -1,3 +1,9 @@
 {
-    "sqltools.connections": []
+  "editor.inlineSuggest.enabled": true,
+  "sqltools.connections": [],
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": true
+  }
 }

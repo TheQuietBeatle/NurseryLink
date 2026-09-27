@@ -1,0 +1,7 @@
+# Use this workspace to collaborate
+workspace:
+  id: 793a7ef9-930e-4cb4-853c-6ff9211387fa
+
+localResources:
+  collections:
+    - ../backend/NurseryLink Backend

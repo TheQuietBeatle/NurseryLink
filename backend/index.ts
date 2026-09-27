@@ -12,21 +12,11 @@ app.use(express.json()); //req.body
 //routes //
 //create account//
 
-app.post('/account', async (req: any, res: any) => {
-    const { username, full_name, email, password, role } = req.body;
-    const query = 'INSERT INTO account (username, full_name, email, password, role) VALUES ($1, $2, $3, $4, $5)';
-    const values = [username, full_name, email, password, role];
-    try {
-        const result = await pool.query(query, values);
-        res.send('Account created successfully');
-    } catch (err: any) {
-        console.error(err.message);
-        res.status(500).send('Error creating account');
-    }
-});
+
 
 /*
 {
+
   "username": "george2",
   "full_name": "George Sameh",
   "email": "george2@example.com",
@@ -78,26 +68,9 @@ app.delete('/account/:id', async (req: any, res: any) => {
 });
 //login //
 
-//add login route //
-app.post('/Login', async (req: any, res: any) => {
-    const { email, password } = req.body;
-    const query = 'SELECT * FROM account WHERE email = $1 AND password = $2';
-    const result = await pool.query(query, [email, password]);
-    if (result.rows.length === 0) {
-        res.status(401).send('Invalid credentials');
-    }
-    else if (result.rows.length === 1) {
-        res.json({
-            id: result.rows[0].id,
-            full_name: result.rows[0].full_name,
-            email: result.rows[0].email,
-            role: result.rows[0].role,
-        });
-    }
-    else {
-        res.status(500).send('Error logging in');
-    }
-});
+
+
+
 
 /* get all children linked to a parent's account (covers both parents in a family) */
 app.get('/children/account/:account_id', async (req: any, res: any) => {

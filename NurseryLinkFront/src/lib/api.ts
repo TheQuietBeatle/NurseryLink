@@ -9,6 +9,11 @@ export type Account = {
   role: string
 }
 
+export type LoginResult = {
+  account: Account
+  token: string
+}
+
 export type Child = {
   id: string
   parent_id: string
@@ -118,7 +123,7 @@ export class ApiError extends Error {
   }
 }
 
-export async function login(email: string, password: string): Promise<Account> {
+export async function login(email: string, password: string): Promise<LoginResult> {
   const response = await fetch(`${getApiUrl()}/Login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -132,7 +137,12 @@ export async function login(email: string, password: string): Promise<Account> {
     )
   }
 
-  return response.json()
+  const result = await response.json()
+
+  return {
+    account: result.account,
+    token: result.token,
+  }
 }
 
 export async function getChildrenForAccount(accountId: string): Promise<Child[]> {
