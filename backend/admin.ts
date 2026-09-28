@@ -169,12 +169,12 @@ app.get("/GetPriviledge/:id", verifyToken, async (req: any, res: any) => {
 
 
 
-app.post("/AssignPriviledge", verifyToken, async (req: any, res: any) => {
-  const { account_id, priviledge_ids } = req.body;
+app.post("/AssignPrivilege", verifyToken, async (req: any, res: any) => {
+  const { account_id, privilege_ids } = req.body;
 
-  if (!account_id || !Array.isArray(priviledge_ids)) {
+  if (!account_id || !Array.isArray(privilege_ids)) {
     return res.status(400).json({
-      message: "account_id and priviledge_ids are required",
+      message: "account_id and privilege_ids are required",
     });
   }
   const client = await pool.connect();
@@ -188,37 +188,42 @@ app.post("/AssignPriviledge", verifyToken, async (req: any, res: any) => {
       "select privilege_id from admin_previlledge where account_id=$1 and privilege_id=ANY($2::int[])";
     const checkresult = await client.query(checkQuery, [
       current_admin_id,
-      priviledge_ids,
+      privilege_ids,
     ]);
-    if (checkresult.rows.length != priviledge_ids.length) {
-      await client.query("ROLLBACK");
-      return res.status(403).json({
-        message: "You are not authorized to assign this priviledge",
-      });
-    }
-    // Remove privileges that were unchecked
-    await client.query(
-      `
-            DELETE FROM admin_previlledge
-            WHERE account_id = $1
-              AND privilege_id <> ALL($2::bigint[])
-            `,
-      [account_id, priviledge_ids],
+     const authorizedIds: number[] = checkresult.rows.map((r: any) => r.privilege_id);
+    const deniedIds: number[] = privilege_ids.filter(
+      (id: number) => !authorizedIds.includes(id)
     );
-    for (const priviledgeId of priviledge_ids) {
+
+    // if (checkresult.rows.length < privilege_ids.length) {
+    //   await client.query("ROLLBACK");
+    //   return res.status(403).json({
+    //     message: "You are not authorized to assign this privilege",
+    //   });
+    // }
+    // Remove privileges that were unchecked
+     await client.query(
+      `DELETE FROM admin_previlledge
+       WHERE account_id = $1
+         AND privilege_id <> ALL($2::bigint[])`,
+      [account_id, authorizedIds],
+    );
+   for (const privilegeId of authorizedIds) {
       await client.query(
-        `INSERT INTO admin_previlledge
-                 (account_id, privilege_id)
-                 VALUES ($1, $2)`,
-        [account_id, priviledgeId],
+        `INSERT INTO admin_previlledge (account_id, privilege_id) VALUES ($1, $2)`,
+        [account_id, privilegeId],
       );
     }
 
     await client.query('COMMIT');
 
-        return res.status(200).json({
-            message: 'Privileges updated successfully'
-        });
+    return res.status(200).json({
+      message: deniedIds.length > 0
+        ? 'Privileges updated, but some could not be granted because you do not hold them yourself'
+        : 'Privileges updated successfully',
+      granted: authorizedIds,
+      denied: deniedIds,
+    });
 
     } catch (err: any) {
 

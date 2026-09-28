@@ -99,7 +99,7 @@ export function Administrator() {
 
       if (primaryRole === 'admin' && checkedIds.length > 0) {
         console.log('Assigning privileges:', checkedIds, 'to account ID:', newAccountId)
-        const assignResponse = await fetch('http://localhost:3000/AssignPriviledge', {
+        const assignResponse = await fetch('http://localhost:3000/AssignPrivilege', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ export function Administrator() {
           },
           body: JSON.stringify({
             account_id: newAccountId,
-            priviledge_ids: checkedIds
+            privilege_ids: checkedIds
           })
         })
 
