@@ -62,8 +62,13 @@ export function Administrator() {
     const token = localStorage.getItem('token')
 
     try {
-      if (!primaryRole) {
+      if (!primaryRole.trim()) {
         alert('Please select a role')
+        return
+      }
+      //function .trim makes the big space like this " " trated like short space
+      if(!username.trim() || !fullName.trim() || !email.trim() || !password.trim()) {
+        alert('Please fill in all required fields')
         return
       }
 
