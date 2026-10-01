@@ -5,6 +5,25 @@
     "jsonwebtoken": "^9.0.3"
   },
   "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.10"
-  }
+    "@types/jsonwebtoken": "^9.0.10",
+    "concurrently": "^10.0.5"
+  },
+  "name": "nurserylink",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheQuietBeatle/NurseryLink.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheQuietBeatle/NurseryLink/issues"
+  },
+  "homepage": "https://github.com/TheQuietBeatle/NurseryLink#readme"
 }

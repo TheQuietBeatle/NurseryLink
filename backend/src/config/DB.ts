@@ -2,9 +2,9 @@ import { Pool } from 'pg';
 
 const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:5432/postgres';
 
-const pool = new Pool({
+export const pool = new Pool({
     user:"postgres",
-    password:"gogosm2020",
+    password:"123456789",
     host:"localhost",
     port:5432,
     database:"nurserylinkDB",

@@ -110,6 +110,7 @@ export function SignIn() {
       
        if (account.role == 'admin') {
         console.log('admin hello')
+        console.log(account.id)
         navigate('/admin_panel')
         return
       }
