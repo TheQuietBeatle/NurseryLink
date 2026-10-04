@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { AdminLayout } from './adminPortal'
+import { getApiUrl } from '../../lib/api'
 
 type Privilege = {
   id: number
@@ -20,7 +21,7 @@ export function Administrator() {
   const [permissions, setPermissions] = useState<Record<number, boolean>>({})
 
   useEffect(() => {
-    fetch('http://localhost:3000/GetPriviledges', {
+    fetch(`${getApiUrl()}/GetPriviledges`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -73,7 +74,7 @@ export function Administrator() {
         return
       }
 
-      const response = await fetch('http://localhost:3000/CreateAccount', {
+      const response = await fetch(`${getApiUrl()}/CreateAccount`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -105,7 +106,7 @@ export function Administrator() {
 
       if (primaryRole === 'admin' && checkedIds.length > 0) {
         console.log('Assigning privileges:', checkedIds, 'to account ID:', newAccountId)
-        const assignResponse = await fetch('http://localhost:3000/AssignPrivilege', {
+        const assignResponse = await fetch(`${getApiUrl()}/AssignPrivilege`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

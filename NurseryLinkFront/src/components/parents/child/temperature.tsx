@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { defaults } from "chart.js/auto";
 import { Line } from "react-chartjs-2";
+import { getApiUrl } from "../../../lib/api";
 
 import "./Temp.css";
 
@@ -35,7 +36,7 @@ function getTempStatus(degreeCelsius?: number): TempStatus {
 }
 
 async function getTemperatureHistory(childId: string): Promise<TemperatureLog[]> {
-  const res = await fetch(`http://localhost:3000/temperature/${childId} `);
+  const res = await fetch(`${getApiUrl()}/temperature/${childId}`);
   if (!res.ok) throw new Error("Failed to fetch temperature history");
   return res.json();
 }
@@ -46,7 +47,7 @@ async function addTemperatureLog(
   degreeCelsius: number,
   comments: string,
 ): Promise<TemperatureLog> {
-  const res = await fetch(`http://localhost:3000/temperature`, {
+  const res = await fetch(`${getApiUrl()}/temperature`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
