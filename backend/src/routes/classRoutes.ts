@@ -3,6 +3,7 @@ import express from "express";
 import {
   createClass,
   getClasses,
+  getClassRoster,
 } from "../controllers/classController";
 import { checkprivilege } from "../middlewares/checkPrivilege";
 import verifyToken from "../middlewares/verifyToken";
@@ -21,6 +22,8 @@ router.get(
   checkprivilege(2),
   getClasses
 );
+
+router.get("/class/:class_id/roster", getClassRoster);
 // rout
 
 export default router;

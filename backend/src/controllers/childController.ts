@@ -135,3 +135,17 @@ export const transferChildToClass = async (req: any, res: any) => {
   }
 
 }
+
+
+// GET /children/account/:account_id
+/* get all children linked to a parent's account (covers both parents in a family) */
+export const getChildrenByAccount = async (req: any, res: any) => {
+    const query = `
+        SELECT c.* FROM child c
+        JOIN child_parent cp ON cp.child_id = c.id
+        JOIN parent p ON p.id = cp.parent_id
+        WHERE p.account_id = $1
+    `;
+    const result = await pool.query(query, [req.params.account_id]);
+    res.send(result.rows);
+};
