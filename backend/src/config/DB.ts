@@ -1,17 +1,15 @@
+import "dotenv/config";
 import { Pool } from 'pg';
 
-const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:5432/postgres';
+const connectionString = process.env.DATABASE_URL;
+if(!connectionString) {
+    throw new Error("DATABASE_URL is not set in the environment");
+}
 
 export const pool = new Pool({
-    user:"postgres",
-    password:"123456789",
-    host:"localhost",
-    port:5432,
-    database:"nurserylinkDB",
-   
-    
+    connectionString,
     idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000,
+    connectionTimeoutMillis: 10000,
 });
 
 module.exports = pool;

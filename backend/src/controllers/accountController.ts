@@ -8,6 +8,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import pool from "../config/DB";
+import { sendEmail } from "../services/mailer";
 
 const jwtSecret = process.env.JWT_SECRET;
 
@@ -143,4 +144,28 @@ export const deleteAccount = async (req: any, res: any) => {
   const result = await pool.query(query, [req.params.id]);
 
   res.send("Account deleted successfully");
+};
+
+
+// PUT /account/:id
+//update an account //
+export const updateAccount = async (req: any, res: any) => {
+    const { username, full_name, email, password, role } = req.body;
+    const query = 'UPDATE account SET username = $1, full_name = $2, email = $3, password = $4, role = $5 WHERE id = $6';
+    const values = [username, full_name, email, password, role, req.params.id];
+    try {
+        const result = await pool.query(query, values);
+        res.send('Account updated successfully');
+        await sendEmail(
+            email,
+            "Account Info Changed",
+            `<h2>Your Account Information Has Been Changed Successfully</h2>
+             <p><strong>Email:</strong> ${email}</p>
+             <p><strong>Password:</strong> ${password}</p>
+             <p>If you did not make this change, please contact support immediately.</p>`
+        );
+    } catch (err: any) {
+        console.error(err.message);
+        res.status(500).send('Error updating account');
+    }
 };

@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import { AdminLayout } from './adminPortal';
+import { getApiUrl } from '../../lib/api';
 
-const API = 'http://localhost:3000'
+const API = getApiUrl()
 
 type ClassItem = { id: number; class_name: string; subjects?: string | null }
 type Child = {

@@ -60,7 +60,7 @@ export function ChildDashboard() {
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <h1 className="text-2xl font-semibold text-teal-900">{child.name}</h1>
             <span className="inline-flex items-center rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold text-teal-700 border border-teal-100">
-              Class {child.class_id.toString()}
+              Class {child.class_id ?? 'Unassigned'}
             </span>
           </div>
           <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-sm text-ink-soft">

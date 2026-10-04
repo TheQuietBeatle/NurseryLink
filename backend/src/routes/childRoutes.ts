@@ -5,6 +5,7 @@ import {
   addChild,
   searchforchild,
   transferChildToClass,
+  getChildrenByAccount,
 } from "../controllers/childController";
 import { checkprivilege } from "../middlewares/checkPrivilege";
 import verifyToken from "../middlewares/verifyToken";
@@ -36,5 +37,7 @@ router.put(
   checkprivilege(2),
   transferChildToClass
 );
+
+router.get("/children/account/:account_id", getChildrenByAccount);
 
 export default router;
