@@ -5,10 +5,13 @@ const pool = require("../config/DB");
 /* getting the teacher record (and assigned class) for an account */
 export const getTeacherByAccount = async (req: any, res: any) => {
     const query = `
-        SELECT t.id, t.account_id, t.class_id, c.class_name
+        SELECT t.id, t.account_id, tc.class_id, c.class_name
         FROM teacher t
-        JOIN class c ON c.class_id = t.class_id
+        JOIN teacher_class tc ON tc.teacher_id = t.id
+        JOIN class c ON c.id = tc.class_id
         WHERE t.account_id = $1
+        ORDER BY tc.assigned_at DESC
+        LIMIT 1
     `;
     try {
         const result = await pool.query(query, [req.params.account_id]);
