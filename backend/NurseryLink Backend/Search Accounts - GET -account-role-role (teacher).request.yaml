@@ -1,0 +1,18 @@
+$kind: http-request
+name: Search Accounts - GET /account/role/:role (teacher)
+url: "{{baseUrl}}/account/role/teacher"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 200', function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test('Response is a non-empty array of teachers', function () {
+          const body = pm.response.json();
+          pm.expect(body).to.be.an('array').that.is.not.empty;
+          body.forEach((account) => pm.expect(account.role).to.eql('teacher'));
+      });
+    language: text/javascript
+order: 8000

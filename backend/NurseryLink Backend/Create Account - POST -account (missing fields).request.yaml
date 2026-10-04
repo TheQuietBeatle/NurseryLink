@@ -1,0 +1,24 @@
+$kind: http-request
+name: Create Account - POST /account (missing fields)
+url: "{{baseUrl}}/account"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Missing Fields"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 500 (DB rejects missing required columns)', function () {
+          pm.response.to.have.status(500);
+      });
+
+      pm.test('Body reports an error', function () {
+          pm.expect(pm.response.text()).to.eql('Error creating account');
+      });
+    language: text/javascript
+order: 3000

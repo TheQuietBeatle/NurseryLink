@@ -1,0 +1,21 @@
+$kind: http-request
+name: http://localhost:3000/say
+description: ""
+url: http://localhost:3000/CreateAccount
+method: GET
+body:
+  type: json
+  content: "{\r
+
+    \    \"username\":\"sandea\",\r
+
+    \    \"full_name\":\"doda\",\r
+
+    \    \"email\":\"ss\",\r
+
+    \     \"password\":\"ss0\",\r
+
+    \     \" role\":\"parent\"\r
+
+    }"
+order: 1789418889953

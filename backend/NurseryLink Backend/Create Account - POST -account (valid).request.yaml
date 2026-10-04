@@ -1,0 +1,28 @@
+$kind: http-request
+name: Create Account - POST /account (valid)
+url: "{{baseUrl}}/account"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "username": "jane.doe.{{$randomInt}}",
+      "full_name": "Jane Doe",
+      "email": "jane.doe+{{$randomInt}}@example.com",
+      "password": "Sup3rSecret!",
+      "role": "parent"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 200', function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test('Body confirms creation', function () {
+          pm.expect(pm.response.text()).to.eql('Account created successfully');
+      });
+    language: text/javascript
+order: 2000

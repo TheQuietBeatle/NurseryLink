@@ -1,0 +1,26 @@
+$kind: http-request
+name: Get Account - GET /account/id/:id (existing)
+url: "{{baseUrl}}/account/id/1"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 200', function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test('Response is an array with one account', function () {
+          const body = pm.response.json();
+          pm.expect(body).to.be.an('array').with.lengthOf(1);
+      });
+
+      pm.test('Account has expected fields', function () {
+          const account = pm.response.json()[0];
+          pm.expect(account).to.have.property('id', '1');
+          pm.expect(account).to.have.property('username');
+          pm.expect(account).to.have.property('full_name');
+          pm.expect(account).to.have.property('email');
+          pm.expect(account).to.have.property('role');
+      });
+    language: text/javascript
+order: 4000

@@ -1,0 +1,16 @@
+$kind: http-request
+name: Get Account - GET /account/id/:id (invalid id)
+url: "{{baseUrl}}/account/id/abc"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 500 (non-numeric id rejected by DB)', function () {
+          pm.response.to.have.status(500);
+      });
+
+      pm.test('Error mentions invalid bigint input', function () {
+          pm.expect(pm.response.text()).to.include('invalid input syntax for type bigint');
+      });
+    language: text/javascript
+order: 6000

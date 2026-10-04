@@ -13,7 +13,7 @@ import { Settings } from './components/parents/settings'
 import { TeacherDashboard } from './components/teacher/TeacherDashboard'
 import { EventsNotices } from './components/parents/Events'
 import{ClassesStudents} from './components/admin/ClassesAndStudents'
-
+import{TeacherManagement} from './components/admin/teacherManagement'
 function Landing() {
   return (
     <>
@@ -51,6 +51,7 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/events" element={<EventsNotices />} />
         <Route path="/classes" element={<ClassesStudents />} />
+        <Route path="/teachers_classes"element={<TeacherManagement />} />
       </Routes>
     </ThemeProvider>
   )
