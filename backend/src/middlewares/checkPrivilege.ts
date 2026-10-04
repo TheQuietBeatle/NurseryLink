@@ -11,11 +11,13 @@ export const checkprivilege=(privilege_id: number) => {
                 [req.user.Current_id, privilege_id]
             );
             if (result.rows.length === 0) {
+                console.log("nanaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                 return res.status(403).json({
-                    message: "You are not authorized to enter this page"
+                    message: "You are not authorized to do this action"
                 });
             }
             next();
+            console.log("yessssssssssssssssssssssssssssssss");
         } catch (error) {
             console.error(error);
             return res.status(500).json({

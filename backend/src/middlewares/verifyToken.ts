@@ -5,8 +5,10 @@ if (!jwtSecret) {
 }
 
 const verifyToken = (req: any, res: any, next: any) => {
+  
   const authHeader = req.headers.authorization;
-
+console.log("auth header:", req.headers.authorization);
+console.log("all headers:", req.headers);
   if (!authHeader) {
     return res.status(401).send("No token provided");
   }
