@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Logo } from '../landing/Logo'
 import type { Account } from '../../lib/api'
-import { Navigate } from 'react-router-dom'
 import { DarkModeToggle } from '../DarkModeToggle'
 
 export function Header({ account }: { account?: Account }) {
