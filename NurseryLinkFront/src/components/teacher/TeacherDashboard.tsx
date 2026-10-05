@@ -43,9 +43,12 @@ export function TeacherDashboard() {
 
   useEffect(() => {
     if (!account) return
+    setLoading(true)
+    setError(null)
     getTeacherByAccount(account.id)
       .then(setTeacher)
       .catch((err) => setError(err.message))
+      .finally(() => setLoading(false))
   }, [account])
 
   const loadRoster = () => {
