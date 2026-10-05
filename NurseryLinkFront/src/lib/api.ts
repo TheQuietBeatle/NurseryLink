@@ -1,5 +1,5 @@
 export function getApiUrl() {
-  return import.meta.env.VITE_API_URL?.trim() || 'http://localhost:3000'
+  return import.meta.env.VITE_API_URL?.trim() || 'http://localhost:3000/api'
 }
 
 export type Account = {
@@ -124,7 +124,7 @@ export class ApiError extends Error {
 }
 
 export async function login(email: string, password: string): Promise<LoginResult> {
-  const response = await fetch(`${getApiUrl()}/Login`, {
+  const response = await fetch(`${getApiUrl()}/account/Login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
@@ -146,7 +146,7 @@ export async function login(email: string, password: string): Promise<LoginResul
 }
 
 export async function getChildrenForAccount(accountId: string): Promise<Child[]> {
-  const response = await fetch(`${getApiUrl()}/children/account/${accountId}`)
+  const response = await fetch(`${getApiUrl()}/child/account/${accountId}`)
 
   if (!response.ok) {
     throw new ApiError(response.status, 'Could not load children.')
@@ -156,7 +156,7 @@ export async function getChildrenForAccount(accountId: string): Promise<Child[]>
 }
 
 export async function getIncidentsForChild(childId: string): Promise<IncidentReport[]> {
-  const response = await fetch(`${getApiUrl()}/incidents/${childId}`)
+  const response = await fetch(`${getApiUrl()}/incident/${childId}`)
 
   if (!response.ok) {
     throw new ApiError(response.status, 'Could not load incidents.')
@@ -166,7 +166,7 @@ export async function getIncidentsForChild(childId: string): Promise<IncidentRep
 }
 
 export async function getMealsForChild(childId: string): Promise<MealLog[]> {
-  const response = await fetch(`${getApiUrl()}/meals/${childId}`)
+  const response = await fetch(`${getApiUrl()}/meal/${childId}`)
 
   if (!response.ok) {
     throw new ApiError(response.status, 'Could not load meals.')
@@ -176,7 +176,7 @@ export async function getMealsForChild(childId: string): Promise<MealLog[]> {
 }
 
 export async function getSuppliesForParent(accountId: string): Promise<SupplyRequest[]> {
-  const response = await fetch(`${getApiUrl()}/supplies/${accountId}`)
+  const response = await fetch(`${getApiUrl()}/supply/${accountId}`)
 
   if (!response.ok) {
     throw new ApiError(response.status, 'Could not load supply requests.')
@@ -200,7 +200,7 @@ export async function updateAccount(
   }
 
   // Re-fetch the account to get the updated data
-  const updated = await fetch(`${getApiUrl()}/account/id/${accountId}`)
+  const updated = await fetch(`${getApiUrl()}/account/${accountId}`)
   if (!updated.ok) {
     throw new ApiError(updated.status, 'Account updated but could not reload.')
   }
@@ -210,7 +210,7 @@ export async function updateAccount(
 }
 
 export async function getNotificationsForAccount(accountId: string): Promise<NotificationItem[]> {
-  const response = await fetch(`${getApiUrl()}/notifications/${accountId}`)
+  const response = await fetch(`${getApiUrl()}/notification/${accountId}`)
 
   if (!response.ok) {
     throw new ApiError(response.status, 'Could not load notifications.')
@@ -220,7 +220,7 @@ export async function getNotificationsForAccount(accountId: string): Promise<Not
 }
 
 export async function markNotificationSeen(id: number): Promise<NotificationItem> {
-  const response = await fetch(`${getApiUrl()}/notifications/${id}/seen`, {
+  const response = await fetch(`${getApiUrl()}/notification/${id}/seen`, {
     method: 'PUT',
   })
 
@@ -258,7 +258,7 @@ export async function logMeal(fields: {
   foodPortion: string
   comments?: string
 }): Promise<void> {
-  const response = await fetch(`${getApiUrl()}/meals`, {
+  const response = await fetch(`${getApiUrl()}/meal`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -303,7 +303,7 @@ export async function fileIncidentReport(fields: {
   description: string
   severityLevel: 'low' | 'medium' | 'high' | 'critical'
 }): Promise<void> {
-  const response = await fetch(`${getApiUrl()}/incidents`, {
+  const response = await fetch(`${getApiUrl()}/incident`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

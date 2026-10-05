@@ -106,7 +106,7 @@ function CreateClassModal({ onClose, onSaved }: { onClose: () => void; onSaved: 
     setSaving(true)
     setError('')
     try {
-      await api('/createClass', {
+      await api('/class/CreateClass', {
         method: 'POST',
         body: JSON.stringify({ class_name: className.trim(), subjects: subjects.trim() || null }),
       })
@@ -174,11 +174,11 @@ function AddStudentModal({
     setSaving(true)
     setError('')
     try {
-      const data = await api('/addChild', {
+      const data = await api('/child/addChild', {
         method: 'POST',
         body: JSON.stringify({ name: name.trim(), date_of_birth: dob, class_name: className }),
       })
-      onSaved(`Student added. Student code: ${data?.student_code ?? ''}`)
+      onSaved(`Student added. Student code: ${data?.id ?? ''}`)
     } catch (e: any) {
       setError(e.message)
       setSaving(false)
@@ -259,7 +259,7 @@ function TransferModal({
     setSaving(true)
     setError('')
     try {
-      await api('/transferChildToClass', {
+      await api('/child/transferChildToClass', {
         method: 'PUT',
         body: JSON.stringify({ child_id: child.id, new_class_name: destination }),
       })
@@ -332,8 +332,8 @@ export function ClassesStudents() {
     try {
       setError('')
       const [classData, childData] = await Promise.all([
-        api<ClassItem[]>('/GetClasses'),
-        api<Child[]>('/getChildren'),
+        api<ClassItem[]>('/class/GetClasses'),
+        api<Child[]>('/child/getchildren'),
       ])
       setClasses(classData)
       setChildren(childData)

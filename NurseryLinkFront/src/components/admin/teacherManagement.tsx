@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 import { AdminLayout } from './adminPortal'
+import { getApiUrl } from '../../lib/api'
 
-const API = 'http://localhost:3000'
+const API = getApiUrl()
 
 type ClassItem = { id: number; class_name: string; subjects?: string | null }
 type Teacher = {
@@ -15,11 +16,11 @@ type Teacher = {
 }
 
 const ROUTES = {
-  teachers: '/getTeachers',
-  classes: '/GetClasses',
-  teachersInClass: (classId: number) => `/getTeachersInClass/${classId}`,
-  assign: '/assignTeacherToClass',
-  move: '/MoveTeacherToClass',
+  teachers: '/teacher-managing/getTeachers',
+  classes: '/class/GetClasses',
+  teachersInClass: (classId: number) => `/teacher-managing/getTeachersInClass/${classId}`,
+  assign: '/teacher-managing/assignTeacherToClass',
+  move: '/teacher-managing/MoveTeacherToClass',
 }
 
 async function api<T = any>(path: string, options: RequestInit = {}): Promise<T> {

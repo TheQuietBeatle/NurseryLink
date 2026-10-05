@@ -15,7 +15,6 @@ const router = express.Router();
 router.get(
   "/getchildren",
   verifyToken,
-  checkprivilege(2),
   getChildren
 );
 

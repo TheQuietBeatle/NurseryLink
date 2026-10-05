@@ -14,6 +14,7 @@ import { TeacherDashboard } from './components/teacher/TeacherDashboard'
 import { EventsNotices } from './components/parents/Events'
 import{ClassesStudents} from './components/admin/ClassesAndStudents'
 import{TeacherManagement} from './components/admin/teacherManagement'
+import { ParentManagement } from './components/admin/parentLinkage'
 function Landing() {
   return (
     <>
@@ -52,6 +53,7 @@ function App() {
         <Route path="/events" element={<EventsNotices />} />
         <Route path="/classes" element={<ClassesStudents />} />
         <Route path="/teachers_classes"element={<TeacherManagement />} />
+        <Route path="/ParentManagement"element={<ParentManagement />} />
       </Routes>
     </ThemeProvider>
   )

@@ -19,7 +19,6 @@ router.post(
 router.get(
   "/GetClasses",
   verifyToken,
-  checkprivilege(2),
   getClasses
 );
 

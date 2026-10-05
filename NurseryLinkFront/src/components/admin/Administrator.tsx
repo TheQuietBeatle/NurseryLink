@@ -21,7 +21,7 @@ export function Administrator() {
   const [permissions, setPermissions] = useState<Record<number, boolean>>({})
 
   useEffect(() => {
-    fetch(`${getApiUrl()}/GetPriviledges`, {
+    fetch(`${getApiUrl()}/privilege/GetPriviledges`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ export function Administrator() {
         return
       }
 
-      const response = await fetch(`${getApiUrl()}/CreateAccount`, {
+      const response = await fetch(`${getApiUrl()}/account/CreateAccount`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ export function Administrator() {
 
       if (primaryRole === 'admin' && checkedIds.length > 0) {
         console.log('Assigning privileges:', checkedIds, 'to account ID:', newAccountId)
-        const assignResponse = await fetch(`${getApiUrl()}/AssignPrivilege`, {
+        const assignResponse = await fetch(`${getApiUrl()}/privilege/AssignPrivilege`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
