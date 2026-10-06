@@ -16,7 +16,7 @@ if (!jwtSecret) {
   throw new Error("JWT_SECRET is not set in the environment");
 }
 
-
+const ROLES = ["admin", "teacher", "parent"];
 // POST /Login
 export const login = async (req: any, res: any) => {
   const { email, password } = req.body;
@@ -73,37 +73,54 @@ export const login = async (req: any, res: any) => {
 
 // POST /CreateAccount
 export const createAccount = async (req: any, res: any) => {
-  const { username, full_name, email, password, role } = req.body;
+  const { username, full_name, email, password, role } = req.body ?? {};
+
+  if (!username?.trim() || !full_name?.trim() || !email?.trim() || !password || !role) {
+    return res.status(400).send("username, full_name, email, password and role are required");
+  }
+  if (!ROLES.includes(role)) {
+    return res.status(400).send("Invalid role");
+  }
 
   const Current_id = req.user.Current_id;
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const query =
-    "INSERT INTO account (username, full_name, email, password, role,created_by,created_at) VALUES ($1, $2, $3, $4, $5,$6,CURRENT_TIMESTAMP) RETURNING id,username,full_name,email,role";
-
-  const values = [
-    username,
-    full_name,
-    email,
-    hashedPassword,
-    role,
-    Current_id,
-  ];
+  const client = await pool.connect();
 
   try {
-    const result = await pool.query(query, values);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    return res.json({
+    await client.query("BEGIN");
+
+    const result = await client.query(
+      `INSERT INTO account (username, full_name, email, password, role, created_by, created_at)
+       VALUES ($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP)
+       RETURNING id, username, full_name, email, role`,
+      [username.trim(), full_name.trim(), email.trim(), hashedPassword, role, Current_id]
+    );
+    const account = result.rows[0];
+
+    // create the matching row in the role table
+    if (role === "parent") {
+      await client.query("INSERT INTO parent (account_id) VALUES ($1)", [account.id]);
+    } else if (role === "teacher") {
+      await client.query("INSERT INTO teacher (account_id) VALUES ($1)", [account.id]);
+    }
+
+    await client.query("COMMIT");
+    return res.status(201).json({
       message: "Account created successfully",
-      account: result.rows[0],
+      account,
     });
   } catch (err: any) {
+    await client.query("ROLLBACK");
     console.error(err.message);
+    if (err.code === "23505") {
+      return res.status(409).send("Username or email already exists");
+    }
     return res.status(500).send("Error creating account");
+  } finally {
+    client.release();
   }
 };
-
 
 // GET /account/role/:role
 export const getAccountsByRole = async (req: any, res: any) => {

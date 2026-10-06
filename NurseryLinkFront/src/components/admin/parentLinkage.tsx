@@ -169,7 +169,7 @@ function RegisterParentModal({
     try {
       await api(ROUTES.assign, {
         method: 'POST',
-        body: JSON.stringify({ parent_id: parentId, child_id: student.id }),
+        body: JSON.stringify({ parent_name: fullName.trim(), child_name: student.name }),
       })
       onDone(`Parent account created and linked to ${student.name}`)
     } catch (e: any) {
@@ -340,7 +340,7 @@ export function ParentManagement() {
     try {
       await api(ROUTES.assign, {
         method: 'POST',
-        body: JSON.stringify({ parent_id: selected.id, child_id: student.id }),
+        body: JSON.stringify({ parent_name: selected.full_name, child_name: student.name }),
       })
       setNotice(`${student.name} linked to ${selected.full_name}`)
       setStudentToLink('')
@@ -359,7 +359,7 @@ export function ParentManagement() {
     try {
       await api(ROUTES.remove, {
         method: 'DELETE',
-        body: JSON.stringify({ parent_id: selected.id, child_id: unlinkTarget.id }),
+        body: JSON.stringify({ parent_name: selected.full_name, child_name: unlinkTarget.name }),
       })
       setNotice(`${unlinkTarget.name} unlinked from ${selected.full_name}`)
       setUnlinkTarget(null)
