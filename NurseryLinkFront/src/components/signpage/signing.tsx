@@ -229,12 +229,12 @@ export function SignIn() {
             {isSubmitting ? 'Signing in…' : 'Sign In'}
           </button>
 
-          <p className="text-center text-[0.8125rem] text-ink-soft">
+          {/* <p className="text-center text-[0.8125rem] text-ink-soft">
             Don't have an account?{' '}
             <a href="#" className="font-medium text-teal-700 hover:text-teal-900">
               Sign Up
             </a>
-          </p>
+          </p> */}
 
           <div className="flex items-center gap-3 text-[0.75rem] text-ink-soft">
             <span className="h-px flex-1 bg-rule" />

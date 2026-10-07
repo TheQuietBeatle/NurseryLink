@@ -8,7 +8,7 @@ const { chromium } = require('playwright');
   page.on('console', (msg) => consoleMsgs.push(`[${msg.type()}] ${msg.text()}`));
   page.on('pageerror', (err) => consoleMsgs.push(`[pageerror] ${err.stack || err.message}`));
 
-  await page.route('**/children/account/*', (route) =>
+  await page.route('**/child/account/*', (route) =>
     route.fulfill({
       status: 200,
       contentType: 'application/json',

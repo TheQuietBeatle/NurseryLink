@@ -2,6 +2,18 @@ export function getApiUrl() {
   return import.meta.env.VITE_API_URL?.trim() || 'http://localhost:3000/api'
 }
 
+/** Send the signed-in account token with API requests when one is available. */
+async function apiFetch(input: RequestInfo | URL, init: RequestInit = {}): Promise<Response> {
+  const headers = new Headers(init.headers)
+  const token = localStorage.getItem('token')
+
+  if (token && !headers.has('Authorization')) {
+    headers.set('Authorization', `Bearer ${token}`)
+  }
+
+  return fetch(input, { ...init, headers })
+}
+
 export type Account = {
   id: string
   full_name: string
@@ -124,7 +136,7 @@ export class ApiError extends Error {
 }
 
 export async function login(email: string, password: string): Promise<LoginResult> {
-  const response = await fetch(`${getApiUrl()}/account/Login`, {
+  const response = await apiFetch(`${getApiUrl()}/account/Login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
@@ -146,7 +158,7 @@ export async function login(email: string, password: string): Promise<LoginResul
 }
 
 export async function getChildrenForAccount(accountId: string): Promise<Child[]> {
-  const response = await fetch(`${getApiUrl()}/child/account/${accountId}`)
+  const response = await apiFetch(`${getApiUrl()}/child/account/${accountId}`)
 
   if (!response.ok) {
     throw new ApiError(response.status, 'Could not load children.')
@@ -156,7 +168,7 @@ export async function getChildrenForAccount(accountId: string): Promise<Child[]>
 }
 
 export async function getIncidentsForChild(childId: string): Promise<IncidentReport[]> {
-  const response = await fetch(`${getApiUrl()}/incident/${childId}`)
+  const response = await apiFetch(`${getApiUrl()}/incident/${childId}`)
 
   if (!response.ok) {
     throw new ApiError(response.status, 'Could not load incidents.')
@@ -166,7 +178,7 @@ export async function getIncidentsForChild(childId: string): Promise<IncidentRep
 }
 
 export async function getMealsForChild(childId: string): Promise<MealLog[]> {
-  const response = await fetch(`${getApiUrl()}/meal/${childId}`)
+  const response = await apiFetch(`${getApiUrl()}/meal/${childId}`)
 
   if (!response.ok) {
     throw new ApiError(response.status, 'Could not load meals.')
@@ -176,7 +188,7 @@ export async function getMealsForChild(childId: string): Promise<MealLog[]> {
 }
 
 export async function getSuppliesForParent(accountId: string): Promise<SupplyRequest[]> {
-  const response = await fetch(`${getApiUrl()}/supply/${accountId}`)
+  const response = await apiFetch(`${getApiUrl()}/supply/${accountId}`)
 
   if (!response.ok) {
     throw new ApiError(response.status, 'Could not load supply requests.')
@@ -189,7 +201,7 @@ export async function updateAccount(
   accountId: string,
   fields: { full_name?: string; email?: string; password?: string },
 ): Promise<Account> {
-  const response = await fetch(`${getApiUrl()}/account/${accountId}`, {
+  const response = await apiFetch(`${getApiUrl()}/account/${accountId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(fields),
@@ -200,7 +212,7 @@ export async function updateAccount(
   }
 
   // Re-fetch the account to get the updated data
-  const updated = await fetch(`${getApiUrl()}/account/${accountId}`)
+  const updated = await apiFetch(`${getApiUrl()}/account/${accountId}`)
   if (!updated.ok) {
     throw new ApiError(updated.status, 'Account updated but could not reload.')
   }
@@ -210,7 +222,7 @@ export async function updateAccount(
 }
 
 export async function getNotificationsForAccount(accountId: string): Promise<NotificationItem[]> {
-  const response = await fetch(`${getApiUrl()}/notification/${accountId}`)
+  const response = await apiFetch(`${getApiUrl()}/notification/${accountId}`)
 
   if (!response.ok) {
     throw new ApiError(response.status, 'Could not load notifications.')
@@ -220,7 +232,7 @@ export async function getNotificationsForAccount(accountId: string): Promise<Not
 }
 
 export async function markNotificationSeen(id: number): Promise<NotificationItem> {
-  const response = await fetch(`${getApiUrl()}/notification/${id}/seen`, {
+  const response = await apiFetch(`${getApiUrl()}/notification/${id}/seen`, {
     method: 'PUT',
   })
 
@@ -232,7 +244,7 @@ export async function markNotificationSeen(id: number): Promise<NotificationItem
 }
 
 export async function getTeacherByAccount(accountId: string): Promise<Teacher | null> {
-  const response = await fetch(`${getApiUrl()}/teacher/account/${accountId}`)
+  const response = await apiFetch(`${getApiUrl()}/teacher/account/${accountId}`)
 
   if (!response.ok) {
     throw new ApiError(response.status, 'Could not load teacher profile.')
@@ -242,7 +254,7 @@ export async function getTeacherByAccount(accountId: string): Promise<Teacher | 
 }
 
 export async function getClassRoster(classId: string): Promise<RosterChild[]> {
-  const response = await fetch(`${getApiUrl()}/class/${classId}/roster`)
+  const response = await apiFetch(`${getApiUrl()}/class/${classId}/roster`)
 
   if (!response.ok) {
     throw new ApiError(response.status, 'Could not load class roster.')
@@ -258,7 +270,7 @@ export async function logMeal(fields: {
   foodPortion: string
   comments?: string
 }): Promise<void> {
-  const response = await fetch(`${getApiUrl()}/meal`, {
+  const response = await apiFetch(`${getApiUrl()}/meal`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -281,7 +293,7 @@ export async function logTemperature(fields: {
   degreeCelsius: number
   comments?: string
 }): Promise<void> {
-  const response = await fetch(`${getApiUrl()}/temperature`, {
+  const response = await apiFetch(`${getApiUrl()}/temperature`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -303,7 +315,7 @@ export async function fileIncidentReport(fields: {
   description: string
   severityLevel: 'low' | 'medium' | 'high' | 'critical'
 }): Promise<void> {
-  const response = await fetch(`${getApiUrl()}/incident`, {
+  const response = await apiFetch(`${getApiUrl()}/incident`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -320,7 +332,7 @@ export async function fileIncidentReport(fields: {
 }
 
 export async function getToiletForChild(childId: string): Promise<ToiletLog[]> {
-  const response = await fetch(`${getApiUrl()}/toilet/${childId}`)
+  const response = await apiFetch(`${getApiUrl()}/toilet/${childId}`)
 
   if (!response.ok) {
     throw new ApiError(response.status, 'Could not load toilet logs.')
@@ -335,7 +347,7 @@ export async function logToiletVisit(fields: {
   toiletType: string
   comments?: string
 }): Promise<void> {
-  const response = await fetch(`${getApiUrl()}/toilet`, {
+  const response = await apiFetch(`${getApiUrl()}/toilet`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -352,7 +364,7 @@ export async function logToiletVisit(fields: {
 }
 
 export async function getAttendanceForChild(childId: string): Promise<AttendanceRecord[]> {
-  const response = await fetch(`${getApiUrl()}/attendance/${childId}`)
+  const response = await apiFetch(`${getApiUrl()}/attendance/${childId}`)
 
   if (!response.ok) {
     throw new ApiError(response.status, 'Could not load attendance records.')
@@ -362,7 +374,7 @@ export async function getAttendanceForChild(childId: string): Promise<Attendance
 }
 
 export async function checkInChild(childId: number, adminId: string): Promise<AttendanceRecord> {
-  const response = await fetch(`${getApiUrl()}/attendance/checkin`, {
+  const response = await apiFetch(`${getApiUrl()}/attendance/checkin`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ child_id: childId, admin_id: adminId }),
@@ -376,7 +388,7 @@ export async function checkInChild(childId: number, adminId: string): Promise<At
 }
 
 export async function checkOutChild(recordId: number): Promise<AttendanceRecord> {
-  const response = await fetch(`${getApiUrl()}/attendance/${recordId}/checkout`, {
+  const response = await apiFetch(`${getApiUrl()}/attendance/${recordId}/checkout`, {
     method: 'PUT',
   })
 
