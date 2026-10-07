@@ -22,7 +22,7 @@ router.get(
   getClasses
 );
 
-router.get("/class/:class_id/roster", getClassRoster);
+router.get("/:class_id/roster", verifyToken, getClassRoster);
 // rout
 
 export default router;

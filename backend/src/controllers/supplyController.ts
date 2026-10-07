@@ -1,5 +1,5 @@
-const pool = require("../config/DB");
-
+// const pool = require("../config/DB");
+import pool from "../config/DB";
 
 // GET /supplies/:account_id
 /* getting supply requests for a parent */

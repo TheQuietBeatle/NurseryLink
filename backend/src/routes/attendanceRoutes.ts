@@ -5,11 +5,12 @@ import {
   checkIn,
   checkOut,
 } from "../controllers/attendanceController";
+import verifyToken from "../middlewares/verifyToken";
 
 const router = express.Router();
 
-router.get("/attendance/:child_id", getAttendance);
-router.post("/attendance/checkin", checkIn);
-router.put("/attendance/:id/checkout", checkOut);
+router.get("/:child_id", verifyToken, getAttendance);
+router.post("/checkin", verifyToken, checkIn);
+router.put("/:id/checkout", verifyToken, checkOut);
 
 export default router;

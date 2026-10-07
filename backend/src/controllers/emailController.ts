@@ -1,5 +1,5 @@
 import { sendEmail } from "../services/mailer";
-
+import pool from "../config/DB";
 
 // POST /test-email
 export const sendTestEmail = async (req: any, res: any) => {

@@ -137,7 +137,7 @@ export const transferChildToClass = async (req: any, res: any) => {
 }
 
 
-// GET /children/account/:account_id
+// GET /api/child/account/:account_id
 /* get all children linked to a parent's account (covers both parents in a family) */
 export const getChildrenByAccount = async (req: any, res: any) => {
     const query = `

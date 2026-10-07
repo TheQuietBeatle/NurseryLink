@@ -6,12 +6,13 @@ import {
   createNotification,
   emailNotification,
 } from "../controllers/notificationController";
+import verifyToken from "../middlewares/verifyToken";
 
 const router = express.Router();
 
-router.get("/notifications/:account_id", getNotifications);
-router.put("/notifications/:id/seen", markNotificationSeen);
-router.post("/notifications", createNotification);
-router.post("/notifications/:id/email", emailNotification);
+router.put("/:id/seen", verifyToken, markNotificationSeen);
+router.post("/", verifyToken, createNotification);
+router.post("/:id/email", verifyToken, emailNotification);
+router.get("/:account_id", verifyToken, getNotifications);
 
 export default router;

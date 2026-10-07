@@ -1,5 +1,5 @@
-const pool = require("../config/DB");
-
+import pool from "../config/DB";
+import { notifyAccounts } from "../services/notify";
 
 // GET /incidents/:child_id
 /* getting incident reports for a child */
@@ -39,15 +39,19 @@ export const getIncidents = async (req: any, res: any) => {
 /* letting a teacher file an incident report; notifies every linked parent */
 export const fileIncident = async (req: any, res: any) => {
     const { child_id, teacher_id, description, severity_level } = req.body;
+    const client = await pool.connect();
+
     try {
-        const incident = await pool.query(
+        await client.query('BEGIN');
+
+        const incident = await client.query(
             `INSERT INTO incidient_report (child_id, teacher_id, description, severity_level, incident_timestamp)
              VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP)
              RETURNING *`,
             [child_id, teacher_id, description, severity_level],
         );
 
-        const linkedParents = await pool.query(
+        const linkedParents = await client.query(
             `SELECT cp.parent_id, p.account_id
              FROM child_parent cp
              JOIN parent p ON p.id = cp.parent_id
@@ -63,20 +67,35 @@ export const fileIncident = async (req: any, res: any) => {
         };
 
         for (const parent of linkedParents.rows) {
-            await pool.query(
+            await client.query(
                 'INSERT INTO incident_to_parent (incidient_id, parent_id) VALUES ($1, $2)',
                 [incident.rows[0].id, parent.parent_id],
             );
-            await pool.query(
-                `INSERT INTO notifications (account_id, notification_type, description, priority)
-                 VALUES ($1, 'incident', $2, $3)`,
-                [parent.account_id, description, priorityBySeverity[severity_level] ?? 'normal'],
+
+            // Insert into notifications table
+            const notificationResult = await client.query(
+                `INSERT INTO notifications (notification_type, description, priority, sent_at)
+                 VALUES ($1, $2, $3, CURRENT_TIMESTAMP)
+                 RETURNING *`,
+                ['incident', description, priorityBySeverity[severity_level] ?? 'normal'],
             );
+
+            // Insert into account_notification junction table
+          await notifyAccounts(
+            linkedParents.rows.map((parent: any) => parent.account_id),
+            'incident',
+            description,
+            priorityBySeverity[severity_level] ?? 'normal'
+          )
         }
 
+        await client.query('COMMIT');
         res.status(201).json(incident.rows[0]);
     } catch (err: any) {
+        await client.query('ROLLBACK');
         console.error(err.message);
         res.status(500).send('Error filing incident report');
+    } finally {
+        client.release();
     }
 };

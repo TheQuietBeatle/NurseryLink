@@ -1,4 +1,4 @@
-const pool = require("../config/DB");
+import pool from "../config/DB";
 
 
 // GET /attendance/:child_id

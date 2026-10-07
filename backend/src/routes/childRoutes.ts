@@ -37,6 +37,6 @@ router.put(
   transferChildToClass
 );
 
-router.get("/children/account/:account_id", getChildrenByAccount);
+router.get("/account/:account_id", verifyToken, getChildrenByAccount);
 
 export default router;

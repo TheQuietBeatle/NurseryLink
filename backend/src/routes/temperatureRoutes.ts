@@ -4,10 +4,11 @@ import {
   getTemperatures,
   logTemperature,
 } from "../controllers/temperatureController";
+import verifyToken from "../middlewares/verifyToken";
 
 const router = express.Router();
 
-router.get("/temperature/:child_id", getTemperatures);
-router.post("/temperature", logTemperature);
+router.get("/:child_id", verifyToken, getTemperatures);
+router.post("/", verifyToken, logTemperature);
 
 export default router;

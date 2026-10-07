@@ -4,10 +4,11 @@ import {
   getIncidents,
   fileIncident,
 } from "../controllers/incidentController";
+import verifyToken from "../middlewares/verifyToken";
 
 const router = express.Router();
 
-router.get("/incidents/:child_id", getIncidents);
-router.post("/incidents", fileIncident);
+router.get("/:child_id", verifyToken, getIncidents);
+router.post("/", verifyToken, fileIncident);
 
 export default router;
