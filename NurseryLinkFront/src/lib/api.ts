@@ -3,7 +3,7 @@ export function getApiUrl() {
 }
 
 /** Send the signed-in account token with API requests when one is available. */
-async function apiFetch(input: RequestInfo | URL, init: RequestInit = {}): Promise<Response> {
+export async function apiFetch(input: RequestInfo | URL, init: RequestInit = {}): Promise<Response> {
   const headers = new Headers(init.headers)
   const token = localStorage.getItem('token')
 
@@ -108,6 +108,10 @@ export type NotificationItem = {
 export type Teacher = {
   id: string
   account_id: string
+ 
+}
+export type TeacherClass = {
+  teacher_id: string
   class_id: string
   class_name: string
 }
@@ -156,7 +160,22 @@ export async function login(email: string, password: string): Promise<LoginResul
     token: result.token,
   }
 }
+export async function getTeacherClasses(
+  teacherId: string
+): Promise<TeacherClass[]> {
+  const response = await apiFetch(
+    `${getApiUrl()}/teacher/${teacherId}/classes`
+  )
 
+  if (!response.ok) {
+    throw new ApiError(
+      response.status,
+      'Could not load teacher classes.'
+    )
+  }
+
+  return response.json()
+}
 export async function getChildrenForAccount(accountId: string): Promise<Child[]> {
   const response = await apiFetch(`${getApiUrl()}/child/account/${accountId}`)
 
