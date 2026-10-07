@@ -3,7 +3,7 @@ import pool from "../config/DB";
 export const getTeachers = async (req:any, res:any) => {
   try {
     const { rows } = await pool.query(`SELECT t.id,a.full_name,a.email,a.is_active
-        FROM teacher t joi account a on t.account_id=a.id 
+        FROM teacher t join account a on t.account_id=a.id 
         order by a.full_name`);
    return res.json(rows);
   } catch (error) {
@@ -68,7 +68,7 @@ export const getteachersinclass = async (req:any, res:any   ) => {
     const { rows } = await pool.query(
         `SELECT t.id, a.full_name, a.username, a.email, a.is_active
        FROM teacher_class tc join teacher t on t.id=tc.teacher_id 
-       JOIN account a ON t.account_id=a.id account a
+       JOIN account a ON t.account_id=a.id
        WHERE tc.class_id = $1
 
        ORDER BY a.full_name`,
