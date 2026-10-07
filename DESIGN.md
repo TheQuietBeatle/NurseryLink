@@ -128,7 +128,7 @@ whatever `account_id` / `child_id` the client sends.
 - `POST /Login` — email + password, returns `{ id, full_name, email, role }`
 
 **Children**
-- `GET /children/account/:account_id` — a parent's children (covers both linked parents)
+- `GET /api/child/account/:account_id` — a parent's children (covers both linked parents)
 
 **Temperature** (`activity_logs`, `log_type='temperature'`)
 - `GET /temperature/:child_id`
@@ -155,11 +155,11 @@ whatever `account_id` / `child_id` the client sends.
 - `GET /supplies/:account_id` (parent's view)
 
 **Teacher / class roster**
-- `GET /teacher/account/:account_id` — teacher row + assigned class name
+- `GET /api/teacher/account/:account_id` — teacher row + assigned class name
 - `GET /class/:class_id/roster` — every child in the class plus today's latest check-in/temp/meal/toilet in one query
 
 **Notifications**
-- `GET /notifications/:account_id`
+- `GET /api/notification/:account_id`
 - `PUT /notifications/:id/seen`
 - `POST /notifications` — generic create + email
 - `POST /notifications/:id/email` — resend the email for an existing notification

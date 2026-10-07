@@ -1,15 +1,14 @@
 import pool from "../config/DB";
 
-
 // POST /CreateClass
 
 export const createClass = async (req: any, res: any) => {
   const { class_name, subjects } = req.body;
-try {
-  const query =
-    "INSERT INTO class (class_name,subjects,created_at,updated_at) VALUES ($1,$2,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)";
+  try {
+    const query =
+      "INSERT INTO class (class_name,subjects,created_at,updated_at) VALUES ($1,$2,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)";
 
-  const values = [class_name, subjects];
+    const values = [class_name, subjects];
     const result = await pool.query(query, values);
     return res.send("Class created successfully");
   } catch (err: any) {
@@ -19,10 +18,8 @@ try {
   }
 };
 
-
 // GET /GetClasses
 export const getClasses = async (req: any, res: any) => {
-
   const query = "SELECT * FROM class";
 
   try {
@@ -36,11 +33,10 @@ export const getClasses = async (req: any, res: any) => {
   }
 };
 
-
 // GET /class/:class_id/roster
 /* getting today's roster for a class: each child plus their latest activity today */
 export const getClassRoster = async (req: any, res: any) => {
-    const query = `
+  const query = `
         SELECT
             c.id,
             c.name,
@@ -59,16 +55,20 @@ export const getClassRoster = async (req: any, res: any) => {
             WHERE child_id = c.id AND check_in_time::date = CURRENT_DATE
             ORDER BY check_in_time DESC LIMIT 1
         ) att ON true
-        LEFT JOIN LATERAL (
-            SELECT degree_celsius, activity_timestamp FROM activity_logs
-            WHERE child_id = c.id AND log_type = 'temperature' AND activity_timestamp::date = CURRENT_DATE
-            ORDER BY activity_timestamp DESC LIMIT 1
-        ) temp ON true
-        LEFT JOIN LATERAL (
-            SELECT meal_type, food_portion, activity_timestamp FROM activity_logs
-            WHERE child_id = c.id AND log_type = 'meal' AND activity_timestamp::date = CURRENT_DATE
-            ORDER BY activity_timestamp DESC LIMIT 1
-        ) meal ON true
+       LEFT JOIN LATERAL (
+    SELECT (log_details->>'degree_celsius')::float8 AS degree_celsius, activity_timestamp
+    FROM activity_logs
+    WHERE child_id = c.id AND log_type = 'temperature' AND activity_timestamp::date = CURRENT_DATE
+    ORDER BY activity_timestamp DESC LIMIT 1
+) temp ON true
+LEFT JOIN LATERAL (
+    SELECT log_details->>'meal_type'    AS meal_type,
+           log_details->>'food_portion' AS food_portion,
+           activity_timestamp
+    FROM activity_logs
+    WHERE child_id = c.id AND log_type = 'meal' AND activity_timestamp::date = CURRENT_DATE
+    ORDER BY activity_timestamp DESC LIMIT 1
+) meal ON true
         LEFT JOIN LATERAL (
             SELECT activity_timestamp FROM activity_logs
             WHERE child_id = c.id AND log_type = 'toilet' AND activity_timestamp::date = CURRENT_DATE
@@ -77,11 +77,11 @@ export const getClassRoster = async (req: any, res: any) => {
         WHERE c.class_id = $1
         ORDER BY c.name
     `;
-    try {
-        const result = await pool.query(query, [req.params.class_id]);
-        res.send(result.rows);
-    } catch (err: any) {
-        console.error(err.message);
-        res.status(500).send('Error fetching class roster');
-    }
+  try {
+    const result = await pool.query(query, [req.params.class_id]);
+    res.send(result.rows);
+  } catch (err: any) {
+    console.error(err.message);
+    res.status(500).send("Error fetching class roster");
+  }
 };

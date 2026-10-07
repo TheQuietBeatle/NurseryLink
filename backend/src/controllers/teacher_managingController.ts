@@ -2,9 +2,8 @@ import pool from "../config/DB";
 
 export const getTeachers = async (req:any, res:any) => {
   try {
-    const { rows } = await pool.query(`SELECT a.full_name,a.email,a.is_active
-        FROM account a
-        where a.role='teacher' 
+    const { rows } = await pool.query(`SELECT t.id,a.full_name,a.email,a.is_active
+        FROM teacher t joi account a on t.account_id=a.id 
         order by a.full_name`);
    return res.json(rows);
   } catch (error) {
@@ -20,7 +19,7 @@ export const assignTeacherToClass = async (req: any, res: any) => {
 
   try {
     const teacher = await pool.query(
-      "SELECT id FROM account WHERE full_name = $1 AND role = 'teacher'",
+      "SELECT t.id FROM teacher t join account a on t.account_id=a.id WHERE a.full_name = $1 AND a.is_active = TRUE",
       [teacher_name.trim()]
     );
     if (teacher.rows.length === 0) {
@@ -67,10 +66,11 @@ export const getteachersinclass = async (req:any, res:any   ) => {
   const { class_id } = req.params;
   try {
     const { rows } = await pool.query(
-        `SELECT a.id, a.full_name, a.username, a.email, a.is_active
-       FROM account a
-       JOIN teacher_class tc ON tc.teacher_id = a.id
+        `SELECT t.id, a.full_name, a.username, a.email, a.is_active
+       FROM teacher_class tc join teacher t on t.id=tc.teacher_id 
+       JOIN account a ON t.account_id=a.id account a
        WHERE tc.class_id = $1
+
        ORDER BY a.full_name`,
         [class_id]
     );
@@ -95,7 +95,7 @@ export const moveTeacherToClass = async (req: any, res: any) => {
   try {
     // adjust this check to your teachers/account tables
     const teacher = await pool.query(
-      "SELECT 1 FROM account WHERE id = $1 AND role = 'teacher' AND is_active = TRUE",
+      "SELECT 1 FROM teacher t join account a on a.id=t.account_id WHERE t.id = $1  AND a.is_active = TRUE",
       [teacher_id]
     );
     if (teacher.rows.length === 0) {

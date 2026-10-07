@@ -229,7 +229,7 @@ local-development default.
 - [ ] PostgreSQL provisioned and `nurserylinkDB.sql` loaded (table count is 18)
 - [ ] Backend deployed to Render, root directory `backend`
 - [ ] `DATABASE_URL`, `JWT_SECRET`, `RESEND_API_KEY` set on Render
-- [ ] `GET https://nurserylink-api.onrender.com/children/account/<id>` responds (not a DB error)
+- [ ] `GET https://nurserylink-api.onrender.com/api/child/account/<id>` responds (not a DB error)
 - [ ] `VITE_API_URL` set on Vercel for all environments
 - [ ] Vercel redeployed
 - [ ] Sign-in works on the Vercel URL

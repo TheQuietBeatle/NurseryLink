@@ -1,7 +1,7 @@
 import pool from "../config/DB";
 
 
-// GET /teacher/account/:account_id
+// GET /api/teacher/account/:account_id
 /* getting the teacher record (and assigned class) for an account */
 export const getTeacherByAccount = async (req: any, res: any) => {
     const query = `

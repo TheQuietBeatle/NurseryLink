@@ -81,13 +81,13 @@
 
 | Route | Required Role | Logic |
 |-------|--------------|-------|
-| `GET /children/account/:account_id` | parent | Verify `account_id` matches `req.user.id` |
+| `GET /api/child/account/:account_id` | parent | Verify `account_id` matches `req.user.id` |
 | `GET /temperature/:child_id` | parent/teacher | Verify child belongs to parent, or teacher's class matches child |
 | `POST /temperature` | parent | Verify `account_id` in body matches `req.user.id` |
 | `GET /incidents/:child_id` | parent/teacher | Verify ownership or class membership |
 | `GET /meals/:child_id` | parent/teacher | Verify ownership or class membership |
 | `GET /supplies/:account_id` | parent | Verify `account_id` matches `req.user.id` |
-| `GET /notifications/:account_id` | any (own only) | Verify `account_id` matches `req.user.id` |
+| `GET /api/notification/:account_id` | any (own only) | Verify `account_id` matches `req.user.id` |
 | `GET /account/role/:role` | admin | Only admins can list all accounts |
 | `DELETE /account/:id` | admin or self | Admins can delete anyone; users can delete themselves |
 | `POST /notifications` | teacher/admin | Only staff can create notifications |
