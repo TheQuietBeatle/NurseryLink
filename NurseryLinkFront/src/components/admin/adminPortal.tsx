@@ -4,11 +4,11 @@ import { Sidebar } from './adminSidebar'
 
 export function AdminLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="admin-theme min-h-screen bg-paper text-ink">
       <AdminHeader />
-      <div className="flex">
+      <div className="flex min-h-[calc(100vh-4rem)]">
         <Sidebar />
-        <main className="flex-1 p-8">{children}</main>
+        <main className="min-w-0 flex-1 p-4 sm:p-6 lg:p-8">{children}</main>
       </div>
     </div>
   )

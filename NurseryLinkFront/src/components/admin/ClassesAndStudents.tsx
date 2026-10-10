@@ -162,6 +162,7 @@ function AddStudentModal({
 }) {
   const [name, setName] = useState('')
   const [dob, setDob] = useState('')
+  // const[studentCode, setStudentCode] = useState('')
   const [className, setClassName] = useState(classes[0]?.class_name ?? '')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
@@ -178,7 +179,8 @@ function AddStudentModal({
         method: 'POST',
         body: JSON.stringify({ name: name.trim(), date_of_birth: dob, class_name: className }),
       })
-      onSaved(`Student added. Student code: ${data?.id ?? ''}`)
+      console.log('Added student:', data)
+      onSaved(`Student added Successfully`)
     } catch (e: any) {
       setError(e.message)
       setSaving(false)

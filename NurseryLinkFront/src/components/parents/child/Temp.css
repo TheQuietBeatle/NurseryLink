@@ -85,3 +85,32 @@
   margin-top: 1.25rem;
   height: 18rem;
 }
+
+[data-theme='dark'] .temp-card {
+  background-color: #111b1f;
+  border-color: #34464c;
+  color: #f0f4f2;
+}
+
+[data-theme='dark'] .temp-add-form input {
+  background-color: #0c1417;
+  border-color: #3a4b50;
+  color: #f0f4f2;
+}
+
+[data-theme='dark'] .temp-add-form input::placeholder {
+  color: #bdc9cb;
+  opacity: 1;
+}
+
+[data-theme='dark'] .temp-add-form button {
+  background-color: #174b59;
+  color: #f0f4f2;
+}
+
+[data-theme='dark'] .temp-status-normal { background-color: #153b2a; color: #a5edbd; }
+[data-theme='dark'] .temp-status-elevated { background-color: #443714; color: #ffe18a; }
+[data-theme='dark'] .temp-status-fever { background-color: #4a2c15; color: #ffc38d; }
+[data-theme='dark'] .temp-status-high-fever { background-color: #4b2022; color: #ffb3b3; }
+[data-theme='dark'] .temp-status-unknown { background-color: #263439; color: #e0e8e8; }
+[data-theme='dark'] .temp-form-error { color: #ff9b9b; }

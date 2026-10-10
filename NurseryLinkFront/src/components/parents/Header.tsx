@@ -3,15 +3,15 @@ import { Logo } from '../landing/Logo'
 import type { Account } from '../../lib/api'
 import { DarkModeToggle } from '../DarkModeToggle'
 
-const NAV = [
-  { label: 'Children Overview', href: '' },
-  { label: 'Temperature History', href: '#temperature_history' },
-  { label: 'Incident History', href: '#incident_history' },
-  { label: 'Meal History', href: '#meal_history' },
-  { label: 'Supply History', href: '#supply_history' },
-  { label: 'Toilet Visits', href: '#toilet_history' },
-  { label: 'Attendance', href: '#attendance_history' },
-]
+// const NAV = [
+//   // { label: 'Children Overview', href: '' },
+//   // { label: 'Temperature History', href: '#temperature_history' },
+//   // { label: 'Incident History', href: '#incident_history' },
+//   // { label: 'Meal History', href: '#meal_history' },
+//   // { label: 'Supply History', href: '#supply_history' },
+//   // { label: 'Toilet Visits', href: '#toilet_history' },
+//   // { label: 'Attendance', href: '#attendance_history' },
+// ]
 
 export function Header({ account }: { account?: Account }) {
   const [scrolled, setScrolled] = useState(false)
@@ -60,7 +60,7 @@ export function Header({ account }: { account?: Account }) {
           <Logo />
         </a>
 
-        <nav aria-label="Primary" className="hidden md:block">
+        {/* <nav aria-label="Primary" className="hidden md:block">
           <ul className="flex items-center gap-7 lg:gap-9">
             {NAV.map((item) => (
               <li key={item.label}>
@@ -74,7 +74,7 @@ export function Header({ account }: { account?: Account }) {
               </li>
             ))}
           </ul>
-        </nav>
+        </nav> */}
 
         <div className="flex items-center gap-3">
           <DarkModeToggle />

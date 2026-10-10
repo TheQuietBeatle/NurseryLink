@@ -39,7 +39,7 @@ const navItems: NavItem[] = [
 
 export function Sidebar() {
   return (
-    <aside className="w-64 bg-white border-r border-gray-200 min-h-screen">
+    <aside className="w-64 shrink-0 bg-paper-raised border-r border-rule min-h-[calc(100vh-4rem)]">
       <nav className="p-4 space-y-2">
         {navItems.map(item => (
           <NavLink
@@ -49,7 +49,7 @@ export function Sidebar() {
               `flex items-center px-4 py-2 rounded-lg ${
                 isActive
                   ? 'bg-teal-50 text-teal-700 font-medium'
-                  : 'text-gray-700 hover:bg-gray-100'
+                  : 'text-ink-soft hover:bg-paper-sunk hover:text-ink'
               }`
             }
           >
