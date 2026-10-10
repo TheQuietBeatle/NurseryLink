@@ -50,7 +50,7 @@ export const markNotificationSeen = async (req: any, res: any) => {
   const query = `
         UPDATE account_notification
         SET seen = TRUE, seen_at = COALESCE(seen_at, CURRENT_TIMESTAMP)
-        WHERE notification_id = $1 and account_id=$2
+        WHERE notification_id = $1 
         RETURNING *
     `;
   try {
