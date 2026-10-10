@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { defaults } from "chart.js/auto";
 import { Line } from "react-chartjs-2";
 import { getApiUrl } from "../../../lib/api";
+import{apiFetch} from "../../../lib/api";
+import { useTheme } from "../../../context/ThemeContext";
 
 import "./Temp.css";
 
@@ -36,7 +38,7 @@ function getTempStatus(degreeCelsius?: number): TempStatus {
 }
 
 async function getTemperatureHistory(childId: string): Promise<TemperatureLog[]> {
-  const res = await fetch(`${getApiUrl()}/temperature/${childId}`);
+  const res = await apiFetch(`${getApiUrl()}/temperature/${childId}`);
   if (!res.ok) throw new Error("Failed to fetch temperature history");
   return res.json();
 }
@@ -47,7 +49,7 @@ async function addTemperatureLog(
   degreeCelsius: number,
   comments: string,
 ): Promise<TemperatureLog> {
-  const res = await fetch(`${getApiUrl()}/temperature`, {
+  const res = await apiFetch(`${getApiUrl()}/temperature`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -88,6 +90,7 @@ defaults.plugins.title.align = "start";
 defaults.plugins.title.color = "black";
 
 export const Temperature = ({ childId }: { childId: string }) => {
+  const { theme } = useTheme();
   const [history, setHistory] = useState<TemperatureLog[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [degrees, setDegrees] = useState("");
@@ -115,6 +118,10 @@ export const Temperature = ({ childId }: { childId: string }) => {
       setFormError("Please enter a valid temperature.");
       return;
     }
+    if (degreeCelsius < 35 || degreeCelsius > 41) {
+      setFormError("Temperature must be between 35°C and 41°C.");
+      return;
+    }
 
     const accountId = readStoredAccountId();
     if (!accountId) {
@@ -139,6 +146,9 @@ export const Temperature = ({ childId }: { childId: string }) => {
 
   const latest = history[0];
   const status = getTempStatus(latest?.degree_celsius);
+  const isDark = theme === "dark";
+  const chartTextColor = isDark ? "#e2e5df" : "#2f3335";
+  const chartGridColor = isDark ? "#34464c" : "#dcdcd2";
 
   return (
     <div className="temp-card">
@@ -150,6 +160,8 @@ export const Temperature = ({ childId }: { childId: string }) => {
       <form className="temp-add-form" onSubmit={handleAddTemp}>
         <input
           type="number"
+          min="35"
+          max="41"
           step="0.1"
           placeholder="Temperature (°C)"
           value={degrees}
@@ -180,14 +192,21 @@ export const Temperature = ({ childId }: { childId: string }) => {
                 {
                   label: "Temperature (°C)",
                   data: [...history].reverse().map((log) => log.degree_celsius),
-                  backgroundColor: "#064FF0",
-                  borderColor: "#064FF0",
+                  backgroundColor: isDark ? "#6aacbc" : "#064FF0",
+                  borderColor: isDark ? "#6aacbc" : "#064FF0",
                 },
               ],
             }}
             options={{
               elements: { line: { tension: 0.5 } },
-              plugins: { title: { text: "Temperature History" } },
+              plugins: {
+                title: { text: "Temperature History", color: chartTextColor },
+                legend: { labels: { color: chartTextColor } },
+              },
+              scales: {
+                x: { ticks: { color: chartTextColor }, grid: { color: chartGridColor } },
+                y: { min: 35, max: 41, ticks: { color: chartTextColor }, grid: { color: chartGridColor } },
+              },
             }}
           />
         </div>
