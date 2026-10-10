@@ -127,6 +127,7 @@ export type RosterChild = {
   last_meal_type: string | null
   last_meal_portion: string | null
   last_meal_at: string | null
+  meals_today: { meal_type: string | null; food_portion: string | null; activity_timestamp: string }[]
   last_toilet_at: string | null
 }
 
