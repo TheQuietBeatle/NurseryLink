@@ -130,6 +130,87 @@
   --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.25), 0 24px 44px -22px rgb(0 0 0 / 0.6);
 }
 
+/* The admin tools still use gray utility classes for their layouts. Keep those
+   components in step with the landing page theme without changing other areas. */
+[data-theme='dark'] .admin-theme {
+  color-scheme: dark;
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+}
+
+[data-theme='dark'] .admin-theme .bg-white { background-color: var(--color-paper-raised); }
+[data-theme='dark'] .admin-theme .bg-gray-50 { background-color: var(--color-paper); }
+[data-theme='dark'] .admin-theme .bg-gray-100 { background-color: var(--color-paper-sunk); }
+[data-theme='dark'] .admin-theme .bg-gray-200 { background-color: var(--color-rule); }
+[data-theme='dark'] .admin-theme .text-gray-900,
+[data-theme='dark'] .admin-theme .text-gray-800 { color: var(--color-ink); }
+[data-theme='dark'] .admin-theme .text-gray-700,
+[data-theme='dark'] .admin-theme .text-gray-600 { color: #bac4c5; }
+[data-theme='dark'] .admin-theme .text-gray-500,
+[data-theme='dark'] .admin-theme .text-gray-400 { color: var(--color-ink-soft); }
+[data-theme='dark'] .admin-theme .border-gray-300,
+[data-theme='dark'] .admin-theme .border-gray-200,
+[data-theme='dark'] .admin-theme .border-gray-100 { border-color: var(--color-rule); }
+[data-theme='dark'] .admin-theme input,
+[data-theme='dark'] .admin-theme select,
+[data-theme='dark'] .admin-theme textarea {
+  color-scheme: dark;
+  background-color: var(--color-paper-sunk);
+  color: var(--color-ink);
+  border-color: var(--color-rule);
+}
+[data-theme='dark'] .admin-theme input::placeholder,
+[data-theme='dark'] .admin-theme textarea::placeholder { color: var(--color-ink-soft); }
+[data-theme='dark'] .admin-theme .hover\:bg-gray-50:hover,
+[data-theme='dark'] .admin-theme .hover\:bg-gray-100:hover { background-color: var(--color-paper-sunk); }
+[data-theme='dark'] .admin-theme .bg-teal-50 { background-color: var(--color-teal-50); }
+[data-theme='dark'] .admin-theme .bg-teal-100 { background-color: var(--color-teal-100); }
+[data-theme='dark'] .admin-theme .text-teal-700,
+[data-theme='dark'] .admin-theme .text-teal-800 { color: var(--color-teal-700); }
+[data-theme='dark'] .admin-theme .border-teal-200 { border-color: var(--color-teal-300); }
+[data-theme='dark'] .admin-theme .bg-amber-50 { background-color: #302818; }
+[data-theme='dark'] .admin-theme .border-amber-200 { border-color: #705c2d; }
+[data-theme='dark'] .admin-theme .text-amber-800 { color: #f0cc79; }
+[data-theme='dark'] .admin-theme .bg-red-50 { background-color: #301d20; }
+[data-theme='dark'] .admin-theme .border-red-200 { border-color: #71383e; }
+[data-theme='dark'] .admin-theme .text-red-700,
+[data-theme='dark'] .admin-theme .text-red-600 { color: #f28b91; }
+[data-theme='dark'] .admin-theme .bg-emerald-50 { background-color: #142a25; }
+[data-theme='dark'] .admin-theme .text-emerald-700 { color: #81d5b4; }
+
+/* Higher contrast, darker surfaces for the toilet visit dialog. */
+[data-theme='dark'] .log-toilet-modal { background-color: rgb(0 0 0 / 0.72); }
+[data-theme='dark'] .log-toilet-panel {
+  background-color: #111b1f;
+  border-color: #34464c;
+  color: #f0f4f2;
+}
+[data-theme='dark'] .log-toilet-panel .text-ink { color: #f0f4f2; }
+[data-theme='dark'] .log-toilet-panel .text-ink-soft { color: #bdc9cb; }
+[data-theme='dark'] .log-toilet-panel .toilet-option {
+  background-color: #19262b;
+  border-color: #3a4b50;
+}
+[data-theme='dark'] .log-toilet-panel .toilet-option:hover { background-color: #202f34; }
+[data-theme='dark'] .log-toilet-panel .toilet-option-selected {
+  background-color: #29213c;
+  border-color: #a78bfa;
+}
+[data-theme='dark'] .log-toilet-panel .toilet-notes {
+  background-color: #0c1417;
+  color: #f0f4f2;
+  border-color: #3a4b50;
+}
+[data-theme='dark'] .log-toilet-panel .toilet-notes::placeholder { color: #a8b6b8; }
+
+@media (max-width: 640px) {
+  .admin-theme > div { flex-direction: column; }
+  .admin-theme aside { width: 100%; min-height: auto; border-right: 0; border-bottom: 1px solid var(--color-rule); }
+  .admin-theme aside nav { display: flex; gap: 0.25rem; overflow-x: auto; padding: 0.5rem; }
+  .admin-theme aside nav a { flex: none; white-space: nowrap; padding: 0.65rem 0.75rem; font-size: 0.8rem; }
+  .admin-theme aside nav a svg { width: 1rem; height: 1rem; margin-right: 0.45rem; flex: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

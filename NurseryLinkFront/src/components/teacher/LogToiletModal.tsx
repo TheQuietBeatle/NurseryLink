@@ -38,8 +38,8 @@ export function LogToiletModal({ child, accountId, onClose, onLogged }: LogToile
   }
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 px-4">
-      <div className="w-full max-w-md rounded-2xl border border-[var(--color-rule)] bg-[var(--color-paper-raised)] shadow-[var(--shadow-card)]">
+    <div className="log-toilet-modal fixed inset-0 z-[60] flex items-center justify-center bg-black/50 px-4">
+      <div className="log-toilet-panel w-full max-w-md rounded-2xl border border-[var(--color-rule)] bg-[var(--color-paper-raised)] shadow-[var(--shadow-card)]">
         <div className="flex items-center justify-between border-b border-[var(--color-rule)] p-5">
           <div>
             <h2 className="text-lg font-semibold text-ink">{child.name}</h2>
@@ -63,8 +63,8 @@ export function LogToiletModal({ child, accountId, onClose, onLogged }: LogToile
                   onClick={() => setToiletType(t.value)}
                   className={`flex w-full items-center justify-between rounded-xl border px-4 py-3 text-left transition-colors ${
                     toiletType === t.value
-                      ? 'border-violet-600 bg-violet-50'
-                      : 'border-[var(--color-rule)] bg-paper hover:border-violet-200'
+                      ? 'toilet-option-selected border-violet-600 bg-violet-50'
+                      : 'toilet-option border-[var(--color-rule)] bg-paper hover:border-violet-200'
                   }`}
                 >
                   <div>
@@ -88,7 +88,7 @@ export function LogToiletModal({ child, accountId, onClose, onLogged }: LogToile
               onChange={(e) => setComments(e.target.value)}
               rows={3}
               placeholder="Any observations about the visit..."
-              className="w-full rounded-lg border border-[var(--color-rule)] bg-paper p-3 text-sm"
+              className="toilet-notes w-full rounded-lg border border-[var(--color-rule)] bg-paper p-3 text-sm"
             />
           </div>
 
