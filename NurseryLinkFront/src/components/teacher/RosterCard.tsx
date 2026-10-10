@@ -57,11 +57,20 @@ export function RosterCard({ child, onLogMeal, onRecordTemp, onFileIncident, onL
               {child.last_temp !== null ? `${child.last_temp}°C` : '—'}
             </span>
           </div>
-          <div className="flex items-center justify-between">
-            <span className="text-ink-soft">Last Meal</span>
-            <span className="text-ink">
-              {child.last_meal_at ? `${formatTime(child.last_meal_at)} (${child.last_meal_type})` : '—'}
-            </span>
+          <div>
+            <span className="text-ink-soft">Meals Today</span>
+            {child.meals_today?.length ? (
+              <ul className="mt-1 space-y-1">
+                {child.meals_today.map((meal, index) => (
+                  <li key={`${meal.activity_timestamp}-${index}`} className="flex items-center justify-between gap-2 text-ink">
+                    <span>{meal.meal_type ?? 'Meal'}{meal.food_portion ? ` · ${meal.food_portion}` : ''}</span>
+                    <span className="shrink-0 text-xs text-ink-soft">{formatTime(meal.activity_timestamp)}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-1 text-ink">—</p>
+            )}
           </div>
           <div className="flex items-center justify-between">
             <span className="text-ink-soft">Toilet</span>

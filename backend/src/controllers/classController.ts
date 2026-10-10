@@ -48,6 +48,7 @@ export const getClassRoster = async (req: any, res: any) => {
             meal.meal_type AS last_meal_type,
             meal.food_portion AS last_meal_portion,
             meal.activity_timestamp AS last_meal_at,
+            COALESCE(meals.meals_today, '[]'::json) AS meals_today,
             toilet.activity_timestamp AS last_toilet_at
         FROM child c
         LEFT JOIN LATERAL (
@@ -69,6 +70,17 @@ LEFT JOIN LATERAL (
     WHERE child_id = c.id AND log_type = 'meal' AND activity_timestamp::date = CURRENT_DATE
     ORDER BY activity_timestamp DESC LIMIT 1
 ) meal ON true
+LEFT JOIN LATERAL (
+    SELECT json_agg(
+        json_build_object(
+            'meal_type', log_details->>'meal_type',
+            'food_portion', log_details->>'food_portion',
+            'activity_timestamp', activity_timestamp
+        ) ORDER BY activity_timestamp DESC
+    ) AS meals_today
+    FROM activity_logs
+    WHERE child_id = c.id AND log_type = 'meal' AND activity_timestamp::date = CURRENT_DATE
+) meals ON true
         LEFT JOIN LATERAL (
             SELECT activity_timestamp FROM activity_logs
             WHERE child_id = c.id AND log_type = 'toilet' AND activity_timestamp::date = CURRENT_DATE
